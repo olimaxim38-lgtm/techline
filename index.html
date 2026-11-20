@@ -868,6 +868,42 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 #chat.drop .chp{box-shadow:0 0 0 3px #0A84FF,0 24px 70px rgba(0,0,0,.32)}
 @media print{#chat{display:none!important}}
 #login.on~#chat{display:none}
+
+/* support autres services : violet */
+.pi.spt .n b{color:#6B3FA0}
+.pi.spt{box-shadow:inset 3px 0 0 #8E5BD0}
+.pi.spt .c{color:#6B3FA0}
+.plist h4.ht{color:var(--ok)}
+.plist h4.hs{color:#6B3FA0}
+.op.f.spt{background:#F3ECFC!important;box-shadow:0 0 0 1px #D9C7F2,0 1px 3px rgba(0,0,0,.06)!important}
+.op.f.spt .la{color:#5A2E91}
+.op.f.spt .fi{color:#7A55AE}
+.chip.spt{background:#F3ECFC}
+.chip.spt span:first-child{color:#5A2E91}
+.chip.spt.free{background:#EADCFB}
+.ksep{font:700 11px/1 var(--ui);text-transform:uppercase;letter-spacing:.06em;color:#6B3FA0;margin:8px 10px 3px}
+
+/* présents TechLine : surligné vert fluo ; support présent : violet */
+.plist .pi.prs{background:#C8F7A6;box-shadow:inset 4px 0 0 #2EB82E;margin:2px 0}
+.plist .pi.prs:hover:not([disabled]){background:#B4F08A}
+.plist .pi.prs .n,.plist .pi.prs .n b{color:#0B3D0B}
+.plist .pi.prs.cur{background:#A6EB78}
+.plist .pi.prsS{background:#E6D6FB;box-shadow:inset 4px 0 0 #8E5BD0;margin:2px 0}
+.plist .pi.prsS:hover:not([disabled]){background:#DAC4F8}
+.plist h4.ht{color:#1F7A1F;font-weight:800}
+.shift.rel0 .chip:not(.spt){background:#C8F7A6}.shift.rel0 .chip:not(.spt) span:first-child{color:#0B3D0B;font-weight:600}.shift.rel0 .chip.free:not(.spt){box-shadow:inset 0 0 0 2px #2EB82E}
+.shift.rel1 .chip:not(.spt){background:#CFE6FF}.shift.rel1 .chip:not(.spt) span:first-child{color:#0B2E5C;font-weight:600}.shift.rel1 .chip.free:not(.spt){box-shadow:inset 0 0 0 2px #3A8DEB}
+.shift.rel2 .chip:not(.spt){background:#FFD6E8}.shift.rel2 .chip:not(.spt) span:first-child{color:#5C0B33;font-weight:600}.shift.rel2 .chip.free:not(.spt){box-shadow:inset 0 0 0 2px #E8559A}
+.plist .pi.pnx{background:#CFE6FF;box-shadow:inset 4px 0 0 #3A8DEB;margin:2px 0}.plist .pi.pnx:hover:not([disabled]){background:#BBDBFF}.plist .pi.pnx .n,.plist .pi.pnx .n b{color:#0B2E5C}
+.plist .pi.pot{background:#FFD6E8;box-shadow:inset 4px 0 0 #E8559A;margin:2px 0}.plist .pi.pot:hover:not([disabled]){background:#FFC2DD}.plist .pi.pot .n,.plist .pi.pot .n b{color:#5C0B33}
+.plist h4.hn{color:#1F5FB0;font-weight:800}.plist h4.ho{color:#B0306E;font-weight:800}
+.chips .chip.spt{background:#E6D6FB}
+.chips .chip.spt.free{box-shadow:inset 0 0 0 2px #8E5BD0}
+
+.plist .pi.pma{background:#FFE7B8;box-shadow:inset 4px 0 0 #E8A100;margin:2px 0}.plist .pi.pma:hover:not([disabled]){background:#FFDC98}.plist .pi.pma .n,.plist .pi.pma .n b{color:#5C3D00}
+.plist h4.hm{color:#B07400;font-weight:800}
+.plist .pi.prsS2{background:#F3ECFC;box-shadow:inset 4px 0 0 #C3A5EA;margin:2px 0}.plist .pi.prsS2 .n b{color:#5A2E91}
+.shift.rel3 .chip:not(.spt){background:#FFE7B8}.shift.rel3 .chip:not(.spt) span:first-child{color:#5C3D00;font-weight:600}.shift.rel3 .chip.free:not(.spt){box-shadow:inset 0 0 0 2px #E8A100}
 </style>
 <style id="printcss">
 .sheet{width:287mm;height:199mm;overflow:hidden;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;display:flex;flex-direction:column}
@@ -1216,7 +1252,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <body>
 <div class="app">
   <div class="bar">
-    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v18</small></div>
+    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v23</small></div>
     <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
     <div class="weeknav">
       <button class="ib" id="wprev" aria-label="Semaine précédente">◀</button>
@@ -1410,7 +1446,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   </div>
 </div>
 <div id="login" role="dialog" aria-modal="true" aria-labelledby="lgT"><form id="lgF" autocomplete="on">
-  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v18</small></p>
+  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v23</small></p>
   <input type="text" name="username" value="techline" autocomplete="username" hidden>
   <input id="lgC" type="password" autocomplete="current-password" placeholder="Code d'accès" required>
   <button type="submit" id="lgB">Entrer</button><div class="err" id="lgE"></div>
@@ -1471,6 +1507,9 @@ try{setPret(JSON.parse(localStorage.getItem('techline_pret')||'[]'));}catch(e){}
 let EXTRA=[];try{EXTRA=(JSON.parse(localStorage.getItem('techline_extra')||'[]')||[]).filter(t=>t&&t.id);}catch(e){}
 /* SUPPORT : prêt d'un autre service, nom générique utilisable sur autant de machines que nécessaire */
 const SP_ID='SUPPORT';
+/* TechLine = service Kelio contenant TECHLINE (équipes MACIAN, BAABAA, MOLINIER) ; sans info -> TechLine */
+function isTL(svc){return !svc||/TECHLINE/i.test(svc);}
+function svcShort(svc){if(!svc)return '';const m=String(svc).match(/-([^-]+)$/);return (m?m[1]:svc).replace(/\s+/g,' ').trim();}
 function buildData(raw){
   const n=raw.n, arr={};
   for(const o of raw.ops) arr[o.id]=(raw.codes[o.id]||'').split('|');
@@ -1479,9 +1518,9 @@ function buildData(raw){
   if(last<0) last=n-1;
   const dates=[],idx=[];
   for(let i=0;i<=last;i++){const iso=addDays(raw.start,i); if(dObj(iso).getUTCDay()===0)continue; dates.push(iso); idx.push(i);}
-  const ops=raw.ops.filter(o=>!TK_IDS.has(o.id)&&o.id!==SP_ID).map(o=>({id:o.id,f:o.f,l:o.l,k:!!o.k,c:idx.map(i=>arr[o.id][i]||'')})).sort((a,b)=>a.id.localeCompare(b.id,'fr'));
-  for(const t of TECHKNOW) ops.push({id:t.id,f:t.f,l:t.l,k:false,tk:true,c:idx.map(()=>'')});
-  for(const t of EXTRA) if(!ops.some(o=>o.id===t.id)) ops.push({id:t.id,f:t.f,l:t.l,k:false,ex:true,c:idx.map(()=>'')});
+  const ops=raw.ops.filter(o=>o.id!==SP_ID).map(o=>({id:o.id,f:o.f,l:o.l,k:!!o.k,svc:o.svc||'',tl:isTL(o.svc),tk:TK_IDS.has(o.id),c:idx.map(i=>arr[o.id][i]||'')})).sort((a,b)=>(b.tl-a.tl)||a.id.localeCompare(b.id,'fr'));
+  for(const t of TECHKNOW) if(!ops.some(o=>o.id===t.id)) ops.push({id:t.id,f:t.f,l:t.l,k:false,tk:true,tl:false,svc:'TECHKNOW',c:idx.map(()=>'')});
+  for(const t of EXTRA) if(!ops.some(o=>o.id===t.id)) ops.push({id:t.id,f:t.f,l:t.l,k:false,ex:true,tl:true,c:idx.map(()=>'')});
   ops.push({id:SP_ID,f:'Autre service',l:'SUPPORT',k:false,sp:true,c:idx.map(()=>'')});
   const kops=ops.filter(o=>o.k&&raw.codes[o.id]);
   const feries=dates.filter((d,j)=>dObj(d).getUTCDay()<6&&kops.length&&kops.every(o=>!o.c[j]));
@@ -1616,8 +1655,9 @@ function sideTD(sl,obj,iso,pl){
     let cls='op'+(o?' f':'');
     if(o&&!sl.sup){const n=count(obj,v,k);if(n>2)cls+=' over';else if(n===2)cls+=' two';}
     if(o&&!o.sp&&dayType(iso)==='prod'&&!pl[k].has(v))cls+=' out';
+    if(o&&!o.tl&&!o.sp)cls+=' spt';
     h+=`<td class="${sc.trim()}"><div class="cell"><button class="${cls}" data-slot="${sl.id}" data-s="${k}" aria-label="${esc(LABEL[sl.id])} ${SHIFTS[k]}${o?' : '+esc(o.f+' '+o.l):' : libre'}">`+
-      (o?`<span class="fi">${esc(o.f)}</span><span class="la">${esc(o.l)}</span>${cls.includes(' out')?'<span class="hp">hors planning Kelio</span>':''}`:`<span class="ph">+ Affecter</span>`)+`</button>`+
+      (o?`<span class="fi">${esc(o.f)}${!o.tl&&!o.sp&&!o.ex&&o.svc?` · ${esc(svcShort(o.svc))}`:''}</span><span class="la">${esc(o.l)}</span>${cls.includes(' out')?'<span class="hp">hors planning Kelio</span>':''}`:`<span class="ph">+ Affecter</span>`)+`</button>`+
       (sl.sup?'':`<input class="mt" data-mt="${sl.id}" data-s="${k}" value="${esc(obj[K.m(sl.id,k)]||'')}" placeholder="Montage" ${readOnly?'readonly':''} aria-label="Montage ${esc(LABEL[sl.id])} ${SHIFTS[k]}">`)+
       `</div></td>`;
   }
@@ -1639,15 +1679,17 @@ function renderKelio(iso,obj,t){
   if(t==='vol'){$('khint').textContent="Samedi : heures supplémentaires sur volontariat, aucun opérateur planifié par Kelio. Tous les opérateurs sont proposés.";$('kelio').innerHTML='';$('abs').innerHTML='';return;}
   if(t==='fer'){$('khint').textContent='Jour férié : aucun opérateur planifié.';$('kelio').innerHTML='';$('abs').innerHTML='';return;}
   $('khint').textContent=`Export Kelio du ${DATA.export}. Encadré orange : présent mais pas encore affecté.`;
-  let h='';
+  let h='';const ref=SF!=='all'?SF:(()=>{const x=new Date().getHours();return x>=5&&x<13?0:x>=13&&x<21?1:2;})();
   for(let k=0;k<3;k++){
-    const p=planned(iso,k);
+    const p=planned(iso,k);const nT=p.filter(o=>o.tl).length;
     const free=p.filter(o=>!SLOTS.some(s=>obj[K.o(s.id,k)]===o.id)).length;
-    h+=`<div class="shift s${k}"><h3><span>${SHIFTS[k]}</span><span>${p.length} présent${p.length>1?'s':''}${free?' · '+free+' libre'+(free>1?'s':''):''}</span></h3><div class="chips">`;
+    h+=`<div class="shift s${k} rel${k}"><h3><span>${SHIFTS[k]}</span><span>${nT} TechLine${p.length-nT?' + '+(p.length-nT)+' support':''}${free?' · '+free+' libre'+(free>1?'s':''):''}</span></h3><div class="chips">`;
     if(!p.length)h+=`<div class="empty">Personne</div>`;
-    for(const o of p){
+    let sepDone=false;
+    for(const o of [...p].sort((x,y)=>(y.tl-x.tl)||x.l.localeCompare(y.l,'fr'))){
       const ms=SLOTS.filter(s=>obj[K.o(s.id,k)]===o.id).map(s=>LABEL[s.id]);
-      h+=`<div class="chip${ms.length?'':' free'}"><span>${esc(o.l)} ${esc(o.f)}${code(o,iso)!==['M','S','N'][k]?' <small>('+esc(code(o,iso))+')</small>':''}</span><span class="mm">${ms.length?esc(ms.join(', ')):'à affecter'}</span></div>`;
+      if(!o.tl&&!sepDone){sepDone=true;h+=`<div class="ksep">Support Techno</div>`;}
+      h+=`<div class="chip${ms.length?'':' free'}${o.tl?'':' spt'}"${o.tl?'':` title="${esc(o.svc)}"`}><span>${esc(o.l)} ${esc(o.f)}${code(o,iso)!==['M','S','N'][k]?' <small>('+esc(code(o,iso))+')</small>':''}</span><span class="mm">${ms.length?esc(ms.join(', ')):'à affecter'}</span></div>`;
     }
     h+=`</div></div>`;
   }
@@ -1683,17 +1725,26 @@ function fillPick(){
     const c=code(o,cur);
     let info=ms.length?ms.join(', '):'';
     if(!plIds.has(o.id)&&c&&dayType(cur)==='prod')info=(info?info+' · ':'')+'Kelio : '+c;
-    return `<button class="pi${o.id===curv?' cur':''}" data-op="${esc(o.id)}" ${dis?'disabled':''}><span class="n"><b>${esc(o.l)}</b>${esc(o.f)}</span><span class="c${n===1&&!sup?' one':''}">${esc(info)}${!sup&&n?' · '+n+'/2':''}</span></button>`;
+    if(!o.tl&&o.svc&&!o.sp&&!o.ex)info=(info?info+' · ':'')+svcShort(o.svc);
+    return `<button class="pi${o.id===curv?' cur':''}${!o.tl&&!o.sp&&!o.ex?' spt':''}" data-op="${esc(o.id)}" ${dis?'disabled':''}><span class="n"><b>${esc(o.l)}</b>${esc(o.f)}</span><span class="c${n===1&&!sup?' one':''}">${esc(info)}${!sup&&n?' · '+n+'/2':''}</span></button>`;
   };
   let h='';
   const a=pl.filter(match),b=others.filter(match);
   if(dayType(cur)==='vol'){h+=`<h4>Tous les opérateurs</h4>`+DATA.ops.filter(o=>!o.tk&&!o.sp&&!o.ex&&match(o)).map(item).join('');}
   else{
-    h+=`<h4>Planifiés Kelio sur ${SHIFTS[s]}</h4>`+(a.length?a.map(item).join(''):`<div class="empty" style="padding:4px 10px">Aucun</div>`);
-    h+=`<h4>Autres opérateurs (remplacement)</h4>`+b.map(item).join('');
+    const CL=k=>k===1?['pnx','hn']:k===2?['pot','ho']:['prs','ht'];
+    const shOf=o=>{const v=CODE2S[code(o,cur)];return v==null?null:v;};
+    const nx=(s+1)%3,ot=(s+2)%3,mark=(cls)=>o=>item(o).replace('class="pi','class="pi '+cls);
+    const aT=a.filter(o=>o.tl),aS=a.filter(o=>!o.tl);
+    const bN=b.filter(o=>o.tl&&shOf(o)===nx),bO=b.filter(o=>o.tl&&shOf(o)===ot),bR=b.filter(o=>o.tl&&shOf(o)==null),bS=b.filter(o=>!o.tl);
+    h+=`<h4 class="${CL(s)[1]}">TechLine · équipe ${SHL[s].toLowerCase()} ${SHIFTS[s]} (présents)</h4>`+(aT.length?aT.map(mark(CL(s)[0])).join(''):`<div class="empty" style="padding:4px 10px">Personne de l’équipe ${SHL[s].toLowerCase()} n’est planifié ce jour dans Kelio.</div>`);
+    for(const [k,L] of [[nx,bN],[ot,bO]])if(L.length)h+=`<h4 class="${CL(k)[1]}">TechLine · équipe ${SHL[k].toLowerCase()} ${SHIFTS[k]}</h4>`+L.map(mark(CL(k)[0])).join('');
+    if(aS.length)h+=`<h4 class="hs">Support Techno · présents sur ${SHIFTS[s]}</h4>`+aS.map(mark('prsS')).join('');
+    if(bR.length)h+=`<h4>TechLine · non planifiés aujourd’hui (repos, absents…)</h4>`+bR.map(item).join('');
+    if(bS.length)h+=`<h4 class="hs">Support Techno · autres</h4>`+bS.map(mark('prsS2')).join('');
   }
-  const tm=tko.filter(match);
-  if(tm.length)h+=`<h4>Prêt TECHKNOW</h4>`+tm.map(item).join('');
+  const tm=tko.filter(o=>match(o)&&!plIds.has(o.id));
+  if(tm.length)h+=`<h4 class="hs">Prêt TECHKNOW</h4>`+tm.map(item).join('');
   const sm=spo.filter(o=>!q||'support autre service prêt'.includes(q)||match(o));
   if(sm.length)h+=`<h4>Prêt autre service</h4>`+sm.map(item).join('');
   const em=exo.filter(match);
@@ -1965,6 +2016,7 @@ function parsePlanning(wb){
       if(tm){rs=isoOf(+tm[3],+tm[2],+tm[1]);re=isoOf(+tm[6],+tm[5],+tm[4]);}
       if(/^date d.?[ée]mission/i.test(a))exp=String(row[1]).trim().split(' ')[0];
       if(b==='Matricule'&&a){name=a;dayCols=null;continue;}
+      if(name&&/^service/i.test(a)&&b){const n=splitName(name);(per[n.id]||(per[n.id]={n,c:{}})).svc=b;continue;}
       if(name&&!a&&(b==='1'||row[1]===1)){dayCols={};row.forEach((v,c)=>{const d=parseInt(v,10);if(c>0&&d>=1&&d<=31)dayCols[c]=d;});continue;}
       const mm=name&&a.match(MOISRX);
       if(mm){const mo=MOISN[mm[1].toLowerCase()],y=+mm[2];
@@ -1993,7 +2045,7 @@ function parsePlanning(wb){
   const start=rs||all[0],end=re||all[all.length-1];
   const n=dayDiff(start,end)+1, codes={};
   for(const id of ids){const arr=[];for(let i=0;i<n;i++)arr.push(per[id].c[addDays(start,i)]||'');codes[id]=arr.join('|');}
-  const ops=ids.map(id=>({id,f:per[id].n.f,l:per[id].n.l,k:true}));
+  const ops=ids.map(id=>({id,f:per[id].n.f,l:per[id].n.l,k:true,svc:per[id].svc||''}));
   return {export:exp,start,n,ops,codes};
 }
 function mergeRaw(old,nw){
@@ -3077,6 +3129,7 @@ const AIDE_B64='PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImZyIj4KPGhlYWQ+CjxtZXRhIGNo
 let AIDE_URL=null;function aideUrl(){if(!AIDE_URL){const bin=atob(AIDE_B64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);AIDE_URL=URL.createObjectURL(new Blob([u],{type:'text/html'}));}return AIDE_URL;}
 const NEWS=(()=>{
   const BUILTIN=[
+    {id:'b-v19',at:'2026-11-20T10:55',ver:'v19',t:'TechLine d’abord, support Techno à part',x:'À l’import du planning Kelio, l’application lit le service de chaque personne. Les équipes TechLine (MACIAN, BAABAA, MOLINIER) sont proposées en premier ; les personnes des autres services passent dans « Support Techno », en violet, avec leur service. Réimporter le planning Kelio une fois pour en profiter.'},
     {id:'b-v18',at:'2026-11-20T10:40',ver:'v18',t:'Discussion intégrée, façon iMessage',x:'La bulle verte en bas à droite, visible partout : cliquer pour discuter entre superviseurs, « – » pour la réduire. Elle devient rouge et clignote quand un nouveau message arrive. Photos et GIF : bouton image, glisser-déposer ou Ctrl+V. « Lu » s’affiche quand l’autre a vu votre message. La bulle se déplace à la souris.'},
     {id:'b-v17',at:'2026-11-20T10:25',ver:'v17',t:'Affecter un nom qui n’est pas dans la liste',x:'Dans la fenêtre d’affectation, tapez le nom complet (ex. : DUPONT Jean) puis cliquez sur « + Ajouter ». Le nom est gardé dans « Noms ajoutés » pour les prochaines fois, chez tout le monde. Le ✕ le retire de la liste.'},
     {id:'b-v15',at:'2026-11-20T09:50',ver:'v15',t:'Photos dans les post-it',x:'Bouton appareil photo sur chaque post-it (Affectation et Consignes) : ajouter une photo ou une capture d’écran. On peut aussi la glisser sur le post-it, ou faire Ctrl+V en écrivant dedans. Cliquer sur la photo pour l’agrandir. Les photos des post-it Affectation sont imprimées sur la fiche.'},

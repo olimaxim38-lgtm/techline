@@ -808,6 +808,66 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 .pi .pix:hover{background:var(--bad-bg);color:var(--bad)}
 .pi.padd{border:1.5px dashed color-mix(in srgb,var(--accent) 50%,transparent);margin:6px 0}
 .pi.padd .n{color:var(--accent)}
+
+/* ---------- CHAT façon iMessage ---------- */
+#chat{position:fixed;right:18px;bottom:18px;z-index:500;font:15px/1.35 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,Arial,sans-serif;letter-spacing:-.01em}
+#chat .chb{display:none;width:60px;height:60px;border-radius:50%;border:0;background:linear-gradient(180deg,#5FD068,#28B33C);box-shadow:0 8px 24px rgba(0,0,0,.25);cursor:grab;place-items:center;position:relative;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#chat .chb:hover{transform:scale(1.07)}
+#chat.min .chb{display:grid}
+#chat.min .chp{display:none}
+#chat .chn{position:absolute;right:-4px;top:-4px;min-width:24px;height:24px;border-radius:12px;background:#FF3B30;color:#fff;font:700 13px/24px -apple-system,Arial,sans-serif;padding:0 6px;box-shadow:0 0 0 2.5px #fff}
+#chat.unread .chb{background:linear-gradient(180deg,#FF5A50,#E0241A);animation:chpulse 1s ease-in-out infinite}
+@keyframes chpulse{0%,100%{box-shadow:0 8px 24px rgba(0,0,0,.25),0 0 0 0 rgba(255,59,48,.6)}50%{box-shadow:0 8px 24px rgba(0,0,0,.25),0 0 0 14px rgba(255,59,48,0)}}
+#chat .chp{width:min(370px,calc(100vw - 24px));height:min(560px,calc(100vh - 40px));background:#fff;border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.32),0 0 0 .5px rgba(0,0,0,.12);display:flex;flex-direction:column;overflow:hidden;animation:chin .35s cubic-bezier(.34,1.4,.64,1)}
+@keyframes chin{from{opacity:0;transform:translateY(20px) scale(.92);transform-origin:bottom right}}
+#chat .chh{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(247,247,249,.95);border-bottom:.5px solid rgba(0,0,0,.12);cursor:grab;user-select:none}
+#chat .cha{width:36px;height:36px;border-radius:50%;background:linear-gradient(180deg,#A0A6B4,#7D8494);color:#fff;display:grid;place-items:center;font-weight:600;font-size:16px}
+#chat .cht{flex:1;display:flex;flex-direction:column}
+#chat .cht b{font-weight:600;font-size:15px;color:#000}
+#chat .cht small{font-size:11.5px;color:#8E8E93}
+#chat .chx{border:0;background:#E5E5EA;width:28px;height:28px;border-radius:50%;font:700 18px/1 Arial;color:#3C3C43;cursor:pointer}
+#chat .chl{flex:1;overflow-y:auto;padding:10px 10px 6px;display:flex;flex-direction:column;gap:2px;background:#fff}
+#chat .chd{align-self:center;font-size:11.5px;color:#8E8E93;margin:10px 0 4px;font-weight:500}
+#chat .chd b{font-weight:600;color:#6C6C70}
+#chat .chm{max-width:76%;display:flex;flex-direction:column;position:relative}
+#chat .chm.me{align-self:flex-end;align-items:flex-end}
+#chat .chm.ot{align-self:flex-start;align-items:flex-start}
+#chat .chm .nm{font-size:11px;color:#8E8E93;margin:6px 12px 1px}
+#chat .bub{padding:7px 12px 8px;border-radius:18px;white-space:pre-wrap;word-wrap:break-word;position:relative;animation:chpop .3s cubic-bezier(.34,1.5,.64,1)}
+@keyframes chpop{from{transform:scale(.6);opacity:0}}
+#chat .me .bub{background:#0A84FF;color:#fff}
+#chat .ot .bub{background:#E9E9EB;color:#000}
+#chat .chm.tail.me .bub{border-bottom-right-radius:5px}
+#chat .chm.tail.ot .bub{border-bottom-left-radius:5px}
+#chat .chm.tail{margin-bottom:6px}
+#chat .bub.img{padding:0;background:none!important;overflow:hidden;border-radius:16px}
+#chat .bub.img img{display:block;max-width:230px;max-height:260px;border-radius:16px;cursor:zoom-in;box-shadow:0 0 0 .5px rgba(0,0,0,.12)}
+#chat .bub.img+.bub{margin-top:2px}
+#chat .chm .del{position:absolute;left:-26px;top:50%;transform:translateY(-50%);border:0;width:22px;height:22px;border-radius:50%;background:#F2F2F7;color:#8E8E93;font:700 10px Arial;cursor:pointer;opacity:0;transition:opacity .2s}
+#chat .chm.me:hover .del{opacity:1}
+#chat .rd{align-self:flex-end;font-size:11px;color:#8E8E93;margin:0 4px 4px;font-weight:500}
+#chat .che{margin:auto;text-align:center;color:#8E8E93;font-size:14px;padding:20px}
+#chat .chwho{display:none;padding:16px;border-top:.5px solid rgba(0,0,0,.1);text-align:center}
+#chat .chwho p{margin:0 0 10px;font-weight:600}
+#chat .chwho div{display:flex;gap:8px;justify-content:center;margin-bottom:8px}
+#chat .chwho button{border:0;border-radius:18px;background:#0A84FF;color:#fff;font-weight:600;padding:9px 18px;cursor:pointer;font-size:15px}
+#chat .chwho input{border:1px solid #D1D1D6;border-radius:18px;padding:8px 12px;width:80%;font-size:14px}
+#chat.who .chwho{display:block}
+#chat.who .chf{display:none}
+#chat .chprev{position:relative;padding:8px 12px 0;background:#fff}
+#chat .chprev[hidden]{display:none}
+#chat .chprev img{max-height:110px;max-width:60%;border-radius:12px;box-shadow:0 0 0 .5px rgba(0,0,0,.15)}
+#chat .chprev button{position:absolute;top:2px;left:calc(12px + 4px);border:0;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font:700 11px Arial;cursor:pointer}
+#chat .chf{display:flex;align-items:flex-end;gap:7px;padding:8px 10px 10px;background:#fff}
+#chat .chpic{border:0;background:#E9E9EB;color:#636366;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;cursor:pointer;flex:none}
+#chat .chf textarea{flex:1;resize:none;border:1px solid #D1D1D6;border-radius:18px;padding:7px 14px;font:15px/1.3 -apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;max-height:110px;min-height:34px;background:#fff;color:#000;outline:none;box-shadow:none}
+#chat .chf textarea:focus{border-color:#A3A3AA;box-shadow:none;background:#fff}
+#chat .chs{border:0;width:32px;height:32px;border-radius:50%;background:#0A84FF;display:grid;place-items:center;cursor:pointer;flex:none;margin-bottom:1px;transition:opacity .2s,transform .2s}
+#chat .chs:disabled{opacity:.35;cursor:default}
+#chat .chs:not(:disabled):active{transform:scale(.88)}
+#chat.drop .chp{box-shadow:0 0 0 3px #0A84FF,0 24px 70px rgba(0,0,0,.32)}
+@media print{#chat{display:none!important}}
+#login.on~#chat{display:none}
 </style>
 <style id="printcss">
 .sheet{width:287mm;height:199mm;overflow:hidden;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;display:flex;flex-direction:column}
@@ -1156,7 +1216,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <body>
 <div class="app">
   <div class="bar">
-    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v17</small></div>
+    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v18</small></div>
     <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
     <div class="weeknav">
       <button class="ib" id="wprev" aria-label="Semaine précédente">◀</button>
@@ -1350,7 +1410,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   </div>
 </div>
 <div id="login" role="dialog" aria-modal="true" aria-labelledby="lgT"><form id="lgF" autocomplete="on">
-  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v17</small></p>
+  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v18</small></p>
   <input type="text" name="username" value="techline" autocomplete="username" hidden>
   <input id="lgC" type="password" autocomplete="current-password" placeholder="Code d'accès" required>
   <button type="submit" id="lgB">Entrer</button><div class="err" id="lgE"></div>
@@ -1358,6 +1418,19 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <div id="anotes"></div>
 <input type="file" id="pnFile" accept="image/*" hidden>
 <div id="plb" role="dialog" aria-modal="true" aria-label="Photo du post-it"><img id="plbI" alt=""><button type="button" id="plbX" aria-label="Fermer">✕</button></div>
+<div id="chat" class="min" aria-live="polite">
+  <button id="chB" class="chb" type="button" aria-label="Ouvrir la discussion"><svg viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M12 3C6.5 3 2 6.8 2 11.5c0 2.4 1.2 4.6 3.1 6.1-.2 1.3-.8 2.6-1.8 3.6 2 0 3.8-.7 5.1-1.8 1.1.3 2.3.5 3.6.5 5.5 0 10-3.8 10-8.4S17.5 3 12 3z"/></svg><span class="chn" id="chN" hidden>0</span></button>
+  <section class="chp" role="dialog" aria-label="Discussion">
+    <header class="chh"><div class="cha" id="chAv">P</div><div class="cht"><b id="chTo">Discussion</b><small id="chSub">TechLine</small></div><button type="button" class="chx" id="chMin" aria-label="Réduire">–</button></header>
+    <div class="chl" id="chL"></div>
+    <div class="chwho" id="chWho"><p>Qui écrit sur ce poste ?</p><div><button type="button" data-me="Olivier">Olivier</button><button type="button" data-me="Philippe">Philippe</button></div><input id="chOther" placeholder="Autre prénom puis Entrée" maxlength="20"></div>
+    <div class="chprev" id="chPrev" hidden><img id="chPrevI" alt=""><button type="button" id="chPrevX" aria-label="Retirer l’image">✕</button></div>
+    <footer class="chf"><button type="button" class="chpic" id="chPic" aria-label="Envoyer une photo ou un GIF"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></button>
+      <textarea id="chIn" rows="1" placeholder="iMessage" aria-label="Message"></textarea>
+      <button type="button" class="chs" id="chSend" aria-label="Envoyer"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></footer>
+    <input type="file" id="chFile" accept="image/*" hidden>
+  </section>
+</div>
 <div class="busy" id="busy" aria-live="polite"><span id="busyt">Génération…</span><small>Un instant, la fiche est mise en page.</small></div>
 <div id="print"></div>
 
@@ -3004,6 +3077,7 @@ const AIDE_B64='PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImZyIj4KPGhlYWQ+CjxtZXRhIGNo
 let AIDE_URL=null;function aideUrl(){if(!AIDE_URL){const bin=atob(AIDE_B64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);AIDE_URL=URL.createObjectURL(new Blob([u],{type:'text/html'}));}return AIDE_URL;}
 const NEWS=(()=>{
   const BUILTIN=[
+    {id:'b-v18',at:'2026-11-20T10:40',ver:'v18',t:'Discussion intégrée, façon iMessage',x:'La bulle verte en bas à droite, visible partout : cliquer pour discuter entre superviseurs, « – » pour la réduire. Elle devient rouge et clignote quand un nouveau message arrive. Photos et GIF : bouton image, glisser-déposer ou Ctrl+V. « Lu » s’affiche quand l’autre a vu votre message. La bulle se déplace à la souris.'},
     {id:'b-v17',at:'2026-11-20T10:25',ver:'v17',t:'Affecter un nom qui n’est pas dans la liste',x:'Dans la fenêtre d’affectation, tapez le nom complet (ex. : DUPONT Jean) puis cliquez sur « + Ajouter ». Le nom est gardé dans « Noms ajoutés » pour les prochaines fois, chez tout le monde. Le ✕ le retire de la liste.'},
     {id:'b-v15',at:'2026-11-20T09:50',ver:'v15',t:'Photos dans les post-it',x:'Bouton appareil photo sur chaque post-it (Affectation et Consignes) : ajouter une photo ou une capture d’écran. On peut aussi la glisser sur le post-it, ou faire Ctrl+V en écrivant dedans. Cliquer sur la photo pour l’agrandir. Les photos des post-it Affectation sont imprimées sur la fiche.'},
     {id:'b-v13',at:'2026-11-20T09:00',ver:'v13',t:'Nouvel onglet « Planning »',x:'Le planning de production en clair : urgences et PRIO en rouge, préventifs en jaune, 3/8 100 % et heures sup. On l’alimente en glissant ou en collant (Ctrl+V) la capture d’écran du planning : tout est lu automatiquement, puis on corrige si besoin.\nLes priorités passent toutes seules dans Affectation (PRIO en rouge) et dans Consignes (badge PRIO). Les préventifs s’affichent dans États machines et ici.'},
@@ -3050,6 +3124,92 @@ const NEWS=(()=>{
 $('pnFile').addEventListener('change',e=>{const f=e.target.files[0],id=e.target.dataset.id,bx=e.target.dataset.box;e.target.value='';if(f&&NOTE_BOXES[bx])NOTE_BOXES[bx](id,f);});
 $('plb').addEventListener('click',e=>{if(e.target.id!=='plbI')$('plb').classList.remove('on');});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')$('plb').classList.remove('on');});
+
+/* ---------- CHAT ---------- */
+const CHAT=(()=>{
+  const C=$('chat'),L=$('chL');let msgs=[],unsub=null,unsubR=null,reads={},pendImg=null;
+  let me='';try{me=localStorage.getItem('techline_me')||'';}catch(e){}
+  let seen=0;try{seen=+localStorage.getItem('techline_chat_seen')||0;}catch(e){}
+  try{msgs=JSON.parse(localStorage.getItem('techline_chat')||'[]')||[];}catch(e){}
+  const open=()=>!C.classList.contains('min');
+  const baseTitle=document.title;
+  function setSeen(){const last=msgs.length?Math.max(...msgs.map(m=>Date.parse(m.at)||0)):0;if(last>seen){seen=last;try{localStorage.setItem('techline_chat_seen',String(seen));}catch(e){}}
+    if(db&&me&&!readOnly)db.doc('config/chatread').set({[me]:new Date(seen||Date.now()).toISOString()},{merge:true}).catch(()=>{});}
+  function badge(){const n=msgs.filter(m=>m.who!==me&&(Date.parse(m.at)||0)>seen).length;
+    if(open()&&document.visibilityState==='visible'&&n){setSeen();return badge();}
+    $('chN').hidden=!n;$('chN').textContent=n>9?'9+':n;C.classList.toggle('unread',!!n);document.title=n?`(${n}) Nouveau message — ${baseTitle}`:baseTitle;}
+  const hm=d=>String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  function dayLab(d){const t=new Date();const y=new Date(t);y.setDate(t.getDate()-1);
+    if(d.toDateString()===t.toDateString())return "Aujourd’hui";if(d.toDateString()===y.toDateString())return 'Hier';
+    return d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});}
+  function draw(){
+    const others=[...new Set(msgs.map(m=>m.who).filter(w=>w&&w!==me))];
+    const to=others[0]||(me==='Olivier'?'Philippe':me==='Philippe'?'Olivier':'Équipe');
+    $('chTo').textContent=others.length>1?others.join(', '):to;$('chAv').textContent=(to||'?').charAt(0).toUpperCase();
+    $('chSub').textContent=me?'Vous êtes '+me+' · TechLine':'TechLine';
+    C.classList.toggle('who',!me);
+    if(!msgs.length){L.innerHTML='<div class="che">Aucun message pour l’instant.<br>Écrivez le premier !</div>';return;}
+    const atBottom=L.scrollHeight-L.scrollTop-L.clientHeight<60;let h='',prevD=null,prevT=0,prevW=null;
+    const S=[...msgs].sort((a,b)=>String(a.at).localeCompare(String(b.at)));
+    S.forEach((m,i)=>{const d=new Date(m.at);const nx=S[i+1];
+      if(!prevD||d-prevT>3600e3||d.toDateString()!==prevD){h+=`<div class="chd"><b>${esc(dayLab(d))}</b> ${hm(d)}</div>`;prevW=null;}
+      const mine=m.who===me;const last=!nx||nx.who!==m.who||(new Date(nx.at)-d)>3600e3;
+      h+=`<div class="chm ${mine?'me':'ot'}${last?' tail':''}" title="${esc(m.who)} · ${hm(d)}">${!mine&&prevW!==m.who?`<span class="nm">${esc(m.who)}</span>`:''}${m.img?`<div class="bub img"><img src="${m.img}" alt="Image envoyée par ${esc(m.who)}" loading="lazy"></div>`:''}${m.t?`<div class="bub">${esc(m.t)}</div>`:''}${mine&&!readOnly?`<button class="del" data-del="${esc(m.id)}" title="Supprimer">✕</button>`:''}</div>`;
+      prevD=d.toDateString();prevT=d;prevW=m.who;});
+    const lastMine=[...S].reverse().find(m=>m.who===me);
+    if(lastMine&&S[S.length-1]===lastMine){const rd=Object.entries(reads).filter(([w,t])=>w!==me&&String(t)>=String(lastMine.at));h+=`<div class="rd">${rd.length?'Lu par '+rd.map(x=>x[0]).join(', '):'Distribué'}</div>`;}
+    L.innerHTML=h;if(atBottom||!draw.done){L.scrollTop=L.scrollHeight;draw.done=true;}
+    L.querySelectorAll('img').forEach(im=>im.addEventListener('load',()=>{if(atBottom)L.scrollTop=L.scrollHeight;},{once:true}));
+  }
+  function persist(){try{localStorage.setItem('techline_chat',JSON.stringify(msgs.slice(-120)));}catch(e){try{localStorage.setItem('techline_chat',JSON.stringify(msgs.slice(-120).map(m=>({...m,img:m.img&&m.img.length>60000?'':m.img}))));}catch(_){}}}
+  async function send(){if(readOnly){toast('Lecture seule');return;}if(!me){C.classList.add('who');return;}
+    const t=$('chIn').value.trim();if(!t&&!pendImg)return;
+    const id='m'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+    const m={id,who:me,t,at:new Date().toISOString()};if(pendImg)m.img=pendImg;
+    msgs.push(m);persist();$('chIn').value='';grow();clearImg();seen=Date.parse(m.at);setSeen();draw();L.scrollTop=L.scrollHeight;upd();
+    if(db)db.collection('chat').doc(id).set(m).catch(e=>toast('Message non envoyé ('+(e&&e.code||'erreur')+')'));}
+  function grow(){const t=$('chIn');t.style.height='auto';t.style.height=Math.min(110,t.scrollHeight)+'px';}
+  const upd=()=>{$('chSend').disabled=!($('chIn').value.trim()||pendImg);};
+  async function pickImg(f){if(!f||!/^image\//.test(f.type))return;try{pendImg=await shrink(f);$('chPrevI').src=pendImg;$('chPrev').hidden=false;upd();$('chIn').focus();}catch(e){toast('Image illisible');}}
+  function clearImg(){pendImg=null;$('chPrev').hidden=true;$('chPrevI').src='';upd();}
+  function toggle(o){C.classList.toggle('min',!o);try{localStorage.setItem('techline_chat_open',o?'1':'0');}catch(e){}if(o){draw();setTimeout(()=>{L.scrollTop=L.scrollHeight;(me?$('chIn'):$('chOther')).focus();},30);badge();}}
+  /* déplacer la bulle / la fenêtre */
+  let mv=null;
+  const startMv=(e,el)=>{if(e.button!==0)return;const r=C.getBoundingClientRect();mv={sx:e.clientX,sy:e.clientY,r:innerWidth-r.right,b:innerHeight-r.bottom,moved:false,el};el.setPointerCapture(e.pointerId);};
+  const doMv=e=>{if(!mv)return;const dx=e.clientX-mv.sx,dy=e.clientY-mv.sy;if(Math.abs(dx)+Math.abs(dy)>5)mv.moved=true;if(!mv.moved)return;
+    C.style.right=Math.max(6,Math.min(innerWidth-70,mv.r-dx))+'px';C.style.bottom=Math.max(6,Math.min(innerHeight-70,mv.b-dy))+'px';};
+  const endMv=()=>{if(!mv)return;const m=mv.moved;mv=null;if(m){try{localStorage.setItem('techline_chat_pos',JSON.stringify({r:C.style.right,b:C.style.bottom}));}catch(e){}}return m;};
+  try{const p=JSON.parse(localStorage.getItem('techline_chat_pos')||'null');if(p){C.style.right=p.r;C.style.bottom=p.b;}}catch(e){}
+  $('chB').addEventListener('pointerdown',e=>startMv(e,$('chB')));$('chB').addEventListener('pointermove',doMv);
+  $('chB').addEventListener('pointerup',()=>{if(!endMv())toggle(true);});
+  const hd=C.querySelector('.chh');hd.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;startMv(e,hd);});hd.addEventListener('pointermove',doMv);hd.addEventListener('pointerup',endMv);
+  $('chMin').onclick=()=>toggle(false);
+  $('chSend').onclick=send;
+  $('chIn').addEventListener('input',()=>{grow();upd();});
+  $('chIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+  $('chIn').addEventListener('focus',()=>{setSeen();badge();});
+  $('chPic').onclick=()=>$('chFile').click();
+  $('chFile').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';pickImg(f);});
+  $('chPrevX').onclick=clearImg;
+  C.addEventListener('paste',e=>{const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>/^image\//.test(x.type));if(it){e.preventDefault();e.stopPropagation();pickImg(it.getAsFile());}});
+  C.addEventListener('dragover',e=>{e.preventDefault();e.stopPropagation();C.classList.add('drop');});
+  C.addEventListener('dragleave',()=>C.classList.remove('drop'));
+  C.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();C.classList.remove('drop');const f=[...(e.dataTransfer&&e.dataTransfer.files||[])].find(x=>/^image\//.test(x.type));if(f){if(!open())toggle(true);pickImg(f);}});
+  L.addEventListener('click',e=>{const im=e.target.closest('.bub.img img');if(im){$('plbI').src=im.src;$('plb').classList.add('on');return;}
+    const d=e.target.closest('[data-del]');if(d){const id=d.dataset.del;msgs=msgs.filter(m=>m.id!==id);persist();draw();if(db)db.collection('chat').doc(id).delete().catch(()=>{});}});
+  $('chWho').addEventListener('click',e=>{const b=e.target.closest('[data-me]');if(b)setMe(b.dataset.me);});
+  $('chOther').addEventListener('keydown',e=>{if(e.key==='Enter'){const v=e.target.value.trim();if(v)setMe(v.charAt(0).toUpperCase()+v.slice(1));}});
+  function setMe(v){me=v;try{localStorage.setItem('techline_me',me);}catch(e){}draw();setSeen();badge();$('chIn').focus();}
+  document.addEventListener('visibilitychange',badge);
+  function attach(){if(!db||unsub)return;
+    unsub=db.collection('chat').orderBy('at').limitToLast(300).onSnapshot(qs=>{const nn=[];qs.forEach(d=>nn.push(d.data()));
+      const local=msgs.filter(m=>!nn.some(x=>x.id===m.id)&&(Date.now()-(Date.parse(m.at)||0))<15000);msgs=[...nn,...local];persist();if(open())draw();badge();},()=>{});
+    unsubR=db.doc('config/chatread').onSnapshot(sn=>{reads=sn.exists?sn.data():{};if(open())draw();},()=>{});}
+  let o0='0';try{o0=localStorage.getItem('techline_chat_open')||'0';}catch(e){}
+  toggle(o0==='1');upd();badge();
+  return {attach};
+})();
+
 const PN=mkNotes({box:'pnotes',coll:'postits',ls:'techline_postits',add:'pnAdd',ph:'À ne pas oublier…'});
 const AN=mkNotes({box:'anotes',coll:'postits_aff',ls:'techline_postits_aff',add:'anAdd',ph:'Message aux opérateurs…',shift:true});
 function renderSF(){document.querySelectorAll('#sfsel button').forEach(b=>{const on=String(SF)===b.dataset.sf;b.classList.toggle('on',on);b.setAttribute('aria-checked',on);});}
@@ -3087,7 +3247,7 @@ const FB_EMAIL="techline@equipe.app";   // compte unique de l'équipe ; le mot d
         $('login').classList.remove('on'); $('blogout').hidden=false;
         if(!db){ db=firebase.firestore(); for(const k of Object.keys(cache))delete cache[k]; for(const k of Object.keys(known))delete known[k];
           db.doc('config/planning').get().then(s=>{const r=s.exists&&unpackPl(s.data()); if(r&&r.start&&r.n&&r.ops)applyRaw(r,true); else toast('Aucun planning en base : importez le planning Kelio');}).catch(()=>{});
-          subscribe(); watchPlanning(); watchPret(); watchExtra(); CONS.attach(); PN.attach(); AN.attach(); NEWS.attach(); PLAN.attach(); render(); }
+          subscribe(); watchPlanning(); watchPret(); watchExtra(); CONS.attach(); PN.attach(); AN.attach(); NEWS.attach(); PLAN.attach(); CHAT.attach(); render(); }
       } else { $('login').classList.add('on'); $('blogout').hidden=true; setTimeout(()=>$('lgC').focus(),50); }
     });
     $('lgF').addEventListener('submit',e=>{e.preventDefault();$('lgE').textContent='';$('lgB').disabled=true;

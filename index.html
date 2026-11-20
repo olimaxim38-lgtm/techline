@@ -634,7 +634,8 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 
 /* ---------- post-it ---------- */
 #cview{position:relative}
-#pnotes{position:absolute;inset:0;pointer-events:none;z-index:30}
+#pnotes{position:absolute;inset:0;pointer-events:none;z-index:16}
+body{position:relative;min-height:100vh}
 .pnote{position:absolute;width:230px;min-height:190px;pointer-events:auto;padding:30px 16px 18px;
   background:linear-gradient(170deg,#FFF7B0 0%,#FFEE80 55%,#FBE15C 100%);color:#3A2E00;
   box-shadow:0 1px 1px rgba(0,0,0,.08),0 10px 18px -6px rgba(60,45,0,.35),inset 0 -14px 22px -18px rgba(150,110,0,.45);
@@ -666,7 +667,7 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 [data-theme="classeur"] .sfsel,[data-theme="classeur"] .sfsel button{border-radius:0}
 .app{position:relative}
 #anotes{position:absolute;inset:0;pointer-events:none;z-index:15}
-.app.vcons #anotes{display:none}
+body[data-view=etat] #anotes,body[data-view=plan] #anotes,body[data-view=news] #anotes,body[data-view=etat] #pnotes,body[data-view=plan] #pnotes,body[data-view=news] #pnotes{display:none}
 .pnote .pshift{position:absolute;left:12px;top:5px;border:0;border-radius:6px;padding:3px 7px;font:700 11px/1 "Barlow",Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;background:rgba(90,70,0,.12);color:#5A4600;cursor:pointer}
 .pnote .pshift[data-s="0"]{background:#FF9F0A;color:#fff}.pnote .pshift[data-s="1"]{background:#0A84FF;color:#fff}.pnote .pshift[data-s="2"]{background:#5E5CE6;color:#fff}
 .pnote.has-shift .pdate{left:auto;right:40px}
@@ -1288,7 +1289,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <body>
 <div class="app">
   <div class="bar">
-    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v28</small></div>
+    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v29</small></div>
     <button class="btn chtop" id="chTop" type="button" title="Ouvrir la discussion">💬 Discussion<span class="chtn" id="chTopN" hidden></span></button>
     <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
     <div class="weeknav">
@@ -1351,7 +1352,6 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
     <div class="cdrop" id="cDrop"><label id="cDropL" for="cFile"><b>Déposer ici l’export OSYS « Productions En Cours » (PDF)</b><br>ou cliquer pour choisir le fichier. Les noms viennent de l’onglet Affectation. Partagé avec toute l’équipe.</label></div>
     <div class="cinfo" id="cInfo"></div>
     <div class="cwrap"><div id="csheet"></div></div>
-    <div id="pnotes"></div>
     <div class="cleg">
       <span><i style="background:#C00000"></i>Frappe : fin d’OF proche</span>
       <span><i style="background:#FFC000"></i>Frappe en montage (état MONTAGE ou bonne = 0)</span>
@@ -1483,12 +1483,13 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   </div>
 </div>
 <div id="login" role="dialog" aria-modal="true" aria-labelledby="lgT"><form id="lgF" autocomplete="on">
-  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v28</small></p>
+  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v29</small></p>
   <input type="text" name="username" value="techline" autocomplete="username" hidden>
   <input id="lgC" type="password" autocomplete="current-password" placeholder="Code d'accès" required>
   <button type="submit" id="lgB">Entrer</button><div class="err" id="lgE"></div>
 </form></div>
 <div id="anotes"></div>
+<div id="pnotes"></div>
 <div id="mstMenu" role="menu" aria-label="État de la machine"><h5 id="mstT">État machine</h5>
   <div class="mstsh" id="mstSh" role="group" aria-label="Postes concernés"><button type="button" data-k="0">Matin</button><button type="button" data-k="1">Après-midi</button><button type="button" data-k="2">Nuit</button></div>
   <button role="menuitem" data-v="panne"><i class="st-panne"></i>En panne</button>
@@ -2711,7 +2712,7 @@ $('cReset').onclick=()=>{$('cCfg').value=DEF_CFG;};
 $('cSave').onclick=()=>{SET.cfg=$('cCfg').value;{const ov={};for(const k in CW)if(CAD[k]!==CW[k])ov[k]=CW[k];for(const k in CAD)if(!(k in CW))ov[k]=null;SET.cadOv=ov;}SET.trMin=parseFloat($('cTr').value)||75;SET.finH=parseFloat($('cFin').value)||3.84;SET.hpn=parseFloat($('cHpn').value)||8;{const v=parseFloat($('cArr').value);SET.arrMin=isNaN(v)?20:v;}LSs('cst2_set',SET);shSave('reglages',SET);$('cset').classList.remove('on');render();toast('Réglages enregistrés');};
 
 /* --- interactions --- */
-function setView(v){VIEW=v;document.querySelector('.app').classList.toggle('vcons',v!=='aff');$('cview').hidden=v!=='cons';$('eview').hidden=v!=='etat';$('nview').hidden=v!=='news';$('pview').hidden=v!=='plan';if(v==='plan'&&typeof PLAN!=='undefined')PLAN.draw();if(v==='news'&&typeof NEWS!=='undefined')NEWS.open();
+function setView(v){VIEW=v;document.body.dataset.view=v;setTimeout(()=>{if(typeof PN!=='undefined'){PN.draw();AN.draw();}},30);document.querySelector('.app').classList.toggle('vcons',v!=='aff');$('cview').hidden=v!=='cons';$('eview').hidden=v!=='etat';$('nview').hidden=v!=='news';$('pview').hidden=v!=='plan';if(v==='plan'&&typeof PLAN!=='undefined')PLAN.draw();if(v==='news'&&typeof NEWS!=='undefined')NEWS.open();
   document.querySelectorAll('.vsw button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   try{sessionStorage.setItem('techline_view',v);}catch(e){}
   if(v==='cons'){render();if(typeof PN!=='undefined')requestAnimationFrame(PN.draw);}else if(v==='etat')eRender();else window.scrollTo(0,0);}

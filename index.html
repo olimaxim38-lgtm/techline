@@ -846,6 +846,7 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 #chat .chm .del{position:absolute;left:-26px;top:50%;transform:translateY(-50%);border:0;width:22px;height:22px;border-radius:50%;background:#F2F2F7;color:#8E8E93;font:700 10px Arial;cursor:pointer;opacity:0;transition:opacity .2s}
 #chat .chm.me:hover .del{opacity:1}
 #chat .rd{align-self:flex-end;font-size:11px;color:#8E8E93;margin:0 4px 4px;font-weight:500}
+#chat .rd b{color:#0A84FF;font-weight:700}
 #chat .che{margin:auto;text-align:center;color:#8E8E93;font-size:14px;padding:20px}
 #chat .chwho{display:none;padding:16px;border-top:.5px solid rgba(0,0,0,.1);text-align:center}
 #chat .chwho p{margin:0 0 10px;font-weight:600}
@@ -904,6 +905,37 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 .plist h4.hm{color:#B07400;font-weight:800}
 .plist .pi.prsS2{background:#F3ECFC;box-shadow:inset 4px 0 0 #C3A5EA;margin:2px 0}.plist .pi.prsS2 .n b{color:#5A2E91}
 .shift.rel3 .chip:not(.spt){background:#FFE7B8}.shift.rel3 .chip:not(.spt) span:first-child{color:#5C3D00;font-weight:600}.shift.rel3 .chip.free:not(.spt){box-shadow:inset 0 0 0 2px #E8A100}
+
+.mlab .mbtns{display:flex;flex-direction:column;gap:4px;flex:none}
+table.g col.cm{width:168px}
+.mlab .nm .stb{font-size:9.5px!important;letter-spacing:.04em!important}
+.mstb{border:0;background:var(--line-2);color:var(--ink-3);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
+.mstb:hover{background:var(--line);color:var(--ink)}
+.mstb.on.st-panne{background:#B00020;color:#fff}.mstb.on.st-dev{background:#4B3FB8;color:#fff}.mstb.on.st-prev{background:#E8A100;color:#1B1400}
+.mlab .nm .stb{display:block;margin-top:4px;font:800 10.5px/1 var(--ui);letter-spacing:.08em;padding:3px 6px;border-radius:4px;width:max-content}
+.stb.st-panne{background:#B00020;color:#fff}.stb.st-dev{background:#4B3FB8;color:#fff}.stb.st-prev{background:#FFC93C;color:#3A2A00}
+table.g td.mach.mst-panne{background:#FCE4E7!important}table.g td.mach.mst-dev{background:#ECEAFB!important}table.g td.mach.mst-prev{background:#FFF4D6!important}
+table.g td.mstc{background:repeating-linear-gradient(135deg,transparent 0 9px,rgba(120,120,140,.10) 9px 11px)}
+#mstMenu{position:fixed;z-index:70;width:270px;background:var(--surface);border-radius:14px;padding:8px;box-shadow:var(--shadow-3);display:none}
+#mstMenu.on{display:block}
+#mstMenu h5{margin:4px 8px 6px;font:700 13px var(--ui);color:var(--ink-2)}
+#mstMenu button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;border-radius:9px;padding:9px 10px;text-align:left;font:600 14.5px var(--ui);color:var(--ink);cursor:pointer}
+#mstMenu button:hover{background:var(--surface-2)}
+#mstMenu button.cur{background:var(--accent-soft)}
+#mstMenu i{width:14px;height:14px;border-radius:4px;background:var(--line);flex:none}
+#mstMenu i.st-panne{background:#B00020}#mstMenu i.st-dev{background:#4B3FB8}#mstMenu i.st-prev{background:#FFC93C}
+#mstMenu label{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--ink-2);padding:8px 10px 4px;border-top:1px solid var(--line-2);margin-top:4px}
+.pstb{display:block;margin-top:.8mm;font:800 3mm/1 Arial,sans-serif;letter-spacing:.2mm;color:#fff;padding:.5mm 1mm;border-radius:.6mm;width:max-content;margin-left:auto;margin-right:auto}
+.pstb.st-panne{background:#B00020}.pstb.st-dev{background:#4B3FB8}.pstb.st-prev{background:#E8A100;color:#1B1400}
+#cview .cs td.m .mstcb{display:inline-block;margin-left:6px;font:800 11px/1 "Barlow",Arial,sans-serif;letter-spacing:.04em;color:#fff;padding:3px 5px;border-radius:3px;vertical-align:3px}
+#cview .cs td.m .mstcb.st-panne{background:#B00020}#cview .cs td.m .mstcb.st-dev{background:#4B3FB8}#cview .cs td.m .mstcb.st-prev{background:#E8A100;color:#1B1400}
+
+.mstsh{display:flex;gap:4px;margin:0 6px 6px;background:var(--line-2);border-radius:9px;padding:3px}
+#mstMenu .mstsh button{flex:1;justify-content:center;padding:6px 2px;font-size:12.5px;white-space:nowrap;border-radius:7px;color:var(--ink-2)}
+#mstMenu .mstsh button.on{background:var(--navy-2,#003B6F);color:#fff}
+.cell .cst{display:block;font:800 9.5px/1 var(--ui);letter-spacing:.05em;text-align:center;padding:3px 0;border-radius:4px;margin-bottom:2px}
+.cst.st-panne{background:#B00020;color:#fff}.cst.st-dev{background:#4B3FB8;color:#fff}.cst.st-prev{background:#FFC93C;color:#3A2A00}
+.mlab .nm .stb+.stb{margin-top:2px}
 </style>
 <style id="printcss">
 .sheet{width:287mm;height:199mm;overflow:hidden;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;display:flex;flex-direction:column}
@@ -1252,7 +1284,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <body>
 <div class="app">
   <div class="bar">
-    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v23</small></div>
+    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v26</small></div>
     <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
     <div class="weeknav">
       <button class="ib" id="wprev" aria-label="Semaine précédente">◀</button>
@@ -1446,12 +1478,19 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   </div>
 </div>
 <div id="login" role="dialog" aria-modal="true" aria-labelledby="lgT"><form id="lgF" autocomplete="on">
-  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v23</small></p>
+  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v26</small></p>
   <input type="text" name="username" value="techline" autocomplete="username" hidden>
   <input id="lgC" type="password" autocomplete="current-password" placeholder="Code d'accès" required>
   <button type="submit" id="lgB">Entrer</button><div class="err" id="lgE"></div>
 </form></div>
 <div id="anotes"></div>
+<div id="mstMenu" role="menu" aria-label="État de la machine"><h5 id="mstT">État machine</h5>
+  <div class="mstsh" id="mstSh" role="group" aria-label="Postes concernés"><button type="button" data-k="0">Matin</button><button type="button" data-k="1">Après-midi</button><button type="button" data-k="2">Nuit</button></div>
+  <button role="menuitem" data-v="panne"><i class="st-panne"></i>En panne</button>
+  <button role="menuitem" data-v="dev"><i class="st-dev"></i>Développement / essais</button>
+  <button role="menuitem" data-v="prev"><i class="st-prev"></i>Préventif</button>
+  <button role="menuitem" data-v=""><i></i>Machine disponible</button>
+  <label><input type="checkbox" id="mstWeek"> Appliquer aussi aux jours suivants de la semaine</label></div>
 <input type="file" id="pnFile" accept="image/*" hidden>
 <div id="plb" role="dialog" aria-modal="true" aria-label="Photo du post-it"><img id="plbI" alt=""><button type="button" id="plbX" aria-label="Fermer">✕</button></div>
 <div id="chat" class="min" aria-live="polite">
@@ -1644,19 +1683,26 @@ function render(){
   const ta=$('com'); if(document.activeElement!==ta) ta.value=obj.com||'';
   ta.readOnly=readOnly;
 }
+const MST={panne:['EN PANNE','Machine en panne'],dev:['DÉVELOPPEMENT','Développement / essais'],prev:['PRÉVENTIF','Maintenance préventive']};
+function mstOf(obj,id,k){if(!obj)return '';
+  if(k==null){const a=KS().map(x=>mstOf(obj,id,x));return a.length&&a.every(x=>x===a[0])?a[0]:'';}
+  const v=obj['st_'+id+'_'+k];if(v!==undefined)return MST[v]?v:'';const b=obj['st_'+id];return MST[b]?b:'';}
+const SHS=['Matin','AM','Nuit'];
 function sideTD(sl,obj,iso,pl){
   if(sl.gap) return `<td class="mach gapc"></td>`+'<td class="gapc"></td>'.repeat(KS().length);
   const pr=!sl.sup&&isPrio(obj,sl.id);
-  const sc=sl.sup?' sup':'';
-  let h=`<td class="mach${sc}${pr?' isprio':''}"><div class="mlab"><span class="nm">${sl.sup?'🔥 ':''}${esc(LABEL[sl.id])}${pr?`<small class="urg">${obj[K.p(sl.id)]===true?'URGENTE':'PRIO'}</small>`:''}</span>`+
-    (sl.sup?'':`<button class="prio${pr?' on':''}" data-prio="${sl.id}" aria-pressed="${!!pr}" title="Machine prioritaire">!</button>`)+`</div></td>`;
+  const st=sl.sup?'':mstOf(obj,sl.id);const stl=sl.sup||st?[]:KS().map(k=>[k,mstOf(obj,sl.id,k)]).filter(x=>x[1]);
+  const sc=(sl.sup?' sup':'')+(st?' mst-'+st:'');
+  let h=`<td class="mach${sc}${pr?' isprio':''}"><div class="mlab"><span class="nm">${sl.sup?'🔥 ':''}${esc(LABEL[sl.id])}${pr?`<small class="urg">${obj[K.p(sl.id)]===true?'URGENTE':'PRIO'}</small>`:''}${st?`<small class="stb st-${st}">${MST[st][0]}</small>`:''}${stl.map(([k,v])=>`<small class="stb st-${v}">${SHS[k]} · ${MST[v][0]}</small>`).join('')}</span>`+
+    (sl.sup?'':`<span class="mbtns"><button class="prio${pr?' on':''}" data-prio="${sl.id}" aria-pressed="${!!pr}" title="Machine prioritaire">!</button><button class="mstb${st?' on st-'+st:stl.length?' on st-'+stl[0][1]:''}" data-mst="${sl.id}" title="État machine : panne, développement, préventif" aria-label="État machine ${esc(LABEL[sl.id])}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></button></span>`)+`</div></td>`;
   for(const k of KS()){
     const v=obj[K.o(sl.id,k)],o=v&&OPS[v];
     let cls='op'+(o?' f':'');
     if(o&&!sl.sup){const n=count(obj,v,k);if(n>2)cls+=' over';else if(n===2)cls+=' two';}
     if(o&&!o.sp&&dayType(iso)==='prod'&&!pl[k].has(v))cls+=' out';
     if(o&&!o.tl&&!o.sp)cls+=' spt';
-    h+=`<td class="${sc.trim()}"><div class="cell"><button class="${cls}" data-slot="${sl.id}" data-s="${k}" aria-label="${esc(LABEL[sl.id])} ${SHIFTS[k]}${o?' : '+esc(o.f+' '+o.l):' : libre'}">`+
+    const sk=sl.sup?'':mstOf(obj,sl.id,k);
+    h+=`<td class="${(sl.sup?'sup':'')+(sk?' mstc':'')}"><div class="cell">${sk?`<span class="cst st-${sk}">${MST[sk][0]}</span>`:''}<button class="${cls}" data-slot="${sl.id}" data-s="${k}" aria-label="${esc(LABEL[sl.id])} ${SHIFTS[k]}${o?' : '+esc(o.f+' '+o.l):' : libre'}">`+
       (o?`<span class="fi">${esc(o.f)}${!o.tl&&!o.sp&&!o.ex&&o.svc?` · ${esc(svcShort(o.svc))}`:''}</span><span class="la">${esc(o.l)}</span>${cls.includes(' out')?'<span class="hp">hors planning Kelio</span>':''}`:`<span class="ph">+ Affecter</span>`)+`</button>`+
       (sl.sup?'':`<input class="mt" data-mt="${sl.id}" data-s="${k}" value="${esc(obj[K.m(sl.id,k)]||'')}" placeholder="Montage" ${readOnly?'readonly':''} aria-label="Montage ${esc(LABEL[sl.id])} ${SHIFTS[k]}">`)+
       `</div></td>`;
@@ -1803,8 +1849,8 @@ function sheetHTML(iso,th){
     if(!sl||sl.gap){ if(kind==='name')return `<td class="pm gp" style="background:#fff"${TH?' rowspan="2"':''}></td><td class="mc gp" style="background:#fff"${TH?' rowspan="2"':''}></td>${'<td class="gp"></td>'.repeat(NK)}`; return `${TH?'':'<td class="gp" style="border:0"></td><td class="gp" style="border:0"></td>'}${'<td class="mo gp"></td>'.repeat(NK)}`;}
     if(kind==='name'){
       const pr=!sl.sup&&isPrio(obj,sl.id);
-      let h=`<td class="pm${pr?' hot':''}"${TH&&!sl.sup?' rowspan="2"':''}>${sl.sup?'🔥':(pr?'!':'')}</td><td class="mc${pr?' hot':''}" ${sl.sup?'':'rowspan="2"'}><span class="fit pml">${esc(LABEL[sl.id])}</span>${pr?`<span class="purg">${obj[K.p(sl.id)]===true?'URGENTE':'PRIO'}</span>`:''}</td>`;
-      for(const k of KS()){const o=OPS[obj[K.o(sl.id,k)]];h+=`<td class="nm${o?' f':''}">${o?`<span class="fit pfi">${esc(o.f)}</span><span class="fit pla">${esc(o.l)}</span>`:''}</td>`;}
+      let h=`<td class="pm${pr?' hot':''}"${TH&&!sl.sup?' rowspan="2"':''}>${sl.sup?'🔥':(pr?'!':'')}</td><td class="mc${pr?' hot':''}" ${sl.sup?'':'rowspan="2"'}><span class="fit pml">${esc(LABEL[sl.id])}</span>${!sl.sup&&mstOf(obj,sl.id)?`<span class="pstb st-${mstOf(obj,sl.id)}">${MST[mstOf(obj,sl.id)][0]}</span>`:''}${pr?`<span class="purg">${obj[K.p(sl.id)]===true?'URGENTE':'PRIO'}</span>`:''}</td>`;
+      for(const k of KS()){const o=OPS[obj[K.o(sl.id,k)]];const sk=!sl.sup&&!mstOf(obj,sl.id)?mstOf(obj,sl.id,k):'';h+=`<td class="nm${o?' f':''}">${sk?`<span class="pstb st-${sk}">${MST[sk][0]}</span>`:''}${o?`<span class="fit pfi">${esc(o.f)}</span><span class="fit pla">${esc(o.l)}</span>`:''}</td>`;}
       return h;
     }
     if(sl.sup)return null;
@@ -2245,6 +2291,8 @@ $('wprev').onclick=()=>weekJump(-1);
 $('wnext').onclick=()=>weekJump(1);
 document.querySelector('.grids').addEventListener('click',e=>{
   if(dragJustEnded){dragJustEnded=false;e.preventDefault();return;}
+  const mb=e.target.closest('[data-mst]');
+  if(mb){if(readOnly){toast('Lecture seule');return;}openMst(mb);return;}
   const p=e.target.closest('[data-prio]');
   if(p){const id=p.dataset.prio,o=get(cur),a=autoPrio().has(id);if(isPrio(o,id)){apply({[K.p(id)]:false,['pa_'+id]:a?'off':''});if(a)toast('Priorité du Planning retirée pour ce jour');}else apply({[K.p(id)]:true,['pa_'+id]:''});return;}
   const b=e.target.closest('.op');
@@ -2541,7 +2589,7 @@ function render(){
         if(!tr&&enMont(rec))aNow.push({m:r.m,h:/MONTAGE/i.test(et)?String(rec.heure||'').slice(0,5).replace(':','h'):''});
         else if(mo)aMon.push({m:r.m,d:mo.d,fr:!tr});
         const moH=mo?`<td class="mo${mo.soon?' soon':''}${mo.txt.length>20?' lg':''}" title="Temps restant OSYS : ${esc(rec.restant)}">${esc(mo.txt)}</td>`:`<td class="mo">-</td>`;
-        const pnI=planInfo(r.m);h+=`<td class="m ${A}">${esc(r.m)}${pnI.prio?'<span class="pbadge">PRIO</span>':''}</td><td class="s ${Bc}" title="${esc(B+(et?' — '+et:''))}">${esc(B)}${etS}${mt}${pnI.txt?`<span class="pln${pnI.pv?' pv':''}">Planning : ${esc(pnI.txt)}</span>`:''}</td>${moH}<td class="k ${Cc}${C.length>6?' sm':''}">${esc(C)}</td>`;
+        const pnI=planInfo(r.m);const mst=(map[r.m]||[]).map(x=>mstOf(obj,x,s)).find(Boolean)||'';h+=`<td class="m ${A}">${esc(r.m)}${mst?`<span class="mstcb st-${mst}">${MST[mst][0]}</span>`:''}${pnI.prio?'<span class="pbadge">PRIO</span>':''}</td><td class="s ${Bc}" title="${esc(B+(et?' — '+et:''))}">${esc(B)}${etS}${mt}${pnI.txt?`<span class="pln${pnI.pv?' pv':''}">Planning : ${esc(pnI.txt)}</span>`:''}</td>${moH}<td class="k ${Cc}${C.length>6?' sm':''}">${esc(C)}</td>`;
         if(r.first){
           h+=r.names.length?`<td class="n" rowspan="${r.span}" data-go="1" title="Modifier dans l’affectation">${r.names.map(x=>`<div>${esc(opName(x))}</div>`).join('')}</td>`
                            :`<td class="n empty" rowspan="${r.span}" data-go="1" title="Affecter dans l’onglet Affectation"><span class="ne">non affecté</span></td>`;
@@ -2930,6 +2978,30 @@ $('eview').addEventListener('drop',e=>{const f=[...(e.dataTransfer&&e.dataTransf
 return {render:()=>{if(VIEW==='etat')eRender();else render();},setView,start,attach,peers:m=>{for(const z of parseCfg(SET.cfg))for(const g of z.groups)if(g.machines.includes(m))return g.machines;return [m];}};
 })();
 {const _r=render;render=function(){_r();CONS.render();};}
+
+/* ---------- état machine (panne / développement / préventif) ---------- */
+let mstSlot=null;
+function openMst(btn){mstSlot=btn.dataset.mst;const m=$('mstMenu'),r=btn.getBoundingClientRect();
+  const ks=SF==='all'?[0,1,2]:[SF];m.querySelectorAll('#mstSh button').forEach(b=>b.classList.toggle('on',ks.includes(+b.dataset.k)));
+  const cur0=(()=>{const a=ks.map(k=>mstOf(get(cur),mstSlot,k));return a.every(x=>x===a[0])?a[0]:null;})();
+  $('mstT').textContent='État machine · '+LABEL[mstSlot];$('mstWeek').checked=false;
+  m.querySelectorAll('button[data-v]').forEach(b=>b.classList.toggle('cur',b.dataset.v===cur0));
+  m.style.left=Math.min(innerWidth-280,r.left)+'px';m.style.top=Math.min(innerHeight-300,r.bottom+6)+'px';m.classList.add('on');}
+$('mstMenu').addEventListener('click',async e=>{
+  const sb=e.target.closest('#mstSh button');if(sb){sb.classList.toggle('on');if(!$('mstMenu').querySelector('#mstSh button.on'))sb.classList.add('on');return;}
+  const b=e.target.closest('button[data-v]');if(!b||!mstSlot)return;const v=b.dataset.v,id=mstSlot;
+  const ks=[...$('mstMenu').querySelectorAll('#mstSh button.on')].map(x=>+x.dataset.k);
+  const ch={};for(const k of ks)ch['st_'+id+'_'+k]=v;
+  $('mstMenu').classList.remove('on');apply(ch);
+  const lab=(v?MST[v][1]:'Machine disponible')+' : '+LABEL[id]+' · '+ks.map(k=>SHS[k]).join(', ');
+  if($('mstWeek').checked){const wd=weekDates(cur).filter(d=>d>cur);let n=0;
+    for(const d of wd){await loadDay(d);const o=get(d);Object.assign(o,ch);persist(d,ch);n++;}
+    toast(lab+' — '+(n+1)+' jour'+(n?'s':''));}
+  else toast(lab);
+  mstSlot=null;});
+document.addEventListener('click',e=>{if($('mstMenu').classList.contains('on')&&!e.target.closest('#mstMenu')&&!e.target.closest('[data-mst]'))$('mstMenu').classList.remove('on');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('mstMenu').classList.remove('on');});
+
 /* ---------- POST-IT partagés ---------- */
 const NOTE_BOXES={};
 async function shrink(file){
@@ -3129,6 +3201,7 @@ const AIDE_B64='PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImZyIj4KPGhlYWQ+CjxtZXRhIGNo
 let AIDE_URL=null;function aideUrl(){if(!AIDE_URL){const bin=atob(AIDE_B64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);AIDE_URL=URL.createObjectURL(new Blob([u],{type:'text/html'}));}return AIDE_URL;}
 const NEWS=(()=>{
   const BUILTIN=[
+    {id:'b-v24',at:'2026-11-20T11:20',ver:'v24',t:'État machine : panne, développement, préventif',x:'Dans Affectation, le petit bouton clé à côté du « ! » de chaque machine : En panne (rouge), Développement / essais (violet), Préventif (jaune), ou Machine disponible. Choix du ou des postes concernés (Matin, Après-midi, Nuit) et option pour l’appliquer aux jours suivants de la semaine. L’état s’affiche sur la grille, la fiche imprimée et la feuille de consignes.'},
     {id:'b-v19',at:'2026-11-20T10:55',ver:'v19',t:'TechLine d’abord, support Techno à part',x:'À l’import du planning Kelio, l’application lit le service de chaque personne. Les équipes TechLine (MACIAN, BAABAA, MOLINIER) sont proposées en premier ; les personnes des autres services passent dans « Support Techno », en violet, avec leur service. Réimporter le planning Kelio une fois pour en profiter.'},
     {id:'b-v18',at:'2026-11-20T10:40',ver:'v18',t:'Discussion intégrée, façon iMessage',x:'La bulle verte en bas à droite, visible partout : cliquer pour discuter entre superviseurs, « – » pour la réduire. Elle devient rouge et clignote quand un nouveau message arrive. Photos et GIF : bouton image, glisser-déposer ou Ctrl+V. « Lu » s’affiche quand l’autre a vu votre message. La bulle se déplace à la souris.'},
     {id:'b-v17',at:'2026-11-20T10:25',ver:'v17',t:'Affecter un nom qui n’est pas dans la liste',x:'Dans la fenêtre d’affectation, tapez le nom complet (ex. : DUPONT Jean) puis cliquez sur « + Ajouter ». Le nom est gardé dans « Noms ajoutés » pour les prochaines fois, chez tout le monde. Le ✕ le retire de la liste.'},
@@ -3210,7 +3283,7 @@ const CHAT=(()=>{
       h+=`<div class="chm ${mine?'me':'ot'}${last?' tail':''}" title="${esc(m.who)} · ${hm(d)}">${!mine&&prevW!==m.who?`<span class="nm">${esc(m.who)}</span>`:''}${m.img?`<div class="bub img"><img src="${m.img}" alt="Image envoyée par ${esc(m.who)}" loading="lazy"></div>`:''}${m.t?`<div class="bub">${esc(m.t)}</div>`:''}${mine&&!readOnly?`<button class="del" data-del="${esc(m.id)}" title="Supprimer">✕</button>`:''}</div>`;
       prevD=d.toDateString();prevT=d;prevW=m.who;});
     const lastMine=[...S].reverse().find(m=>m.who===me);
-    if(lastMine&&S[S.length-1]===lastMine){const rd=Object.entries(reads).filter(([w,t])=>w!==me&&String(t)>=String(lastMine.at));h+=`<div class="rd">${rd.length?'Lu par '+rd.map(x=>x[0]).join(', '):'Distribué'}</div>`;}
+    if(lastMine&&S[S.length-1]===lastMine){const rd=Object.entries(reads).filter(([w,t])=>w!==me&&String(t)>=String(lastMine.at));h+=`<div class="rd">${rd.length?rd.map(([w,t])=>`<b>Lu</b> par ${esc(w)} à ${hm(new Date(t))}`).join(' · '):'Distribué'}</div>`;}
     L.innerHTML=h;if(atBottom||!draw.done){L.scrollTop=L.scrollHeight;draw.done=true;}
     L.querySelectorAll('img').forEach(im=>im.addEventListener('load',()=>{if(atBottom)L.scrollTop=L.scrollHeight;},{once:true}));
   }

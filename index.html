@@ -803,6 +803,11 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 #plb button{position:absolute;right:20px;top:20px;border:0;width:40px;height:40px;border-radius:50%;background:#fff;font:700 18px Arial;cursor:pointer}
 @media print{#plb{display:none!important}}
 .sh-pn img{display:block;max-height:24mm;max-width:100%;margin-top:1mm;border-radius:.5mm}
+
+.pi .pix{margin-left:6px;width:22px;height:22px;border-radius:50%;display:inline-grid;place-items:center;font:700 11px Arial;color:var(--ink-3);flex:none}
+.pi .pix:hover{background:var(--bad-bg);color:var(--bad)}
+.pi.padd{border:1.5px dashed color-mix(in srgb,var(--accent) 50%,transparent);margin:6px 0}
+.pi.padd .n{color:var(--accent)}
 </style>
 <style id="printcss">
 .sheet{width:287mm;height:199mm;overflow:hidden;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;display:flex;flex-direction:column}
@@ -1151,7 +1156,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <body>
 <div class="app">
   <div class="bar">
-    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v16</small></div>
+    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v17</small></div>
     <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
     <div class="weeknav">
       <button class="ib" id="wprev" aria-label="Semaine précédente">◀</button>
@@ -1270,7 +1275,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
     <header>
       <h2 id="ptitle"></h2>
       <div class="ps" id="psub"></div>
-      <input class="q" id="pq" type="search" placeholder="Chercher un nom" autocomplete="off">
+      <input class="q" id="pq" type="search" placeholder="Chercher ou taper un nouveau nom" autocomplete="off">
     </header>
     <div class="plist" id="plist"></div>
     <footer>
@@ -1345,7 +1350,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   </div>
 </div>
 <div id="login" role="dialog" aria-modal="true" aria-labelledby="lgT"><form id="lgF" autocomplete="on">
-  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v16</small></p>
+  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v17</small></p>
   <input type="text" name="username" value="techline" autocomplete="username" hidden>
   <input id="lgC" type="password" autocomplete="current-password" placeholder="Code d'accès" required>
   <button type="submit" id="lgB">Entrer</button><div class="err" id="lgE"></div>
@@ -1389,6 +1394,8 @@ function dayDiff(a,b){return Math.round((dObj(b)-dObj(a))/864e5);}
 let TECHKNOW=[], TK_IDS=new Set();
 function setPret(list){TECHKNOW=(list||[]).filter(t=>t&&t.id);TK_IDS=new Set(TECHKNOW.map(t=>t.id));}
 try{setPret(JSON.parse(localStorage.getItem('techline_pret')||'[]'));}catch(e){}
+/* noms ajoutés à la main (intérimaires, autres équipes…) : liste commune */
+let EXTRA=[];try{EXTRA=(JSON.parse(localStorage.getItem('techline_extra')||'[]')||[]).filter(t=>t&&t.id);}catch(e){}
 /* SUPPORT : prêt d'un autre service, nom générique utilisable sur autant de machines que nécessaire */
 const SP_ID='SUPPORT';
 function buildData(raw){
@@ -1401,6 +1408,7 @@ function buildData(raw){
   for(let i=0;i<=last;i++){const iso=addDays(raw.start,i); if(dObj(iso).getUTCDay()===0)continue; dates.push(iso); idx.push(i);}
   const ops=raw.ops.filter(o=>!TK_IDS.has(o.id)&&o.id!==SP_ID).map(o=>({id:o.id,f:o.f,l:o.l,k:!!o.k,c:idx.map(i=>arr[o.id][i]||'')})).sort((a,b)=>a.id.localeCompare(b.id,'fr'));
   for(const t of TECHKNOW) ops.push({id:t.id,f:t.f,l:t.l,k:false,tk:true,c:idx.map(()=>'')});
+  for(const t of EXTRA) if(!ops.some(o=>o.id===t.id)) ops.push({id:t.id,f:t.f,l:t.l,k:false,ex:true,c:idx.map(()=>'')});
   ops.push({id:SP_ID,f:'Autre service',l:'SUPPORT',k:false,sp:true,c:idx.map(()=>'')});
   const kops=ops.filter(o=>o.k&&raw.codes[o.id]);
   const feries=dates.filter((d,j)=>dObj(d).getUTCDay()<6&&kops.length&&kops.every(o=>!o.c[j]));
@@ -1594,7 +1602,7 @@ function fillPick(){
   const sup=SLOTS.find(x=>x.id===slot).sup;
   const curv=obj[K.o(slot,s)];
   const pl=planned(cur,s), plIds=new Set(pl.map(o=>o.id));
-  const others=DATA.ops.filter(o=>!plIds.has(o.id)&&!o.tk&&!o.sp), tko=DATA.ops.filter(o=>o.tk), spo=DATA.ops.filter(o=>o.sp);
+  const exo=DATA.ops.filter(o=>o.ex);const others=DATA.ops.filter(o=>!plIds.has(o.id)&&!o.tk&&!o.sp&&!o.ex), tko=DATA.ops.filter(o=>o.tk), spo=DATA.ops.filter(o=>o.sp);
   const match=o=>!q||(o.l+' '+o.f).toLowerCase().includes(q);
   const item=o=>{
     const n=count(obj,o.id,s),ms=machinesOf(obj,o.id,s);
@@ -1606,7 +1614,7 @@ function fillPick(){
   };
   let h='';
   const a=pl.filter(match),b=others.filter(match);
-  if(dayType(cur)==='vol'){h+=`<h4>Tous les opérateurs</h4>`+DATA.ops.filter(o=>!o.tk&&!o.sp&&match(o)).map(item).join('');}
+  if(dayType(cur)==='vol'){h+=`<h4>Tous les opérateurs</h4>`+DATA.ops.filter(o=>!o.tk&&!o.sp&&!o.ex&&match(o)).map(item).join('');}
   else{
     h+=`<h4>Planifiés Kelio sur ${SHIFTS[s]}</h4>`+(a.length?a.map(item).join(''):`<div class="empty" style="padding:4px 10px">Aucun</div>`);
     h+=`<h4>Autres opérateurs (remplacement)</h4>`+b.map(item).join('');
@@ -1615,6 +1623,13 @@ function fillPick(){
   if(tm.length)h+=`<h4>Prêt TECHKNOW</h4>`+tm.map(item).join('');
   const sm=spo.filter(o=>!q||'support autre service prêt'.includes(q)||match(o));
   if(sm.length)h+=`<h4>Prêt autre service</h4>`+sm.map(item).join('');
+  const em=exo.filter(match);
+  if(em.length)h+=`<h4>Noms ajoutés</h4>`+em.map(o=>item(o).replace('</button>',`<span class="pix" data-rmx="${esc(o.id)}" title="Retirer de la liste" role="button">✕</span></button>`)).join('');
+  const raw=$('pq').value.trim();
+  if(raw.length>=2){const n=splitName(raw);if(!DATA.ops.some(o=>o.id.toLowerCase()===n.id.toLowerCase()||(o.l+' '+o.f).toLowerCase()===raw.toLowerCase())){
+    const add=`<button class="pi padd" data-new="${esc(raw)}"><span class="n">+ Ajouter <b>${esc(n.l)}</b>${esc(n.f)}</span><span class="c">nouveau nom, gardé pour les prochaines fois</span></button>`;
+    h=(a.length||b.length||em.length||tm.length?h+add:add+h);}}
+  else if(!a.length&&!b.length&&q)h+=`<div class="empty" style="padding:4px 10px">Tapez le nom complet pour l’ajouter.</div>`;
   $('plist').innerHTML=h;
 }
 function closePick(){ $('ov').classList.remove('on'); const l=pk&&pk.last; pk=null; if(l&&l.isConnected)l.focus(); render(); }
@@ -2117,8 +2132,17 @@ document.querySelector('.grids').addEventListener('keydown',e=>{ if(e.key==='Ent
 let comT;
 $('com').addEventListener('input',()=>{clearTimeout(comT);comT=setTimeout(()=>{if(readOnly)return;const v=$('com').value;get(cur).com=v;persist(cur,{com:v});},700);});
 $('pq').addEventListener('input',fillPick);
-$('plist').addEventListener('click',e=>{const b=e.target.closest('.pi');if(!b||b.disabled)return;
-  const key=K.o(pk.slot,pk.s);apply({[key]:b.dataset.op});closePick();});
+$('plist').addEventListener('click',e=>{
+  const rx=e.target.closest('[data-rmx]');if(rx){e.stopPropagation();if(readOnly)return;const id=rx.dataset.rmx;EXTRA=EXTRA.filter(t=>t.id!==id);saveExtra();toast('Nom retiré de la liste (les affectations déjà faites restent)');fillPick();return;}
+  const b=e.target.closest('.pi');if(!b||b.disabled)return;
+  const key=K.o(pk.slot,pk.s);
+  if(b.dataset.new){if(readOnly)return;const n=splitName(b.dataset.new);if(!EXTRA.some(t=>t.id===n.id))EXTRA.push(n);saveExtra();apply({[key]:n.id});closePick();toast(n.l+' '+n.f+' ajouté à la liste');return;}
+  apply({[key]:b.dataset.op});closePick();});
+function saveExtra(){try{localStorage.setItem('techline_extra',JSON.stringify(EXTRA));}catch(e){}
+  if(db&&!readOnly)db.doc('config/extra').set({json:JSON.stringify(EXTRA),at:new Date().toISOString()}).catch(e=>toast('Nom non partagé ('+(e&&e.code||'erreur')+')'));
+  applyRaw(RAW,false);}
+function watchExtra(){if(!db)return;db.doc('config/extra').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;
+  try{const l=JSON.parse(sn.data().json);if(Array.isArray(l)&&JSON.stringify(l)!==JSON.stringify(EXTRA)){EXTRA=l.filter(t=>t&&t.id);try{localStorage.setItem('techline_extra',JSON.stringify(EXTRA));}catch(e){}applyRaw(RAW,true);}}catch(e){}},()=>{});}
 $('pq').addEventListener('keydown',e=>{if(e.key==='Enter'){const f=$('plist').querySelector('.pi:not([disabled])');if(f)f.click();}});
 $('prm').onclick=()=>{apply({[K.o(pk.slot,pk.s)]:''});closePick();};
 $('pclose').onclick=closePick;
@@ -2980,6 +3004,7 @@ const AIDE_B64='PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImZyIj4KPGhlYWQ+CjxtZXRhIGNo
 let AIDE_URL=null;function aideUrl(){if(!AIDE_URL){const bin=atob(AIDE_B64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);AIDE_URL=URL.createObjectURL(new Blob([u],{type:'text/html'}));}return AIDE_URL;}
 const NEWS=(()=>{
   const BUILTIN=[
+    {id:'b-v17',at:'2026-11-20T10:25',ver:'v17',t:'Affecter un nom qui n’est pas dans la liste',x:'Dans la fenêtre d’affectation, tapez le nom complet (ex. : DUPONT Jean) puis cliquez sur « + Ajouter ». Le nom est gardé dans « Noms ajoutés » pour les prochaines fois, chez tout le monde. Le ✕ le retire de la liste.'},
     {id:'b-v15',at:'2026-11-20T09:50',ver:'v15',t:'Photos dans les post-it',x:'Bouton appareil photo sur chaque post-it (Affectation et Consignes) : ajouter une photo ou une capture d’écran. On peut aussi la glisser sur le post-it, ou faire Ctrl+V en écrivant dedans. Cliquer sur la photo pour l’agrandir. Les photos des post-it Affectation sont imprimées sur la fiche.'},
     {id:'b-v13',at:'2026-11-20T09:00',ver:'v13',t:'Nouvel onglet « Planning »',x:'Le planning de production en clair : urgences et PRIO en rouge, préventifs en jaune, 3/8 100 % et heures sup. On l’alimente en glissant ou en collant (Ctrl+V) la capture d’écran du planning : tout est lu automatiquement, puis on corrige si besoin.\nLes priorités passent toutes seules dans Affectation (PRIO en rouge) et dans Consignes (badge PRIO). Les préventifs s’affichent dans États machines et ici.'},
     {id:'b-v11',at:'2026-11-20T08:10',ver:'v11',t:'Nouvel onglet « Nouveautés »',x:'Chaque changement de l’application est annoncé ici. Tant que vous n’avez pas ouvert cet onglet, il clignote en rouge avec « À voir ».'},
@@ -3062,7 +3087,7 @@ const FB_EMAIL="techline@equipe.app";   // compte unique de l'équipe ; le mot d
         $('login').classList.remove('on'); $('blogout').hidden=false;
         if(!db){ db=firebase.firestore(); for(const k of Object.keys(cache))delete cache[k]; for(const k of Object.keys(known))delete known[k];
           db.doc('config/planning').get().then(s=>{const r=s.exists&&unpackPl(s.data()); if(r&&r.start&&r.n&&r.ops)applyRaw(r,true); else toast('Aucun planning en base : importez le planning Kelio');}).catch(()=>{});
-          subscribe(); watchPlanning(); watchPret(); CONS.attach(); PN.attach(); AN.attach(); NEWS.attach(); PLAN.attach(); render(); }
+          subscribe(); watchPlanning(); watchPret(); watchExtra(); CONS.attach(); PN.attach(); AN.attach(); NEWS.attach(); PLAN.attach(); render(); }
       } else { $('login').classList.add('on'); $('blogout').hidden=true; setTimeout(()=>$('lgC').focus(),50); }
     });
     $('lgF').addEventListener('submit',e=>{e.preventDefault();$('lgE').textContent='';$('lgB').disabled=true;

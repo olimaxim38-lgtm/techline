@@ -786,6 +786,23 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 .pvban b{font:800 17px "Barlow Condensed",Arial,sans-serif;color:#7A5200;margin-right:8px}
 .pvban span{display:inline-block;margin:2px 10px 2px 0;font-weight:700}
 .pvban span i{font-style:normal;background:#E8A900;color:#1B1400;border-radius:4px;padding:1px 6px;margin-right:5px;font-weight:800}
+
+.pnote .pcam{position:absolute;right:38px;top:6px;border:0;background:rgba(90,70,0,.12);color:#5A4600;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;cursor:pointer;opacity:.6;transition:opacity .2s,background .2s}
+.pnote .pcam:hover{opacity:1;background:#003B6F;color:#fff}
+.pnote.has-shift .pdate{right:68px}
+.pnote:not(.has-shift) .pdate{max-width:120px}
+.pnote.wimg{width:260px}
+.pnote .pim{position:relative}
+.pnote .pim img{display:block;width:100%;max-height:260px;object-fit:contain;margin-top:6px;border-radius:3px;background:rgba(255,255,255,.5);box-shadow:0 1px 3px rgba(60,45,0,.3);cursor:zoom-in;transform:rotate(.6deg)}
+.pnote .pimx{position:absolute;right:4px;top:10px;border:0;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font:700 11px Arial;cursor:pointer;opacity:0;transition:opacity .2s}
+.pnote .pim:hover .pimx{opacity:1}
+.pnote textarea{min-height:60px!important}
+#plb{position:fixed;inset:0;z-index:600;background:rgba(10,20,35,.82);display:none;align-items:center;justify-content:center;padding:30px;cursor:zoom-out}
+#plb.on{display:flex}
+#plb img{max-width:100%;max-height:100%;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5);background:#fff}
+#plb button{position:absolute;right:20px;top:20px;border:0;width:40px;height:40px;border-radius:50%;background:#fff;font:700 18px Arial;cursor:pointer}
+@media print{#plb{display:none!important}}
+.sh-pn img{display:block;max-height:24mm;max-width:100%;margin-top:1mm;border-radius:.5mm}
 </style>
 <style id="printcss">
 .sheet{width:287mm;height:199mm;overflow:hidden;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;display:flex;flex-direction:column}
@@ -1134,7 +1151,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <body>
 <div class="app">
   <div class="bar">
-    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v14</small></div>
+    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v16</small></div>
     <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
     <div class="weeknav">
       <button class="ib" id="wprev" aria-label="Semaine précédente">◀</button>
@@ -1328,12 +1345,14 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   </div>
 </div>
 <div id="login" role="dialog" aria-modal="true" aria-labelledby="lgT"><form id="lgF" autocomplete="on">
-  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v14</small></p>
+  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v16</small></p>
   <input type="text" name="username" value="techline" autocomplete="username" hidden>
   <input id="lgC" type="password" autocomplete="current-password" placeholder="Code d'accès" required>
   <button type="submit" id="lgB">Entrer</button><div class="err" id="lgE"></div>
 </form></div>
 <div id="anotes"></div>
+<input type="file" id="pnFile" accept="image/*" hidden>
+<div id="plb" role="dialog" aria-modal="true" aria-label="Photo du post-it"><img id="plbI" alt=""><button type="button" id="plbX" aria-label="Fermer">✕</button></div>
 <div class="busy" id="busy" aria-live="polite"><span id="busyt">Génération…</span><small>Un instant, la fiche est mise en page.</small></div>
 <div id="print"></div>
 
@@ -1634,7 +1653,7 @@ function sheetHTML(iso,th){
   const obj=get(iso),t=dayType(iso);
   const NK=KS().length,cc='<col>'.repeat(NK);
   const col=`<colgroup><col style="width:6mm"><col style="width:22mm">${cc}<col style="width:3mm"><col style="width:6mm"><col style="width:22mm">${cc}</colgroup>`;
-  const notes=(typeof AN!=='undefined'?AN.forPrint():[]);const noteH=notes.length?Math.min(34,9+Math.max(...notes.map(n=>Math.ceil((n.t||'').length/(NK===1?60:42))+(n.t||'').split('\n').length))*4.6):0;
+  const notes=(typeof AN!=='undefined'?AN.forPrint():[]);const noteH=notes.length?(notes.some(n=>n.img)?32:0)||Math.min(34,9+Math.max(...notes.map(n=>Math.ceil((n.t||'').length/(NK===1?60:42))+(n.t||'').split('\n').length))*4.6):0;
   const rows=[];
   const L=LEFT.filter(x=>!x.zone),R=RIGHT.filter(x=>!x.zone);
   const monH=4;
@@ -1645,7 +1664,7 @@ function sheetHTML(iso,th){
     if(!sl||sl.gap){ if(kind==='name')return `<td class="pm gp" style="background:#fff"${TH?' rowspan="2"':''}></td><td class="mc gp" style="background:#fff"${TH?' rowspan="2"':''}></td>${'<td class="gp"></td>'.repeat(NK)}`; return `${TH?'':'<td class="gp" style="border:0"></td><td class="gp" style="border:0"></td>'}${'<td class="mo gp"></td>'.repeat(NK)}`;}
     if(kind==='name'){
       const pr=!sl.sup&&isPrio(obj,sl.id);
-      let h=`<td class="pm${pr?' hot':''}"${TH&&!sl.sup?' rowspan="2"':''}>${sl.sup?'🔥':(pr?'!':'')}</td><td class="mc${pr?' hot':''}" ${sl.sup?'':'rowspan="2"'}><span class="fit pml">${esc(LABEL[sl.id])}</span>${pr?'<span class="purg">URGENTE</span>':''}</td>`;
+      let h=`<td class="pm${pr?' hot':''}"${TH&&!sl.sup?' rowspan="2"':''}>${sl.sup?'🔥':(pr?'!':'')}</td><td class="mc${pr?' hot':''}" ${sl.sup?'':'rowspan="2"'}><span class="fit pml">${esc(LABEL[sl.id])}</span>${pr?`<span class="purg">${obj[K.p(sl.id)]===true?'URGENTE':'PRIO'}</span>`:''}</td>`;
       for(const k of KS()){const o=OPS[obj[K.o(sl.id,k)]];h+=`<td class="nm${o?' f':''}">${o?`<span class="fit pfi">${esc(o.f)}</span><span class="fit pla">${esc(o.l)}</span>`:''}</td>`;}
       return h;
     }
@@ -1673,7 +1692,7 @@ function sheetHTML(iso,th){
   return `<div class="sheet${th!=='classic'?' th-'+th:''}" style="--pla:${Math.min(6,nameH*0.44).toFixed(2)}mm;--pfi:${Math.min(4.6,nameH*0.32).toFixed(2)}mm;--pml:${Math.min(6.4,nameH*0.46).toFixed(2)}mm">
   <div class="sh-top"><div class="t1"><i></i>AFFECTATION TECHLINE</div><div class="t2${t==='vol'?' vol':''}"${SF==='all'?'':' style="font-size:6.4mm;white-space:nowrap;min-width:0;overflow:hidden"'}>${esc(cap(longDate(iso)))}${SF==='all'?' — Semaine '+isoWeek(iso):''}${tl}</div><div class="t3"><span>BÖLLHOFF OTALU</span><span>UAP Forg'Tech</span></div></div><div class="sh-bar"></div>
   <table class="pt">${col}<thead><tr><th></th><th class="side">Frappe</th>${KS().map(k=>`<th class="s${k}">${SHIFTS[k]}</th>`).join('')}<th class="gap" style="border:0"></th><th></th><th class="side">Taraudage</th>${KS().map(k=>`<th class="s${k}">${SHIFTS[k]}</th>`).join('')}</tr></thead><tbody>${fixSup}</tbody></table>
-  ${notes.length?`<div class="sh-notes" style="height:${noteH}mm">${notes.map(n=>`<div class="sh-pn"><b>${n.s==='all'||n.s==null?'Tous postes':SHL[n.s]}</b>${esc(n.t||'')}</div>`).join('')}</div>`:''}
+  ${notes.length?`<div class="sh-notes" style="height:${noteH}mm">${notes.map(n=>`<div class="sh-pn"><b>${n.s==='all'||n.s==null?'Tous postes':SHL[n.s]}</b>${esc(n.t||'')}${n.img?`<img src="${n.img}" alt="">`:''}</div>`).join('')}</div>`:''}
   <div class="sh-foot"><span>Postes affectés : <b>${filled} / ${TOTAL*KS().length/3}</b></span><div class="cm">${esc(obj.com||'')}</div></div>
 </div>`;
 }
@@ -1766,7 +1785,7 @@ async function exportXLS(list){
         for(const [sl,cp,cm,cs] of pair){
           const pr=!sl.gap&&!sl.sup&&isPrio(obj,sl.id);
           const xp=ws.getCell(cp+r);xp.value=sl.sup?'🔥':(pr?'!':'');xp.font={name:'Arial',size:16,bold:true,color:{argb:'FFC2362B'}};xp.alignment={horizontal:'center',vertical:'middle'};xp.fill=fill('FFF4F6FB');xp.border=B;
-          const xm=ws.getCell(cm+r);xm.value=sl.gap?'':pr?{richText:[{text:LABEL[sl.id],font:{name:'Arial',size:22,bold:true,color:{argb:'FF14212E'}}},{text:'\nURGENTE',font:{name:'Arial',size:14,bold:true,color:{argb:'FFC2362B'}}}]}:LABEL[sl.id];xm.font={name:'Arial',size:sl.sup?20:22,bold:true,color:{argb:'FF14212E'}};
+          const xm=ws.getCell(cm+r);xm.value=sl.gap?'':pr?{richText:[{text:LABEL[sl.id],font:{name:'Arial',size:22,bold:true,color:{argb:'FF14212E'}}},{text:obj[K.p(sl.id)]===true?'\nURGENTE':'\nPRIO',font:{name:'Arial',size:14,bold:true,color:{argb:'FFC2362B'}}}]}:LABEL[sl.id];xm.font={name:'Arial',size:sl.sup?20:22,bold:true,color:{argb:'FF14212E'}};
           xm.alignment=pr?{horizontal:'center',vertical:'middle',wrapText:true}:{horizontal:'center',vertical:'middle',shrinkToFit:true};xm.fill=fill(sl.gap?'FFFFFFFF':sl.sup?'FFFBE0D8':pr?'FFF6C8C1':'FFDCE4F1');xm.border=B;
           if(!both){ if(!sl.sup){ws.mergeCells(`${cm}${r}:${cm}${r+1}`);ws.mergeCells(`${cp}${r}:${cp}${r+1}`);} else {const y=ws.getCell(cp+(r+1));y.border=B;const z=ws.getCell(cm+(r+1));z.border=B;z.fill=fill('FFFBE0D8');} }
           cs.forEach((c,k)=>{
@@ -2763,13 +2782,20 @@ return {render:()=>{if(VIEW==='etat')eRender();else render();},setView,start,att
 })();
 {const _r=render;render=function(){_r();CONS.render();};}
 /* ---------- POST-IT partagés ---------- */
+const NOTE_BOXES={};
+async function shrink(file){
+  if(/gif$/i.test(file.type)&&file.size<=700000)return await new Promise((ok,ko)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=ko;r.readAsDataURL(file);});
+  if(/gif$/i.test(file.type))toast('GIF trop lourd (max 700 Ko) : image fixe utilisée');const img=await new Promise((ok,ko)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=ko;im.src=URL.createObjectURL(file);});
+  let mx=1100,q=.8,url='';for(let g=0;g<6;g++){const k=Math.min(1,mx/Math.max(img.width,img.height));const cv=document.createElement('canvas');cv.width=Math.round(img.width*k);cv.height=Math.round(img.height*k);
+    const c=cv.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,cv.width,cv.height);c.drawImage(img,0,0,cv.width,cv.height);url=cv.toDataURL('image/jpeg',q);if(url.length<450000)break;mx*=.8;q=Math.max(.55,q-.07);}
+  return url;}
 function mkNotes(o){
   let notes={};const box=$(o.box);let unsubPN=null;const tmr={};
   const lsS=()=>{try{localStorage.setItem(o.ls,JSON.stringify(notes));}catch(e){}};
   try{notes=JSON.parse(localStorage.getItem(o.ls)||'{}')||{};}catch(e){notes={};}
   function save(id){lsS();if(!db)return;const n=notes[id];
     (n?db.collection(o.coll).doc(id).set(n):db.collection(o.coll).doc(id).delete()).catch(e=>toast('Post-it non partagé ('+(e&&e.code||'erreur')+')'));}
-  function fit(ta){ta.style.height='auto';ta.style.height=Math.max(140,ta.scrollHeight)+'px';}
+  function fit(ta){const n=ta.closest('.pnote');const mh=n&&n.classList.contains('wimg')?40:140;ta.style.height='auto';ta.style.height=Math.max(mh,ta.scrollHeight)+'px';}
   function place(el,n){const W=box.clientWidth||1000;el.style.left=Math.max(0,Math.min(W-240,n.x*W))+'px';el.style.top=Math.max(0,n.y)+'px';el.style.setProperty('--r',(n.r||0)+'deg');}
   const visible=n=>!o.shift||SF==='all'||n.s==null||n.s==='all'||n.s===SF;
   const SLB=s=>s==null||s==='all'?'Tous postes':SHL[s];
@@ -2778,12 +2804,13 @@ function mkNotes(o){
     box.querySelectorAll('.pnote').forEach(el=>{if(!ids.has(el.dataset.id)&&!el.classList.contains('bye'))el.remove();});
     for(const id of ids){const n=notes[id];let el=box.querySelector(`.pnote[data-id="${id}"]`);
       if(!el){el=document.createElement('div');el.className='pnote'+(o.shift?' has-shift':'');el.dataset.id=id;
-        el.innerHTML=`<div class="pgrip" title="Déplacer"></div>${o.shift?'<button class="pshift" title="Poste concerné (cliquer pour changer)"></button>':''}<span class="pdate"></span><button class="pdel" title="Action faite : effacer">✕</button><textarea placeholder="${o.ph}" spellcheck="false" aria-label="Post-it"></textarea>`;
+        el.innerHTML=`<div class="pgrip" title="Déplacer"></div>${o.shift?'<button class="pshift" title="Poste concerné (cliquer pour changer)"></button>':''}<span class="pdate"></span><button class="pdel" title="Action faite : effacer">✕</button><button class="pcam" title="Ajouter une photo ou une capture (ou Ctrl+V dans le post-it)" aria-label="Ajouter une photo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button><textarea placeholder="${o.ph}" spellcheck="false" aria-label="Post-it"></textarea><div class="pim"></div>`;
         box.appendChild(el);}
       if(el.classList.contains('drag'))continue;
       place(el,n);
       if(o.shift){const b=el.querySelector('.pshift');b.textContent=SLB(n.s);b.dataset.s=n.s==null?'all':n.s;}
       const d=new Date(n.at||Date.now());el.querySelector('.pdate').textContent=d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+String(d.getHours()).padStart(2,'0')+'h'+String(d.getMinutes()).padStart(2,'0');
+      const pim=el.querySelector('.pim');const ik=n.img?String(n.img.length)+n.img.slice(-24):'';if(pim.dataset.k!==ik){pim.dataset.k=ik;pim.innerHTML=n.img?`<img src="${n.img}" alt="Photo du post-it"><button class="pimx" title="Retirer la photo">✕</button>`:'';}el.classList.toggle('wimg',!!n.img);
       const ta=el.querySelector('textarea');if(document.activeElement!==ta&&ta.value!==(n.t||''))ta.value=n.t||'';
       ta.readOnly=readOnly;requestAnimationFrame(()=>fit(ta));}
   }
@@ -2803,6 +2830,16 @@ function mkNotes(o){
       if(!visible(n))toast('Post-it déplacé sur : '+SLB(n.s));return;}
     const b=e.target.closest('.pdel');if(!b)return;if(readOnly){toast('Lecture seule');return;}
     const el=b.closest('.pnote'),id=el.dataset.id;el.classList.add('bye');delete notes[id];save(id);setTimeout(()=>el.remove(),380);toast('Post-it effacé');});
+  async function setImg(id,file){if(readOnly||!notes[id]||!file||!/^image\//.test(file.type))return;
+    try{const url=await shrink(file);notes[id].img=url;save(id);draw();toast(/^data:image\/gif/.test(url)?'GIF animé ajouté au post-it':'Photo ajoutée au post-it');}catch(e){toast('Image illisible');}}
+  box.addEventListener('click',e=>{
+    const c=e.target.closest('.pcam');if(c){if(readOnly)return;const id=c.closest('.pnote').dataset.id;const f=$('pnFile');f.dataset.id=id;f.dataset.box=o.box;f.click();return;}
+    const x=e.target.closest('.pimx');if(x){const id=x.closest('.pnote').dataset.id;if(notes[id]){delete notes[id].img;save(id);draw();}return;}
+    const im=e.target.closest('.pim img');if(im){$('plbI').src=im.src;$('plb').classList.add('on');}});
+  box.addEventListener('paste',e=>{const ta=e.target.closest('.pnote');if(!ta)return;const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>/^image\//.test(x.type));if(it){e.preventDefault();e.stopPropagation();setImg(ta.dataset.id,it.getAsFile());}});
+  box.addEventListener('dragover',e=>{if(e.target.closest('.pnote'))e.preventDefault();});
+  box.addEventListener('drop',e=>{const el=e.target.closest('.pnote');if(!el)return;e.preventDefault();e.stopPropagation();const f=[...(e.dataTransfer&&e.dataTransfer.files||[])].find(x=>/^image\//.test(x.type));if(f)setImg(el.dataset.id,f);});
+  NOTE_BOXES[o.box]=setImg;
   let dg=null;
   box.addEventListener('pointerdown',e=>{const g=e.target.closest('.pgrip');if(!g||readOnly)return;const el=g.closest('.pnote');
     dg={el,id:el.dataset.id,sx:e.clientX,sy:e.clientY,ox:el.offsetLeft,oy:el.offsetTop,pid:e.pointerId};el.classList.add('drag');g.setPointerCapture(e.pointerId);e.preventDefault();});
@@ -2817,7 +2854,7 @@ function mkNotes(o){
     unsubPN=db.collection(o.coll).onSnapshot(qs=>{if(qs.metadata&&qs.metadata.hasPendingWrites)return;const nn={};qs.forEach(d=>{nn[d.id]=d.data();});
       for(const id in nn){const ta=box.querySelector(`.pnote[data-id="${id}"] textarea`);if(ta&&document.activeElement===ta&&notes[id])nn[id].t=notes[id].t;}
       notes=nn;lsS();draw();},()=>{});}
-  const forPrint=()=>Object.values(notes).filter(n=>(n.t||'').trim()&&visible(n)).sort((a,b)=>(a.at||0)-(b.at||0));
+  const forPrint=()=>Object.values(notes).filter(n=>((n.t||'').trim()||n.img)&&visible(n)).sort((a,b)=>(a.at||0)-(b.at||0));
   draw();
   return {draw,attach,forPrint};
 }
@@ -2943,6 +2980,7 @@ const AIDE_B64='PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImZyIj4KPGhlYWQ+CjxtZXRhIGNo
 let AIDE_URL=null;function aideUrl(){if(!AIDE_URL){const bin=atob(AIDE_B64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);AIDE_URL=URL.createObjectURL(new Blob([u],{type:'text/html'}));}return AIDE_URL;}
 const NEWS=(()=>{
   const BUILTIN=[
+    {id:'b-v15',at:'2026-11-20T09:50',ver:'v15',t:'Photos dans les post-it',x:'Bouton appareil photo sur chaque post-it (Affectation et Consignes) : ajouter une photo ou une capture d’écran. On peut aussi la glisser sur le post-it, ou faire Ctrl+V en écrivant dedans. Cliquer sur la photo pour l’agrandir. Les photos des post-it Affectation sont imprimées sur la fiche.'},
     {id:'b-v13',at:'2026-11-20T09:00',ver:'v13',t:'Nouvel onglet « Planning »',x:'Le planning de production en clair : urgences et PRIO en rouge, préventifs en jaune, 3/8 100 % et heures sup. On l’alimente en glissant ou en collant (Ctrl+V) la capture d’écran du planning : tout est lu automatiquement, puis on corrige si besoin.\nLes priorités passent toutes seules dans Affectation (PRIO en rouge) et dans Consignes (badge PRIO). Les préventifs s’affichent dans États machines et ici.'},
     {id:'b-v11',at:'2026-11-20T08:10',ver:'v11',t:'Nouvel onglet « Nouveautés »',x:'Chaque changement de l’application est annoncé ici. Tant que vous n’avez pas ouvert cet onglet, il clignote en rouge avec « À voir ».'},
     {id:'b-v10',at:'2026-11-20T08:00',ver:'v10',t:'Cadences par référence modifiables',x:'Consignes → Réglages : un tableau de toutes les références. On cherche, on change la cadence, on ajoute ou supprime une référence, puis « Enregistrer ». La feuille de consignes se met à jour (O/T, rouge sous 95 %). Partagé avec toute l’équipe.'},
@@ -2984,6 +3022,9 @@ const NEWS=(()=>{
   return {open,attach,badge};
 })();
 
+$('pnFile').addEventListener('change',e=>{const f=e.target.files[0],id=e.target.dataset.id,bx=e.target.dataset.box;e.target.value='';if(f&&NOTE_BOXES[bx])NOTE_BOXES[bx](id,f);});
+$('plb').addEventListener('click',e=>{if(e.target.id!=='plbI')$('plb').classList.remove('on');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('plb').classList.remove('on');});
 const PN=mkNotes({box:'pnotes',coll:'postits',ls:'techline_postits',add:'pnAdd',ph:'À ne pas oublier…'});
 const AN=mkNotes({box:'anotes',coll:'postits_aff',ls:'techline_postits_aff',add:'anAdd',ph:'Message aux opérateurs…',shift:true});
 function renderSF(){document.querySelectorAll('#sfsel button').forEach(b=>{const on=String(SF)===b.dataset.sf;b.classList.toggle('on',on);b.setAttribute('aria-checked',on);});}

@@ -941,6 +941,82 @@ table.g td.mstc{background:repeating-linear-gradient(135deg,transparent 0 9px,rg
 .chtop{position:relative}
 .chtop .chtn{position:absolute;right:-6px;top:-6px;min-width:18px;height:18px;border-radius:9px;background:#FF3B30;color:#fff;font:700 11px/18px Arial;padding:0 5px}
 .chtop.unread{background:#FF3B30!important;color:#fff!important;animation:chpulse 1s ease-in-out infinite}
+
+/* ================= AFFICHAGE TÉLÉPHONE ================= */
+@media (max-width:760px){
+  body{font-size:14px}
+  .bar{padding:8px 10px;gap:8px;flex-wrap:wrap;position:relative!important;top:auto!important}
+  body::before{display:none}
+  .brand{font-size:15px}
+  .vsw{order:5;width:100%;overflow-x:auto;flex-wrap:nowrap;margin-left:0!important;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .vsw::-webkit-scrollbar{display:none}
+  .vsw button{white-space:nowrap;padding:8px 11px!important;font-size:14px!important;flex:none}
+  .chtop{order:2;margin-left:auto;padding:0 10px!important;font-size:13px!important}
+  .weeknav{order:3}
+  .weeknav .wk{min-width:74px;font-size:13px}
+  .seg{order:4;width:100%;overflow-x:auto}
+  .days{width:100%;justify-content:space-between}
+  .day{min-width:0;flex:1;padding:5px 2px}
+  .seg-ind{display:none}
+  .day.on{background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.12);border-radius:9px}
+  [data-theme="bollhoff"] .day.on{background:#E8A900}
+  .actions{order:6;width:100%;margin-left:0;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+  .actions::-webkit-scrollbar{display:none}
+  .actions .btn{flex:none;white-space:nowrap}
+  .head{padding:16px 12px 10px;gap:10px}
+  .date{font-size:27px!important}
+  .dline{gap:8px}
+  .sfsel{width:100%}
+  .sfsel button{flex:1;padding:9px 4px;font-size:13.5px}
+  .stats{margin-left:0;width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .stat{min-width:0;padding:8px 10px}
+  .stat span{font-size:10.5px}
+  .stat strong{font-size:17px}
+  .grids{padding:0 8px}
+  .wrapt{border-radius:14px}
+  table.g{min-width:0!important;table-layout:fixed}
+  table.g col.cm{width:96px!important}
+  table.g th{padding:10px 4px 8px;font-size:12px}
+  table.g th.side{font-size:17px!important;padding-left:10px}
+  table.g thead+tbody+thead th{border-top:10px solid var(--bg)}
+  table.g td.mach{padding:6px 4px 6px 10px}
+  .mlab{font-size:16px!important;gap:3px}
+  .mlab .mbtns{gap:3px}
+  .prio,.mstb{width:22px;height:22px}
+  .op{min-height:50px;padding:4px}
+  .op .la{font-size:15px!important}
+  .op .fi{font-size:11px}
+  .mt{font-size:11.5px;padding:3px}
+  .tip{padding:0 12px;font-size:12px}
+  .below{padding:16px 8px 90px;gap:12px}
+  .panel{padding:14px}
+  .shifts{grid-template-columns:1fr}
+  .pick{border-radius:18px;max-height:88vh}
+  .ov{padding:8px;align-items:flex-end}
+  .pick,.exp{width:100%}
+  #cview .ctool,#eview .ctool{gap:6px}
+  #cview .ctool h2,#eview .ctool h2{font-size:22px;width:100%}
+  #cview .cb,#eview .cb{padding:8px 10px;font-size:15px}
+  .pwrap,.nwrap{padding:0 10px}
+  .ptool h2,.nhead h2{font-size:24px}
+  .pkpi{grid-template-columns:repeat(2,1fr)}
+  .pkpi div:last-child{grid-column:span 2}
+  .pcards{grid-template-columns:1fr}
+  .pnote{width:190px!important;min-height:150px;padding:28px 12px 12px}
+  .pnote textarea{font-size:21px}
+  #mstMenu{left:8px!important;right:8px;width:auto}
+  /* discussion plein écran */
+  #tlmsg{right:12px!important;bottom:12px!important}
+  #tlmsg .chb{height:54px;min-width:54px;padding:0 16px 0 14px;font-size:16px}
+  #tlmsg:not(.min){left:0;right:0!important;top:0;bottom:0!important}
+  #tlmsg .chp{width:100vw;height:100dvh;height:100vh;border-radius:0}
+  #tlmsg:not(.min) .chp{height:100dvh}
+  #tlmsg .chh{padding-top:max(10px,env(safe-area-inset-top))}
+  #tlmsg .chf{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+  #tlmsg .chf textarea{font-size:16px}
+  #tlmsg .bub.img img{max-width:70vw}
+  .toast{bottom:84px;max-width:92vw;text-align:center}
+}
 </style>
 <style id="printcss">
 .sheet{width:287mm;height:199mm;overflow:hidden;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;display:flex;flex-direction:column}
@@ -1289,7 +1365,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <body>
 <div class="app">
   <div class="bar">
-    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v29</small></div>
+    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v30</small></div>
     <button class="btn chtop" id="chTop" type="button" title="Ouvrir la discussion">💬 Discussion<span class="chtn" id="chTopN" hidden></span></button>
     <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
     <div class="weeknav">
@@ -1483,7 +1559,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   </div>
 </div>
 <div id="login" role="dialog" aria-modal="true" aria-labelledby="lgT"><form id="lgF" autocomplete="on">
-  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v29</small></p>
+  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v30</small></p>
   <input type="text" name="username" value="techline" autocomplete="username" hidden>
   <input id="lgC" type="password" autocomplete="current-password" placeholder="Code d'accès" required>
   <button type="submit" id="lgB">Entrer</button><div class="err" id="lgE"></div>
@@ -1520,7 +1596,7 @@ let RAW = (()=>{const d=new Date();const st=new Date(Date.UTC(d.getFullYear(),d.
 let DATA;
 const SHIFTS=['05h-13h','13h-21h','21h-5h'];
 const SHL=['Matin','Après-midi','Nuit'];
-let SF='all';try{const v=sessionStorage.getItem('techline_sf');if(v==='0'||v==='1'||v==='2')SF=+v;}catch(e){}
+let SF='all';try{const v=sessionStorage.getItem('techline_sf');if(v==='0'||v==='1'||v==='2')SF=+v;else if(v!=='all'&&matchMedia('(max-width: 760px)').matches){const x=new Date().getHours();SF=x>=5&&x<13?0:x>=13&&x<21?1:2;}}catch(e){}
 const KS=()=>SF==='all'?[0,1,2]:[SF];
 const CODE2S={'M':0,'M6h':0,'JmEQ':0,'S':1,'AM6':1,'N':2,'N6h':2};
 const REST=new Set(['','*','RSEM','RSAM','RDIM','*RFC']);
@@ -1715,8 +1791,14 @@ function sideTD(sl,obj,iso,pl){
   }
   return h;
 }
+const PHONE=matchMedia('(max-width: 760px)');
 function grid(obj,iso){
   const pl=[0,1,2].map(k=>new Set(planned(iso,k).map(o=>o.id)));
+  if(PHONE.matches){
+    const sh=KS().map(k=>`<th class="s${k}"><i style="background:var(--sh${k})"></i>${SHIFTS[k]}</th>`).join('');
+    const part=(side,list)=>`<thead><tr><th class="side">${side}</th>${sh}</tr></thead><tbody>`+list.filter(x=>x.id&&!x.zone).map(x=>`<tr>${sideTD(x,obj,iso,pl)}</tr>`).join('')+'</tbody>';
+    return `<colgroup><col class="cm">${'<col>'.repeat(KS().length)}</colgroup>`+part('Frappe',LEFT)+part('Taraudage',RIGHT);
+  }
   const sh=KS().map(k=>`<th class="s${k}"><i style="background:var(--sh${k})"></i>${SHIFTS[k]}</th>`).join('');const cc='<col>'.repeat(KS().length);
   let h=`<colgroup><col class="cm">${cc}<col class="sep"><col class="cm">${cc}</colgroup>`+
     `<thead><tr><th class="side">Frappe</th>${sh}<th class="sepc"></th><th class="side">Taraudage</th>${sh}</tr></thead><tbody>`;
@@ -3008,6 +3090,7 @@ $('mstMenu').addEventListener('click',async e=>{
 document.addEventListener('click',e=>{if($('mstMenu').classList.contains('on')&&!e.target.closest('#mstMenu')&&!e.target.closest('[data-mst]'))$('mstMenu').classList.remove('on');});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')$('mstMenu').classList.remove('on');});
 
+PHONE.addEventListener&&PHONE.addEventListener('change',()=>{try{render();}catch(e){}});
 /* ---------- POST-IT partagés ---------- */
 const NOTE_BOXES={};
 async function shrink(file){
@@ -3207,6 +3290,7 @@ const AIDE_B64='PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImZyIj4KPGhlYWQ+CjxtZXRhIGNo
 let AIDE_URL=null;function aideUrl(){if(!AIDE_URL){const bin=atob(AIDE_B64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);AIDE_URL=URL.createObjectURL(new Blob([u],{type:'text/html'}));}return AIDE_URL;}
 const NEWS=(()=>{
   const BUILTIN=[
+    {id:'b-v30',at:'2026-11-20T12:10',ver:'v30',t:'Affichage téléphone',x:'Sur téléphone, l’application s’adapte : un seul poste affiché (celui de l’heure), Frappe puis Taraudage l’un sous l’autre, onglets et boutons qui défilent au doigt, discussion en plein écran. On change de poste avec Tous · Matin · Après-midi · Nuit sous la date.'},
     {id:'b-v24',at:'2026-11-20T11:20',ver:'v24',t:'État machine : panne, développement, préventif',x:'Dans Affectation, le petit bouton clé à côté du « ! » de chaque machine : En panne (rouge), Développement / essais (violet), Préventif (jaune), ou Machine disponible. Choix du ou des postes concernés (Matin, Après-midi, Nuit) et option pour l’appliquer aux jours suivants de la semaine. L’état s’affiche sur la grille, la fiche imprimée et la feuille de consignes.'},
     {id:'b-v19',at:'2026-11-20T10:55',ver:'v19',t:'TechLine d’abord, support Techno à part',x:'À l’import du planning Kelio, l’application lit le service de chaque personne. Les équipes TechLine (MACIAN, BAABAA, MOLINIER) sont proposées en premier ; les personnes des autres services passent dans « Support Techno », en violet, avec leur service. Réimporter le planning Kelio une fois pour en profiter.'},
     {id:'b-v18',at:'2026-11-20T10:40',ver:'v18',t:'Discussion intégrée, façon iMessage',x:'La bulle verte en bas à droite, visible partout : cliquer pour discuter entre superviseurs, « – » pour la réduire. Elle devient rouge et clignote quand un nouveau message arrive. Photos et GIF : bouton image, glisser-déposer ou Ctrl+V. « Lu » s’affiche quand l’autre a vu votre message. La bulle se déplace à la souris.'},

@@ -1017,6 +1017,54 @@ table.g td.mstc{background:repeating-linear-gradient(135deg,transparent 0 9px,rg
   #tlmsg .bub.img img{max-width:70vw}
   .toast{bottom:84px;max-width:92vw;text-align:center}
 }
+.btn.pnp.on{background:#FFE98A!important;color:#3A2E00!important;box-shadow:inset 0 0 0 1.5px #E8A900!important}
+
+/* ---- types de post-it ---- */
+.pnote .pdest{position:absolute;left:10px;top:5px;border:0;border-radius:6px;padding:3px 7px 3px 5px;font:800 10.5px/1 "Barlow",Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;display:flex;align-items:center;gap:4px;z-index:2}
+.pnote .pdest span{font-size:12px}
+.pnote .pshift{left:auto!important;position:absolute;top:5px}
+.pnote.has-shift .pshift{left:calc(10px + var(--pdw,108px))!important}
+.pnote .pdate{top:auto!important;bottom:7px;left:12px!important;right:auto!important;font-size:10.5px}
+.pnote{padding-top:32px!important;padding-bottom:22px!important}
+.pnote.d-aff{background:linear-gradient(170deg,#FFF7B0 0%,#FFEE80 55%,#FBE15C 100%)}
+.pnote.d-aff .pdest{background:#3A2E00;color:#FFE66B}
+.pnote.d-cons{background:linear-gradient(170deg,#E3FBEF 0%,#BDF2D6 55%,#9BE6BF 100%)}
+.pnote.d-cons::after{background:linear-gradient(135deg,#7FD3A8 0%,#B2EDCF 48%,rgba(0,0,0,.18) 50%,transparent 56%)}
+.pnote.d-cons .pdest{background:#0F5132;color:#fff}
+.pnote.d-cons textarea{color:#0B3B24}
+.pnote.d-sup{background:linear-gradient(170deg,#FFE7F1 0%,#FFC9DF 55%,#FFADCB 100%)}
+.pnote.d-sup::after{background:linear-gradient(135deg,#F28AB4 0%,#FFC2DA 48%,rgba(0,0,0,.18) 50%,transparent 56%)}
+.pnote.d-sup .pdest{background:#8A1550;color:#fff}
+.pnote.d-sup textarea{color:#4A0B2A}
+.pnote.d-sup::before{background:rgba(255,255,255,.7)}
+/* consignes : post-it imprimés en bas de la feuille */
+.cs-pn{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
+.cs-pni{flex:1 1 220px;max-width:340px;background:linear-gradient(170deg,#E3FBEF,#9BE6BF);padding:8px 12px 10px;box-shadow:1px 2px 4px rgba(0,60,30,.3);font:700 21px/1.15 "Caveat","Comic Sans MS",cursive;color:#0B3B24;white-space:pre-wrap;transform:rotate(-.6deg)}
+.cs-pni:nth-child(2n){transform:rotate(.7deg)}
+.cs-pni b{display:block;font:800 11px/1 "Barlow",Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#0F5132;margin-bottom:4px}
+.cs-pni img{display:block;max-width:100%;max-height:160px;margin-top:5px;border-radius:2px}
+
+/* post-it imprimé, posé sur une zone vide */
+.ppn{position:absolute;z-index:5;box-sizing:border-box;padding:4.2mm 3.2mm 3mm;background:linear-gradient(168deg,#FFF8B8 0%,#FFEE80 55%,#F9DC4E 100%);
+  box-shadow:.3mm .5mm .6mm rgba(70,50,0,.25),.8mm 2mm 3mm -.8mm rgba(70,50,0,.38);color:#2E2400;overflow:hidden;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 5.5mm),calc(100% - 5.5mm) 100%,0 100%);display:flex;flex-direction:column;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ppn::before{content:"";position:absolute;left:50%;top:-1mm;width:18mm;height:5mm;transform:translateX(-50%) rotate(-2.5deg);background:rgba(255,255,255,.62);box-shadow:0 .2mm .4mm rgba(0,0,0,.12)}
+.ppn::after{content:"";position:absolute;right:0;bottom:0;width:5.5mm;height:5.5mm;background:linear-gradient(135deg,#E2C23A 0%,#F5DB68 46%,rgba(0,0,0,.2) 50%,transparent 56%)}
+.ppn b{display:block;font:800 2.6mm/1 "Barlow",Arial,sans-serif;letter-spacing:.25mm;text-transform:uppercase;color:#7A5C00;margin-bottom:1mm;flex:none}
+.ppn .tx{font-family:"Caveat","Comic Sans MS",cursive;font-weight:700;line-height:1.08;white-space:pre-wrap;overflow-wrap:anywhere;flex:none}
+.ppn img{display:block;max-width:100%;min-height:0;flex:1 1 auto;object-fit:contain;margin-top:1mm;border-radius:.4mm}
+
+/* 📌 bas de l'affectation : post-it orange */
+.pnote.d-affb{background:linear-gradient(170deg,#FFF0DE 0%,#FFD8A8 55%,#FFC27A 100%)}
+.pnote.d-affb::after{background:linear-gradient(135deg,#F0A54E 0%,#FFD49E 48%,rgba(0,0,0,.18) 50%,transparent 56%)}
+.pnote.d-affb .pdest{background:#8A4B00;color:#fff}
+.pnote.d-affb textarea{color:#4A2A00}
+.sh-notes.bot{margin:2mm 0 1mm;padding:0 1mm;align-items:stretch}
+.sh-notes.bot .sh-pn{position:relative;background:linear-gradient(168deg,#FFF0DE,#FFD8A8 55%,#FFC27A);color:#3A2200;padding:3mm 3mm 2mm;
+  box-shadow:.3mm .5mm .6mm rgba(90,50,0,.25),.6mm 1.6mm 2.4mm -.6mm rgba(90,50,0,.35);clip-path:polygon(0 0,100% 0,100% calc(100% - 4mm),calc(100% - 4mm) 100%,0 100%)}
+.sh-notes.bot .sh-pn::before{content:"";position:absolute;left:50%;top:-.8mm;width:14mm;height:4mm;transform:translateX(-50%) rotate(-2deg);background:rgba(255,255,255,.6)}
+.sh-notes.bot .sh-pn b{color:#8A4B00}
 </style>
 <style id="printcss">
 .sheet{width:287mm;height:199mm;overflow:hidden;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;display:flex;flex-direction:column}
@@ -1049,6 +1097,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 .sh-bar{display:none}
 .sh-top .t1,.sh-top .t3{flex:none;white-space:nowrap}
 .sh-notes{display:flex;gap:3mm;margin-top:2mm;overflow:hidden}
+.sh-notes.top{margin:1.5mm 0 2mm;padding:0 1mm}
 .sh-pn{flex:1;max-width:95mm;background:linear-gradient(170deg,#FFF7B0,#FBE15C);box-shadow:.4mm .6mm 1.2mm rgba(60,45,0,.35);padding:1.6mm 2.6mm;font:700 4.6mm/1.15 "Caveat","Comic Sans MS",cursive;color:#2E2400;white-space:pre-wrap;overflow:hidden;transform:rotate(-.6deg)}
 .sh-pn:nth-child(2n){transform:rotate(.7deg)}
 .sh-pn b{display:block;font:700 2.8mm/1 "Barlow",Arial,sans-serif;text-transform:uppercase;letter-spacing:.2mm;color:#7A5C00;margin-bottom:.8mm}
@@ -1365,7 +1414,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <body>
 <div class="app">
   <div class="bar">
-    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v30</small></div>
+    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v34</small></div>
     <button class="btn chtop" id="chTop" type="button" title="Ouvrir la discussion">💬 Discussion<span class="chtn" id="chTopN" hidden></span></button>
     <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
     <div class="weeknav">
@@ -1559,7 +1608,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   </div>
 </div>
 <div id="login" role="dialog" aria-modal="true" aria-labelledby="lgT"><form id="lgF" autocomplete="on">
-  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v30</small></p>
+  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v34</small></p>
   <input type="text" name="username" value="techline" autocomplete="username" hidden>
   <input id="lgC" type="password" autocomplete="current-password" placeholder="Code d'accès" required>
   <button type="submit" id="lgB">Entrer</button><div class="err" id="lgE"></div>
@@ -1792,6 +1841,8 @@ function sideTD(sl,obj,iso,pl){
   return h;
 }
 const PHONE=matchMedia('(max-width: 760px)');
+let PRINT_PN=false;try{PRINT_PN=localStorage.getItem('techline_print_pn')==='1';}catch(e){}
+function renderPNP(){const b=$('bpnp');if(!b)return;b.setAttribute('aria-pressed',PRINT_PN);b.classList.toggle('on',PRINT_PN);b.textContent='Post-it à l’impression : '+(PRINT_PN?'oui':'non');}
 function grid(obj,iso){
   const pl=[0,1,2].map(k=>new Set(planned(iso,k).map(o=>o.id)));
   if(PHONE.matches){
@@ -1926,7 +1977,7 @@ function sheetHTML(iso,th){
   const obj=get(iso),t=dayType(iso);
   const NK=KS().length,cc='<col>'.repeat(NK);
   const col=`<colgroup><col style="width:6mm"><col style="width:22mm">${cc}<col style="width:3mm"><col style="width:6mm"><col style="width:22mm">${cc}</colgroup>`;
-  const notes=(typeof AN!=='undefined'?AN.forPrint():[]);const noteH=notes.length?(notes.some(n=>n.img)?32:0)||Math.min(34,9+Math.max(...notes.map(n=>Math.ceil((n.t||'').length/(NK===1?60:42))+(n.t||'').split('\n').length))*4.6):0;
+  const notes=(typeof notesFor==='function'?notesFor('affb'):[]);/* 📌 en bas ; 🖨 posés dans les cases vides par placeNotes() */const noteH=notes.length?(notes.some(n=>n.img)?32:0)||Math.min(34,9+Math.max(...notes.map(n=>Math.ceil((n.t||'').length/(NK===1?60:42))+(n.t||'').split('\n').length))*4.6):0;
   const rows=[];
   const L=LEFT.filter(x=>!x.zone),R=RIGHT.filter(x=>!x.zone);
   const monH=4;
@@ -1965,18 +2016,52 @@ function sheetHTML(iso,th){
   return `<div class="sheet${th!=='classic'?' th-'+th:''}" style="--pla:${Math.min(6,nameH*0.44).toFixed(2)}mm;--pfi:${Math.min(4.6,nameH*0.32).toFixed(2)}mm;--pml:${Math.min(6.4,nameH*0.46).toFixed(2)}mm">
   <div class="sh-top"><div class="t1"><i></i>AFFECTATION TECHLINE</div><div class="t2${t==='vol'?' vol':''}"${SF==='all'?'':' style="font-size:6.4mm;white-space:nowrap;min-width:0;overflow:hidden"'}>${esc(cap(longDate(iso)))}${SF==='all'?' — Semaine '+isoWeek(iso):''}${tl}</div><div class="t3"><span>BÖLLHOFF OTALU</span><span>UAP Forg'Tech</span></div></div><div class="sh-bar"></div>
   <table class="pt">${col}<thead><tr><th></th><th class="side">Frappe</th>${KS().map(k=>`<th class="s${k}">${SHIFTS[k]}</th>`).join('')}<th class="gap" style="border:0"></th><th></th><th class="side">Taraudage</th>${KS().map(k=>`<th class="s${k}">${SHIFTS[k]}</th>`).join('')}</tr></thead><tbody>${fixSup}</tbody></table>
-  ${notes.length?`<div class="sh-notes" style="height:${noteH}mm">${notes.map(n=>`<div class="sh-pn"><b>${n.s==='all'||n.s==null?'Tous postes':SHL[n.s]}</b>${esc(n.t||'')}${n.img?`<img src="${n.img}" alt="">`:''}</div>`).join('')}</div>`:''}
+  ${notes.length?`<div class="sh-notes bot" style="height:${noteH}mm">${notes.map(n=>`<div class="sh-pn"><b>${n.s==='all'||n.s==null?'Tous postes':SHL[n.s]}</b>${esc(n.t||'')}${n.img?`<img src="${n.img}" alt="">`:''}</div>`).join('')}</div>`:''}
   <div class="sh-foot"><span>Postes affectés : <b>${filled} / ${TOTAL*KS().length/3}</b></span><div class="cm">${esc(obj.com||'')}</div></div>
 </div>`;
 }
 function fitAll(root){
   root.querySelectorAll('.fit').forEach(el=>{el.style.fontSize='';let fs=parseFloat(getComputedStyle(el).fontSize);let g=0;while(el.scrollWidth>el.clientWidth+.5&&fs>11&&g<120){fs-=.3;el.style.fontSize=fs+'px';g++;}});
 }
+/* Post-it jaunes « Affectation » posés dans les zones sans affectation de la fiche */
+function placeNotes(root){
+  const sh=root.querySelector('.sheet');if(!sh)return;
+  const notes=typeof notesFor==='function'?notesFor('aff'):[];if(!notes.length)return;
+  sh.style.position='relative';
+  const R=sh.getBoundingClientRect();if(!R.width)return;const mm=R.width/287;
+  const cells=[...sh.querySelectorAll('table.pt tr.nr td.nm, table.pt tr.mr td.mo')].map(td=>{const r=td.getBoundingClientRect();
+    const busy=td.classList.contains('f')||!!td.querySelector('.pstb')||(td.classList.contains('mo')&&td.textContent.trim())||!!td.closest('tr.sp')||td.classList.contains('gp');
+    return {x:r.left-R.left,y:r.top-R.top,w:r.width,h:r.height,free:!busy};}).filter(c=>c.w>4&&c.h>2);
+  // colonnes (même bord gauche)
+  const cols=[];for(const c of cells){let col=cols.find(k=>Math.abs(k.x-c.x)<2&&Math.abs(k.w-c.w)<3);if(!col){col={x:c.x,w:c.w,cells:[]};cols.push(col);}col.cells.push(c);}
+  cols.sort((a,b)=>a.x-b.x);
+  const runs=cols.map(col=>{col.cells.sort((a,b)=>a.y-b.y);const out=[];let cur=null;
+    for(const c of col.cells){if(c.free){if(cur&&c.y-(cur.y1)<3)cur.y1=c.y+c.h;else{cur={y0:c.y,y1:c.y+c.h};out.push(cur);}}else cur=null;}return out;});
+  const cand=[];
+  for(let i=0;i<cols.length;i++){let span=[...runs[i]];
+    for(let j=i;j<cols.length;j++){
+      if(j>i){if(Math.abs(cols[j].x-(cols[j-1].x+cols[j-1].w))>3)break;const nx=[];for(const a of span)for(const b of runs[j]){const y0=Math.max(a.y0,b.y0),y1=Math.min(a.y1,b.y1);if(y1-y0>4)nx.push({y0,y1});}span=nx;if(!span.length)break;}
+      for(const r of span)cand.push({x:cols[i].x,w:cols[j].x+cols[j].w-cols[i].x,y:r.y0,h:r.y1-r.y0});}}
+  const used=[];const ov=(a,b)=>a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h;
+  const pad=2.2*mm;let idx=0;
+  for(const n of notes){
+    const want=(n.t||'').length+(n.img?120:0);
+    const ok=cand.filter(c=>!used.some(u=>ov(u,c))&&c.w>24*mm&&c.h>14*mm).map(c=>{const w=Math.min(c.w-2*pad,(want>90||n.img?95:70)*mm),h=Math.min(c.h-2*pad,(n.img?70:48)*mm);return {c,w,h,score:Math.min(w,90*mm)*Math.min(h,60*mm)};}).sort((a,b)=>b.score-a.score);
+    if(!ok.length)continue;
+    const {c,w,h}=ok[0];const x=c.x+(c.w-w)/2,y=c.y+(c.h-h)/2;used.push({x:x-pad,y:y-pad,w:w+2*pad,h:h+2*pad});
+    const el=document.createElement('div');el.className='ppn';
+    el.style.cssText=`left:${x/R.width*100}%;top:${y/R.height*100}%;width:${w/R.width*100}%;height:${h/R.height*100}%;transform:rotate(${idx++%2?1.2:-1.4}deg)`;
+    el.innerHTML=`<b>${n.s==null||n.s==='all'?'À tous les postes':'Poste '+SHL[n.s].toLowerCase()}</b><div class="tx">${esc(n.t||'')}</div>${n.img?`<img src="${n.img}" alt="">`:''}`;
+    sh.appendChild(el);
+    const tx=el.querySelector('.tx');let fs=Math.min(7.5*mm,Math.max(3.2*mm,h/4.2));tx.style.fontSize=fs+'px';
+    let g=0;while(el.scrollHeight>el.clientHeight+1&&fs>2.4*mm&&g<60){fs-=.25*mm;tx.style.fontSize=fs+'px';g++;}
+  }
+}
 function buildPrint(){ const p=$('print'); p.innerHTML=sheetHTML(cur); fitAll(p); }
 function doPrint(){
   buildPrint();
   const p=$('print'); p.style.display='block'; p.style.position='fixed'; p.style.left='-10000px';
-  const go=()=>{fitAll(p);p.removeAttribute('style');try{window.print();}catch(e){toast("Impression bloquée ici : utilisez « Télécharger la fiche »");}};
+  const go=()=>{fitAll(p);placeNotes(p);p.removeAttribute('style');try{window.print();}catch(e){toast("Impression bloquée ici : utilisez « Télécharger la fiche »");}};
   (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(go);
 }
 window.addEventListener('beforeprint',()=>{ if(!$('print').innerHTML) buildPrint(); });
@@ -2011,7 +2096,7 @@ async function exportPDF(list,th){
     const box=document.createElement('div');box.id='cap';document.body.appendChild(box);
     for(let i=0;i<list.length;i++){
       $('busyt').textContent=`Génération du PDF… ${i+1} / ${list.length}`;
-      box.innerHTML=sheetHTML(list[i],th); fitAll(box);
+      box.innerHTML=sheetHTML(list[i],th); fitAll(box); placeNotes(box);
       const el=box.firstElementChild;
       const cv=await window.html2canvas(el,{scale:2.5,backgroundColor:th==='ruban'?'#EEF0F3':th==='clay'?'#F4ECE1':'#ffffff',useCORS:true,logging:false});
       if(i)pdf.addPage('a4','landscape');
@@ -2700,6 +2785,7 @@ function render(){
     (aCad.length?`<div class="al"><span>Hors cadence :</span> ${esc(aCad.join(' · '))}</div>`:'')+
     (()=>{const l=eStops(cur,s);return l.length?`<div class="al"><span>Arrêts du poste :</span> ${esc(l.join(' · '))}</div>`:'';})();
   h+=`<tr class="divers"><td colspan="7"><b>DIVERS :</b>${auto}<textarea id="cDiv" placeholder="Consignes du poste…" ${readOnly?'readonly':''}>${esc(div)}</textarea><div class="pv">${esc(div)}</div></td></tr></table>`;
+  {const cn=typeof notesFor==='function'?notesFor('cons',s):[];if(cn.length)h+=`<div class="cs-pn">${cn.map(n=>`<div class="cs-pni"><b>📋 ${n.s==null||n.s==='all'?'Tous postes':SHL[n.s]}</b>${esc(n.t||'')}${n.img?`<img src="${n.img}" alt="">`:''}</div>`).join('')}</div>`;}
   el.innerHTML=h;
   if(foc){const t2=$('cDiv');t2.focus();t2.setSelectionRange(foc[0],foc[1]);}
   document.querySelectorAll('#cShift button').forEach(b=>b.classList.toggle('on',+b.dataset.s===s));
@@ -3093,6 +3179,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')$('mstMenu').classLi
 PHONE.addEventListener&&PHONE.addEventListener('change',()=>{try{render();}catch(e){}});
 /* ---------- POST-IT partagés ---------- */
 const NOTE_BOXES={};
+const PDEST={aff:{ic:'🖨',lab:'Imprimé dans les cases vides de l’affectation',sh:'Affectation'},affb:{ic:'📌',lab:'Imprimé en bas de l’affectation',sh:'Bas affect.'},cons:{ic:'📋',lab:'Bas des consignes',sh:'Consignes'},sup:{ic:'🔒',lab:'Entre superviseurs',sh:'Superviseurs'}};
+const PDSEQ=['aff','affb','cons','sup'];
 async function shrink(file){
   if(/gif$/i.test(file.type)&&file.size<=700000)return await new Promise((ok,ko)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=ko;r.readAsDataURL(file);});
   if(/gif$/i.test(file.type))toast('GIF trop lourd (max 700 Ko) : image fixe utilisée');const img=await new Promise((ok,ko)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=ko;im.src=URL.createObjectURL(file);});
@@ -3103,22 +3191,23 @@ function mkNotes(o){
   let notes={};const box=$(o.box);let unsubPN=null;const tmr={};
   const lsS=()=>{try{localStorage.setItem(o.ls,JSON.stringify(notes));}catch(e){}};
   try{notes=JSON.parse(localStorage.getItem(o.ls)||'{}')||{};}catch(e){notes={};}
-  function save(id){lsS();if(!db)return;const n=notes[id];
+  function save(id){lsS();if(typeof CONS!=='undefined'&&document.body.dataset.view==='cons')setTimeout(()=>CONS.render(),700);if(!db)return;const n=notes[id];
     (n?db.collection(o.coll).doc(id).set(n):db.collection(o.coll).doc(id).delete()).catch(e=>toast('Post-it non partagé ('+(e&&e.code||'erreur')+')'));}
   function fit(ta){const n=ta.closest('.pnote');const mh=n&&n.classList.contains('wimg')?40:140;ta.style.height='auto';ta.style.height=Math.max(mh,ta.scrollHeight)+'px';}
   function place(el,n){const W=box.clientWidth||1000;el.style.left=Math.max(0,Math.min(W-240,n.x*W))+'px';el.style.top=Math.max(0,n.y)+'px';el.style.setProperty('--r',(n.r||0)+'deg');}
-  const visible=n=>!o.shift||SF==='all'||n.s==null||n.s==='all'||n.s===SF;
-  const SLB=s=>s==null||s==='all'?'Tous postes':SHL[s];
+  const dOf=n=>PDEST[n.d]?n.d:o.defD;
+  const visible=n=>SF==='all'||n.s==null||n.s==='all'||n.s===SF;
+  const SLB=s=>s==null||s==='all'?'Tous':['Matin','AM','Nuit'][s];
   function draw(){
     const ids=new Set(Object.keys(notes).filter(id=>visible(notes[id])));
     box.querySelectorAll('.pnote').forEach(el=>{if(!ids.has(el.dataset.id)&&!el.classList.contains('bye'))el.remove();});
     for(const id of ids){const n=notes[id];let el=box.querySelector(`.pnote[data-id="${id}"]`);
-      if(!el){el=document.createElement('div');el.className='pnote'+(o.shift?' has-shift':'');el.dataset.id=id;
-        el.innerHTML=`<div class="pgrip" title="Déplacer"></div>${o.shift?'<button class="pshift" title="Poste concerné (cliquer pour changer)"></button>':''}<span class="pdate"></span><button class="pdel" title="Action faite : effacer">✕</button><button class="pcam" title="Ajouter une photo ou une capture (ou Ctrl+V dans le post-it)" aria-label="Ajouter une photo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button><textarea placeholder="${o.ph}" spellcheck="false" aria-label="Post-it"></textarea><div class="pim"></div>`;
+      if(!el){el=document.createElement('div');el.className='pnote has-shift';el.dataset.id=id;
+        el.innerHTML=`<div class="pgrip" title="Déplacer"></div><button class="pdest" title="Type de post-it (cliquer pour changer) : imprimé sur l’affectation, bas des consignes, ou entre superviseurs"></button><button class="pshift" title="Poste concerné (cliquer pour changer)"></button><span class="pdate"></span><button class="pdel" title="Action faite : effacer">✕</button><button class="pcam" title="Ajouter une photo ou une capture (ou Ctrl+V dans le post-it)" aria-label="Ajouter une photo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button><textarea placeholder="${o.ph}" spellcheck="false" aria-label="Post-it"></textarea><div class="pim"></div>`;
         box.appendChild(el);}
       if(el.classList.contains('drag'))continue;
       place(el,n);
-      if(o.shift){const b=el.querySelector('.pshift');b.textContent=SLB(n.s);b.dataset.s=n.s==null?'all':n.s;}
+      {const b=el.querySelector('.pshift');b.textContent=SLB(n.s);b.dataset.s=n.s==null?'all':n.s;const d=dOf(n);const pd=el.querySelector('.pdest');pd.innerHTML=`<span>${PDEST[d].ic}</span>${PDEST[d].sh}`;pd.dataset.d=d;requestAnimationFrame(()=>el.style.setProperty('--pdw',(pd.offsetWidth+6)+'px'));PDSEQ.forEach(x=>el.classList.toggle('d-'+x,x===d));}
       const d=new Date(n.at||Date.now());el.querySelector('.pdate').textContent=d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+String(d.getHours()).padStart(2,'0')+'h'+String(d.getMinutes()).padStart(2,'0');
       const pim=el.querySelector('.pim');const ik=n.img?String(n.img.length)+n.img.slice(-24):'';if(pim.dataset.k!==ik){pim.dataset.k=ik;pim.innerHTML=n.img?`<img src="${n.img}" alt="Photo du post-it"><button class="pimx" title="Retirer la photo">✕</button>`:'';}el.classList.toggle('wimg',!!n.img);
       const ta=el.querySelector('textarea');if(document.activeElement!==ta&&ta.value!==(n.t||''))ta.value=n.t||'';
@@ -3129,12 +3218,14 @@ function mkNotes(o){
     const id='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
     const r=box.getBoundingClientRect();const cnt=Object.keys(notes).length;
     notes[id]={t:'',x:Math.min(.78,.6+cnt*.03),y:Math.max(10,-r.top+(o.shift?320:130)+(cnt%6)*24),r:+(Math.random()*5-3).toFixed(1),at:Date.now()};
-    if(o.shift)notes[id].s=SF;
+    notes[id].s=SF;notes[id].d=o.defD;
     save(id);draw();const ta=box.querySelector(`.pnote[data-id="${id}"] textarea`);if(ta)ta.focus();
   }
   box.addEventListener('input',e=>{const ta=e.target.closest('textarea');if(!ta)return;const id=ta.closest('.pnote').dataset.id;if(!notes[id])return;
     notes[id].t=ta.value;fit(ta);clearTimeout(tmr[id]);tmr[id]=setTimeout(()=>save(id),600);});
   box.addEventListener('click',e=>{
+    const db2=e.target.closest('.pdest');
+    if(db2){if(readOnly)return;const id=db2.closest('.pnote').dataset.id;const n=notes[id];if(!n)return;n.d=PDSEQ[(PDSEQ.indexOf(dOf(n))+1)%PDSEQ.length];save(id);draw();toast(PDEST[n.d].ic+' '+PDEST[n.d].lab+(n.d==='sup'?' — jamais imprimé':''));return;}
     const sb=e.target.closest('.pshift');
     if(sb){if(readOnly)return;const id=sb.closest('.pnote').dataset.id;const n=notes[id];if(!n)return;const seq=['all',0,1,2];n.s=seq[(seq.indexOf(n.s==null?'all':n.s)+1)%4];save(id);draw();
       if(!visible(n))toast('Post-it déplacé sur : '+SLB(n.s));return;}
@@ -3163,8 +3254,8 @@ function mkNotes(o){
   function attach(){if(!db||unsubPN)return;
     unsubPN=db.collection(o.coll).onSnapshot(qs=>{if(qs.metadata&&qs.metadata.hasPendingWrites)return;const nn={};qs.forEach(d=>{nn[d.id]=d.data();});
       for(const id in nn){const ta=box.querySelector(`.pnote[data-id="${id}"] textarea`);if(ta&&document.activeElement===ta&&notes[id])nn[id].t=notes[id].t;}
-      notes=nn;lsS();draw();},()=>{});}
-  const forPrint=()=>Object.values(notes).filter(n=>((n.t||'').trim()||n.img)&&visible(n)).sort((a,b)=>(a.at||0)-(b.at||0));
+      notes=nn;lsS();draw();if(typeof CONS!=='undefined'&&document.body.dataset.view==='cons')CONS.render();},()=>{});}
+  const forPrint=(d,k)=>Object.values(notes).filter(n=>((n.t||'').trim()||n.img)&&dOf(n)===d&&(k==null?visible(n):(n.s==null||n.s==='all'||n.s===k))).sort((a,b)=>(a.at||0)-(b.at||0));
   draw();
   return {draw,attach,forPrint};
 }
@@ -3290,6 +3381,7 @@ const AIDE_B64='PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImZyIj4KPGhlYWQ+CjxtZXRhIGNo
 let AIDE_URL=null;function aideUrl(){if(!AIDE_URL){const bin=atob(AIDE_B64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);AIDE_URL=URL.createObjectURL(new Blob([u],{type:'text/html'}));}return AIDE_URL;}
 const NEWS=(()=>{
   const BUILTIN=[
+    {id:'b-v32',at:'2026-11-20T18:40',ver:'v34',t:'4 types de post-it',x:'Chaque post-it a un type, en haut à gauche (cliquer pour changer) :\n🖨 JAUNE « Affectation » : imprimé dans les cases vides de la fiche d’affectation.\n📌 ORANGE « Bas affect. » : imprimé en bande en bas de la fiche d’affectation.\n📋 VERT « Consignes » : ajouté en bas de la feuille de consignes de l’équipe choisie.\n🔒 ROSE « Superviseurs » : reste entre superviseurs, jamais imprimé.\nL’étiquette de poste (Tous, Matin, Après-midi, Nuit) choisit l’équipe concernée.'},
     {id:'b-v30',at:'2026-11-20T12:10',ver:'v30',t:'Affichage téléphone',x:'Sur téléphone, l’application s’adapte : un seul poste affiché (celui de l’heure), Frappe puis Taraudage l’un sous l’autre, onglets et boutons qui défilent au doigt, discussion en plein écran. On change de poste avec Tous · Matin · Après-midi · Nuit sous la date.'},
     {id:'b-v24',at:'2026-11-20T11:20',ver:'v24',t:'État machine : panne, développement, préventif',x:'Dans Affectation, le petit bouton clé à côté du « ! » de chaque machine : En panne (rouge), Développement / essais (violet), Préventif (jaune), ou Machine disponible. Choix du ou des postes concernés (Matin, Après-midi, Nuit) et option pour l’appliquer aux jours suivants de la semaine. L’état s’affiche sur la grille, la fiche imprimée et la feuille de consignes.'},
     {id:'b-v19',at:'2026-11-20T10:55',ver:'v19',t:'TechLine d’abord, support Techno à part',x:'À l’import du planning Kelio, l’application lit le service de chaque personne. Les équipes TechLine (MACIAN, BAABAA, MOLINIER) sont proposées en premier ; les personnes des autres services passent dans « Support Techno », en violet, avec leur service. Réimporter le planning Kelio une fois pour en profiter.'},
@@ -3299,7 +3391,7 @@ const NEWS=(()=>{
     {id:'b-v13',at:'2026-11-20T09:00',ver:'v13',t:'Nouvel onglet « Planning »',x:'Le planning de production en clair : urgences et PRIO en rouge, préventifs en jaune, 3/8 100 % et heures sup. On l’alimente en glissant ou en collant (Ctrl+V) la capture d’écran du planning : tout est lu automatiquement, puis on corrige si besoin.\nLes priorités passent toutes seules dans Affectation (PRIO en rouge) et dans Consignes (badge PRIO). Les préventifs s’affichent dans États machines et ici.'},
     {id:'b-v11',at:'2026-11-20T08:10',ver:'v11',t:'Nouvel onglet « Nouveautés »',x:'Chaque changement de l’application est annoncé ici. Tant que vous n’avez pas ouvert cet onglet, il clignote en rouge avec « À voir ».'},
     {id:'b-v10',at:'2026-11-20T08:00',ver:'v10',t:'Cadences par référence modifiables',x:'Consignes → Réglages : un tableau de toutes les références. On cherche, on change la cadence, on ajoute ou supprime une référence, puis « Enregistrer ». La feuille de consignes se met à jour (O/T, rouge sous 95 %). Partagé avec toute l’équipe.'},
-    {id:'b-v8',at:'2026-11-20T07:50',ver:'v8',t:'Choisir son poste et imprimer seulement ce poste',x:'À côté de la date : Tous · Matin · Après-midi · Nuit. L’écran et la fiche imprimée ne montrent que le poste choisi.\nPost-it pour les opérateurs sur l’onglet Affectation : cliquer sur l’étiquette pour choisir le poste. Ils sont imprimés en bas de la fiche.',embed:true,lt:'Voir l’animation en grand'},
+    {id:'b-v8',at:'2026-11-20T07:50',ver:'v8',t:'Choisir son poste et imprimer seulement ce poste',x:'À côté de la date : Tous · Matin · Après-midi · Nuit. L’écran et la fiche imprimée ne montrent que le poste choisi.\nPost-it pour les opérateurs sur l’onglet Affectation : cliquer sur l’étiquette pour choisir le poste. Ils peuvent être imprimés en bas de la fiche (bouton « Post-it à l’impression »).',embed:true,lt:'Voir l’animation en grand'},
     {id:'b-v7',at:'2026-11-20T07:30',ver:'v7',t:'Post-it sur la feuille de consignes',x:'Bouton « + Post-it » dans Consignes : un pense-bête jaune qu’on déplace où on veut (préventif, coupure de courant…). Visible par tous en direct. ✕ quand l’action est faite.'}
   ];
   let shared={},unsub=null;const SK='techline_news_seen';
@@ -3429,8 +3521,9 @@ const CHAT=(()=>{
   return {attach};
 })();
 
-const PN=mkNotes({box:'pnotes',coll:'postits',ls:'techline_postits',add:'pnAdd',ph:'À ne pas oublier…'});
-const AN=mkNotes({box:'anotes',coll:'postits_aff',ls:'techline_postits_aff',add:'anAdd',ph:'Message aux opérateurs…',shift:true});
+const PN=mkNotes({box:'pnotes',coll:'postits',ls:'techline_postits',add:'pnAdd',ph:'À ne pas oublier…',defD:'sup',shift:true});
+const AN=mkNotes({box:'anotes',coll:'postits_aff',ls:'techline_postits_aff',add:'anAdd',ph:'Message aux opérateurs…',defD:'aff',shift:true});
+function notesFor(d,k){return [...PN.forPrint(d,k),...AN.forPrint(d,k)].sort((a,b)=>(a.at||0)-(b.at||0));}
 function renderSF(){document.querySelectorAll('#sfsel button').forEach(b=>{const on=String(SF)===b.dataset.sf;b.classList.toggle('on',on);b.setAttribute('aria-checked',on);});}
 $('sfsel').addEventListener('click',e=>{const b=e.target.closest('button[data-sf]');if(!b)return;SF=b.dataset.sf==='all'?'all':+b.dataset.sf;
   try{sessionStorage.setItem('techline_sf',String(SF));}catch(e){}render();if(typeof AN!=='undefined')AN.draw();

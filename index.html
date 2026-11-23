@@ -667,7 +667,7 @@ body{position:relative;min-height:100vh}
 [data-theme="classeur"] .sfsel,[data-theme="classeur"] .sfsel button{border-radius:0}
 .app{position:relative}
 #anotes{position:absolute;inset:0;pointer-events:none;z-index:15}
-body[data-view=etat] #anotes,body[data-view=plan] #anotes,body[data-view=news] #anotes,body[data-view=etat] #pnotes,body[data-view=plan] #pnotes,body[data-view=news] #pnotes{display:none}
+body[data-view=sem] #anotes,body[data-view=sem] #pnotes,body[data-view=etat] #anotes,body[data-view=plan] #anotes,body[data-view=news] #anotes,body[data-view=etat] #pnotes,body[data-view=plan] #pnotes,body[data-view=news] #pnotes{display:none}
 .pnote .pshift{position:absolute;left:12px;top:5px;border:0;border-radius:6px;padding:3px 7px;font:700 11px/1 "Barlow",Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;background:rgba(90,70,0,.12);color:#5A4600;cursor:pointer}
 .pnote .pshift[data-s="0"]{background:#FF9F0A;color:#fff}.pnote .pshift[data-s="1"]{background:#0A84FF;color:#fff}.pnote .pshift[data-s="2"]{background:#5E5CE6;color:#fff}
 .pnote.has-shift .pdate{left:auto;right:40px}
@@ -720,6 +720,43 @@ body[data-view=etat] #anotes,body[data-view=plan] #anotes,body[data-view=news] #
 
 #pview{--pn:#0F2A4A;--pr:#C8102E;--pa:#B86E00;--pl:#E3E8EF;color:#14213A;font-family:"Barlow",Arial,sans-serif}
 #pview[hidden]{display:none}
+#sview{font-family:"Barlow",Arial,sans-serif;color:#1C2B4A;padding:14px 18px 30px}
+#sview[hidden]{display:none}
+#sview .stool{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+#sview .stool h2{margin:0;font-size:22px;color:#003B6F}#sview .stool h2 small{display:block;font-size:13px;font-weight:500;color:#5B6780}
+#sview .sctl{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:#5B6780}
+#sview .sctl label{display:flex;align-items:center;gap:5px}
+#sview .sctl input{width:56px;font:600 14px "Barlow",Arial,sans-serif;padding:5px 6px;border:1px solid #D9DEE7;border-radius:6px}
+#sview .sctl input[type=date]{width:auto}
+#sview .sinf{font-size:12.5px;color:#5B6780;margin:0 0 8px}#sview .sinf .w{color:#A04A00;font-weight:600}
+.sg-card{background:#fff;border:1px solid #D9DEE7;border-radius:8px;overflow:hidden}
+.sg{display:grid;grid-template-columns:150px 1fr;font-family:"Barlow",Arial,sans-serif;color:#1C2B4A}
+.sg .lab{border-right:1px solid #D9DEE7;padding:5px 10px;display:flex;flex-direction:column;justify-content:center;min-height:46px;border-bottom:1px solid #EEF1F5}
+.sg .lab b{font-size:17px;color:#003B6F}.sg .lab span{font-size:11.5px;color:#5B6780}
+.sg .lane{position:relative;border-bottom:1px solid #EEF1F5;min-height:46px}
+.sg .zone{grid-column:1/3;background:#EEF2F7;font-size:12px;font-weight:700;letter-spacing:.08em;color:#003B6F;padding:3px 10px;border-bottom:1px solid #D9DEE7}
+.sg .days,.sg .shifts{position:relative;height:26px;border-bottom:1px solid #D9DEE7}.sg .shifts{height:22px}
+.sg .dc,.sg .sc{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;border-left:1px solid #D9DEE7;font-size:13px;font-weight:700}
+.sg .sc{font-size:11.5px;font-weight:600;color:#5B6780}.sg .sc.n{background:#F1F3F8}
+.sg .gl{position:absolute;top:0;bottom:0;border-left:1px solid #EEF1F5}.sg .gl.d{border-left:1.5px solid #B9C2D0}
+.sg .nb{position:absolute;top:0;bottom:0;background:rgba(30,50,90,.035)}
+.sg .bar{position:absolute;top:6px;bottom:6px;border-radius:5px;display:flex;align-items:center;padding:0 6px;font-size:12.5px;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sg .bar{flex-wrap:nowrap;line-height:1}.sg .bar small{font-weight:500;opacity:.9;margin-left:5px;white-space:nowrap}
+.sg .bar.mo{background:repeating-linear-gradient(135deg,#E8A900 0 7px,#F3C64A 7px 14px);color:#3A2A00;top:10px;bottom:10px;justify-content:center}
+.sg .bar.si{background:#9AA5B8;top:12px;bottom:12px;justify-content:center;font-size:11px;padding:0 2px}
+.sg .bar.unk{background:repeating-linear-gradient(135deg,#C9D1DD 0 6px,#DCE2EA 6px 12px);color:#1C2B4A}
+.sg .bar.cut{border-top-right-radius:0;border-bottom-right-radius:0}.sg .bar.cut:after{content:'›';position:absolute;right:3px;font-size:16px}
+.sg .none{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:12.5px;color:#5B6780;font-style:italic}
+.sg .now{position:absolute;top:0;bottom:0;border-left:2px solid #C8102E;z-index:3}
+.sleg{display:flex;gap:16px;font-size:12.5px;color:#5B6780;padding:8px 2px;flex-wrap:wrap}.sleg i{display:inline-block;width:22px;height:11px;border-radius:3px;vertical-align:middle;margin-right:6px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.smp-t{font-size:16px;color:#003B6F;margin:16px 0 8px}
+table.smp{width:100%;border-collapse:collapse;background:#fff;font-size:13.5px;font-family:"Barlow",Arial,sans-serif}
+table.smp th,table.smp td{border:1px solid #D9DEE7;padding:5px 8px;text-align:left;vertical-align:top}
+table.smp th{background:#003B6F;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+table.smp td.p{white-space:nowrap;font-weight:700;width:150px}table.smp td.c{font-weight:700;color:#003B6F;text-align:center;width:50px}
+table.smp .m{display:inline-block;background:#FFF4D1;border:1px solid #F0D27A;border-radius:5px;padding:1px 7px;margin:2px 5px 2px 0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+table.smp .m.s{background:#EEF1F5;border-color:#C9D1DD}
+
 .pwrap{max-width:1320px;margin:20px auto 40px;padding:0 16px;display:flex;flex-direction:column;gap:16px}
 .ptool{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .ptool>div:first-child{margin-right:auto}
@@ -783,6 +820,16 @@ body[data-view=etat] #anotes,body[data-view=plan] #anotes,body[data-view=news] #
 #cview .cs td.m .pbadge{display:inline-block;margin-left:6px;font:800 11px/1 "Barlow",Arial,sans-serif;letter-spacing:.05em;background:#C8102E;color:#fff;padding:3px 5px;border-radius:3px;vertical-align:3px}
 #cview .cs td.s .pln{display:block;font:700 14px "Barlow",Arial,sans-serif;color:#C8102E;margin-top:2px}
 #cview .cs td.s .pln.pv{color:#B86E00}
+#cview .bofl{margin:8px 0;border:1px solid #C9D1DD;border-radius:6px;padding:6px 8px;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:3px 14px;font:600 15px "Barlow",Arial,sans-serif;color:#1C2B4A}
+#cview .bofl .bh{grid-column:1/-1;font-weight:800;color:#003B6F;font-size:15px}#cview .bofl .bh small{font-weight:500;color:#5B6780;margin-left:6px}
+#cview .bofl .bi{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}#cview .bofl .bi b{color:#003B6F;min-width:40px}
+#cview .bofl .bi .d{color:#5B6780}#cview .bofl .bi.td .d{color:#003B6F;font-weight:800}#cview .bofl .bi.lt .d{color:#A04A00}
+#cview .bofl .bi .mat{color:#C8102E;font-size:13px;font-weight:700}
+#cview .cs td.s .bof{display:block;font:700 14px "Barlow",Arial,sans-serif;color:#003B6F;margin-top:2px}
+#cview .cs td.s .bof .mat{color:#C8102E;font-weight:800}
+#cview .cs td.s .bof .lt{color:#A04A00}
+#cview .cs td.s .bof .eq{color:#4A5770;font-weight:600}
+#cview.snap .cs td.s .bof{font-size:13px}
 .pvban{border-radius:10px;background:#FFF8E6;border:1.5px solid #E8A900;padding:10px 14px;color:#5A4300}
 .pvban b{font:800 17px "Barlow Condensed",Arial,sans-serif;color:#7A5200;margin-right:8px}
 .pvban span{display:inline-block;margin:2px 10px 2px 0;font-weight:700}
@@ -1414,9 +1461,9 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
 <body>
 <div class="app">
   <div class="bar">
-    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v36</small></div>
+    <div class="brand"><i></i>TechLine <small style="font-size:11px;opacity:.6;font-weight:500">v38</small></div>
     <button class="btn chtop" id="chTop" type="button" title="Ouvrir la discussion">💬 Discussion<span class="chtn" id="chTopN" hidden></span></button>
-    <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
+    <div class="vsw" role="tablist"><button data-v="aff" class="on">Affectation</button><button data-v="cons">Consignes</button><button data-v="etat">États machines</button><button data-v="plan" id="planTab">Planning</button><button data-v="sem">Planning semaine</button><button data-v="news" id="newsTab">Nouveautés<span class="nbadge" id="nbadge" hidden>À voir</span></button></div>
     <div class="weeknav">
       <button class="ib" id="wprev" aria-label="Semaine précédente">◀</button>
       <div class="wk" id="wk"></div>
@@ -1468,12 +1515,14 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
       <h2>Consignes superviseur</h2>
       <div class="cseg" id="cShift"><button data-s="0">Matin</button><button data-s="1">Après-midi</button><button data-s="2">Nuit</button></div>
       <button class="cb pri" id="cImp">Importer PDF OSYS</button>
+      <button class="cb pri" id="cBof" title="PDF FAT_BOF_PROD_Planning : prochains OF de chaque presse">Importer planning BOF</button>
       <button class="cb" id="cPdf">PDF</button>
       <button class="cb" id="cPrint">Imprimer</button>
       <button class="cb" id="cSetB">Réglages</button>
       <button class="cb pri" id="pnAdd" title="Ajouter un pense-bête sur la feuille">+ Post-it</button>
     </div>
     <input type="file" id="cFile" accept=".pdf,application/pdf" hidden>
+    <input type="file" id="cBofF" accept=".pdf,application/pdf" hidden>
     <div class="cdrop" id="cDrop"><label id="cDropL" for="cFile"><b>Déposer ici l’export OSYS « Productions En Cours » (PDF)</b><br>ou cliquer pour choisir le fichier. Les noms viennent de l’onglet Affectation. Partagé avec toute l’équipe.</label></div>
     <div class="cinfo" id="cInfo"></div>
     <div class="cwrap"><div id="csheet"></div></div>
@@ -1498,6 +1547,13 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
       <section class="psec" id="pPrev"></section>
       <section class="psec"><h3>Toutes les consignes <small>Cliquer pour modifier. Partagé avec l’équipe.</small></h3><div class="ptw"><table class="ptab" id="pTab"></table></div></section>
     </div>
+  </div>
+  <div id="sview" hidden>
+    <div class="stool"><h2>Planning semaine TechLine<small id="sSub"></small></h2>
+      <div class="sctl"><label>Lundi <input type="date" id="sWk"></label><label>Montage <input type="number" id="sHm" min="0" step="0.5"> h</label><label>Similaire <input type="number" id="sHs" min="0" step="0.5"> h</label><label title="Rendement appliqué à la cadence théorique (onglet Consignes › Réglages)">Rendement <input type="number" id="sRd" min="10" max="150" step="5"> %</label>
+      <button class="cb pri" id="sImp">Importer planning BOF</button><button class="cb" id="sPrint">Imprimer</button></div></div>
+    <p class="sinf" id="sInf"></p>
+    <div id="sBody"></div>
   </div>
   <div id="nview" hidden>
     <div class="nwrap">
@@ -1608,7 +1664,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   </div>
 </div>
 <div id="login" role="dialog" aria-modal="true" aria-labelledby="lgT"><form id="lgF" autocomplete="on">
-  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v36</small></p>
+  <h1 id="lgT">TechLine</h1><p>Affectation &amp; consignes — entrez le code d'accès de l'équipe. <small style="opacity:.6">v38</small></p>
   <input type="text" name="username" value="techline" autocomplete="username" hidden>
   <input id="lgC" type="password" autocomplete="current-password" placeholder="Code d'accès" required>
   <button type="submit" id="lgB">Entrer</button><div class="err" id="lgE"></div>
@@ -2633,9 +2689,11 @@ const LSg=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.pars
 const LSs=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
 let SET=Object.assign({cfg:DEF_CFG,trMin:75,finH:3.84,hpn:8,arrMin:20},LSg('cst2_set',{}));
 let OSYS=LSg('cst2_osys',null);
+let BOF=LSg('cst2_bof',null);
 function shSave(k,v){if(!db||readOnly)return;db.doc('config/'+k).set({json:JSON.stringify(v),at:new Date().toISOString()}).catch(e=>toast('Partage impossible ('+(e&&e.code||'erreur')+')'));}
 function attach(){if(!db)return;
   db.doc('config/osys').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(OSYS)){OSYS=v;LSs('cst2_osys',OSYS);render();}}catch(e){}},()=>{});
+  db.doc('config/bof').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(BOF)){BOF=v;LSs('cst2_bof',BOF);render();if(VIEW==='sem')SEM.draw();}}catch(e){}},()=>{});
   db.doc('config/reglages').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(SET)){SET=Object.assign(SET,v);LSs('cst2_set',SET);render();}}catch(e){}},()=>{});}
 const hh=new Date().getHours();
 let shift=hh>=5&&hh<13?0:hh>=13&&hh<21?1:2;
@@ -2704,6 +2762,74 @@ const enMont=r=>!!r&&(/MONTAGE/i.test(r.etat||'')||(!!r.of&&r.bonne===0));
 const hasB=d=>!!d&&String(d).toLowerCase().indexOf('b',9)>=0;
 const ES={'PAS DE PERSONNEL AFFECTE':'sans personnel','ATTENTE PERSONNEL':'att. personnel','MAINTENANCE PREVENTIVE':'maint. prév.','MAINTENANCE SUSPENDUE':'maint. susp.','ARRET INDETERMINE':'arrêt indét.','PRODUCTION DEGRADEE':'prod. dégradée','PAS DE PROD EN COURS':'pas de prod','ATTENTE DECISION QUALITE':'att. qualité','MACHINE DISPO':'dispo','RUPTURE PIECES':'rupture pièces','REGLAGE':'réglage','MONTAGE':'montage','ATTENTE MAINTENANCE':'att. maint.','MACHINE FERMEE':'fermée'};
 
+/* ===== Planning BOF (BOF_Planning_FT_SF) : file des OF par presse ===== */
+async function parseBof(pdfjs, data){
+  const doc=await pdfjs.getDocument({data,disableFontFace:true}).promise;
+  const MCH=/^(PF|PR|FT|TS|TR|TT)\s?\d{1,2}$/i, OFR=/^10\d{8}$/, DT=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+  const toD=s=>{const m=DT.exec(s);return m?new Date(+m[3],+m[1]-1,+m[2]):null;};
+  const norm=m=>{m=m.replace(/\s/g,'').toUpperCase();return m.replace(/^([A-Z]+)(\d)$/,'$10$2');};
+  const out={};
+  for(let p=1;p<=doc.numPages;p++){
+    const page=await doc.getPage(p);const vp=page.getViewport({scale:1});const tc=await page.getTextContent();
+    const its=[];
+    for(const it of tc.items){const s=(it.str||'').trim();if(!s)continue;const t=pdfjs.Util.transform(vp.transform,it.transform);its.push({s,x:t[4],y:t[5]});}
+    const W=vp.width;
+    // en-têtes de bloc : code machine seul, avec un libellé "OF" juste dessous
+    const heads=its.filter(a=>MCH.test(a.s)&&its.some(b=>b.s==='OF'&&b.y>a.y+20&&b.y<a.y+90&&Math.abs(b.x-a.x)<120))
+      .map(a=>({m:norm(a.s),x:a.x,y:a.y,col:a.x<W/2?0:1}));
+    for(const it of its){
+      if(!OFR.test(it.s))continue;
+      const row=its.filter(b=>Math.abs(b.y-it.y)<5&&b.x>it.x&&b.x<it.x+(W/2-30)).sort((a,b)=>a.x-b.x);
+      const ref=row[0];if(!ref||!/^[A-Z0-9]{6,}$/.test(ref.s)||OFR.test(ref.s))continue;
+      const col=it.x<W/2?0:1;
+      const lm=its.find(b=>MCH.test(b.s)&&Math.abs(b.y-it.y)<5&&it.x-b.x>0&&it.x-b.x<200);
+      const h=lm?{m:norm(lm.s)}:heads.filter(k=>k.col===col&&k.y<it.y).sort((a,b)=>b.y-a.y)[0];if(!h)continue;
+      const dates=row.filter(b=>DT.test(b.s));
+      const cm=row.find(b=>/^M\d{5,}$/.test(b.s));
+      const mat=row.find(b=>/WIRE|FIL|Ø/i.test(b.s));
+      const rest=row.find(b=>/^-?\d+[.,]\d+$/.test(b.s));
+      (out[h.m]=out[h.m]||[]).push({of:it.s,ref:ref.s,debut:dates[0]?toD(dates[0].s):null,fin:dates[1]?toD(dates[1].s):null,
+        codeMat:cm?cm.s:'',matiere:mat?mat.s.replace(/\s+/g,' '):'',rest:rest?parseFloat(rest.s.replace(',','.')):null});
+    }
+  }
+  for(const k in out){const by={};
+    for(const r of out[k]){const o=by[r.of];if(!o){by[r.of]=r;continue;}for(const f in r)if((o[f]==null||o[f]==='')&&r[f]!=null&&r[f]!=='')o[f]=r[f];if(r.ref.length>o.ref.length&&r.ref.startsWith(o.ref))o.ref=r.ref;else if(o.ref.length>r.ref.length&&o.ref.startsWith(r.ref)){}}
+    out[k]=Object.values(by).sort((a,b)=>(a.debut||0)-(b.debut||0)||(a.of<b.of?-1:1));}
+  return out;
+}
+/* prochains montages d'une machine ; ofCourant = OF OSYS (optionnel) */
+function bofSuivants(list, ofCourant){
+  if(!list||!list.length)return null;
+  const tail=s=>String(s||'').replace(/\D/g,'').slice(-6);
+  let i=ofCourant?list.findIndex(r=>tail(r.of)===tail(ofCourant)):-1;
+  if(i<0)i=0;
+  const cur=list[i];const nx=[];let prev=cur;
+  for(const r of list.slice(i+1)){
+    nx.push({...r,memeRef:r.ref===prev.ref,chgMat:!!(r.codeMat&&prev.codeMat&&r.codeMat!==prev.codeMat),matPrev:prev.matiere});
+    prev=r;
+  }
+  return {cur,nx,ofTrouve:i>=0&&!!ofCourant};
+}
+
+const isoD=d=>d?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`:'';
+const JR3=['dim','lun','mar','mer','jeu','ven','sam'];
+function bofD(iso){if(!iso)return '?';const [y,m,d]=iso.split('-').map(Number);const x=new Date(y,m-1,d);return `${JR3[x.getDay()]} ${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}`;}
+const matS=t=>String(t||'').replace(/ST\.STEEL/g,'INOX').replace(/\b(STEEL|WIRE|FIL)\b/g,'').replace(/\s+/g,' ').trim();
+/* prochain vrai montage (réf. différente) d'une presse, d'après le planning BOF */
+function bofInfo(m,rec){
+  const L=BOF&&BOF.mach&&BOF.mach[m];if(!L||!L.length)return null;
+  const s=bofSuivants(L,rec&&rec.of);if(!s)return null;
+  const nx=s.nx.find(x=>x.ref!==s.cur.ref);const same=s.nx.length&&s.nx[0].ref===s.cur.ref?s.nx[0]:null;
+  if(!nx&&!same)return null;
+  const mat=nx&&nx.codeMat&&s.cur.codeMat&&nx.codeMat!==s.cur.codeMat?`fil ${matS(s.cur.matiere)} → ${matS(nx.matiere)}`:'';
+  return {cur:s.cur,nx,same,mat,late:!!(nx&&nx.debut&&nx.debut<cur)};}
+function bofHtml(b){if(!b)return '';
+  let t='';
+  if(b.same&&(!b.nx||b.same.debut<=b.nx.debut))t+=`<span class="eq">${esc(bofD(b.same.debut))} : même réf. relancée · </span>`;
+  if(b.nx)t+=`Montage suivant : <b>${esc(bofD(b.nx.debut))}</b> → ${esc(b.nx.ref)}${b.late?' <span class="lt">(en retard)</span>':''}${b.mat?` · <span class="mat">${esc(b.mat)}</span>`:''}`;
+  else t+='pas d’autre réf. au planning';
+  return `<span class="bof">${t}</span>`;}
+
 /* --- rendu --- */
 function render(){
   if(VIEW!=='cons')return;
@@ -2715,7 +2841,7 @@ function render(){
   <tr><td style="border:0"></td><td class="date" colspan="3">${esc(dlong)}</td><td class="hl">HEURE</td><td class="hv" colspan="2"><input id="cRef" value="${esc(OSYS&&OSYS.ref||'')}" placeholder="--:--" aria-label="Heure des données OSYS"><span class="pv">${esc(OSYS&&OSYS.ref||'')}</span></td></tr>
   <tr><td style="border:0"></td><td class="eq" colspan="6">EQUIPE : ${SHN.map((x,i)=>`<span class="${i===s?'on':''}">${x}</span>`).join('/')}</td></tr>
   <tr><th style="background:none;border:0"></th><th>Statut</th><th>Montage</th><th>Cad.</th><th>Nom</th><th colspan="2">total heures</th></tr>`;
-  let gEq=0,gHors=0,nNames=new Set();const aCad=[],aMon=[],aNow=[];
+  let gEq=0,gHors=0,nNames=new Set();const aCad=[],aMon=[],aNow=[],aBof=[];
   zones.forEach(z=>{
     const rows=[];const zIds=new Set();
     z.groups.forEach((g,gi)=>{
@@ -2758,11 +2884,13 @@ function render(){
         const mts=[...new Set((map[r.m]||[]).map(sl=>obj[K.m(sl,s)]).filter(Boolean))];
         const mt=!tr&&mts.length?`<span class="mt">Montage : ${esc(mts.join(' · '))}</span>`:'';
         const mo=rec&&rec.of?montageAt(rec.restant):null;
+        const bofH='';
+        if(!tr){const b=bofInfo(r.m,rec);if(b&&b.nx)aBof.push({m:r.m,b,trs:r.trs});}
         if(!tr&&rec&&rec.of&&!enMont(rec)){const th=cadTheo(rec);if(th&&rec.reel<0.95*th)aCad.push(`${r.m} (${Math.round(rec.reel)} / ${Math.round(th)})`);}
         if(!tr&&enMont(rec))aNow.push({m:r.m,h:/MONTAGE/i.test(et)?String(rec.heure||'').slice(0,5).replace(':','h'):''});
         else if(mo)aMon.push({m:r.m,d:mo.d,fr:!tr});
         const moH=mo?`<td class="mo${mo.soon?' soon':''}${mo.txt.length>20?' lg':''}" title="Temps restant OSYS : ${esc(rec.restant)}">${esc(mo.txt)}</td>`:`<td class="mo">-</td>`;
-        const pnI=planInfo(r.m);const mst=(map[r.m]||[]).map(x=>mstOf(obj,x,s)).find(Boolean)||'';h+=`<td class="m ${A}">${esc(r.m)}${mst?`<span class="mstcb st-${mst}">${MST[mst][0]}</span>`:''}${pnI.prio?'<span class="pbadge">PRIO</span>':''}</td><td class="s ${Bc}" title="${esc(B+(et?' — '+et:''))}">${esc(B)}${etS}${mt}${pnI.txt?`<span class="pln${pnI.pv?' pv':''}">Planning : ${esc(pnI.txt)}</span>`:''}</td>${moH}<td class="k ${Cc}${C.length>6?' sm':''}">${esc(C)}</td>`;
+        const pnI=planInfo(r.m);const mst=(map[r.m]||[]).map(x=>mstOf(obj,x,s)).find(Boolean)||'';h+=`<td class="m ${A}">${esc(r.m)}${mst?`<span class="mstcb st-${mst}">${MST[mst][0]}</span>`:''}${pnI.prio?'<span class="pbadge">PRIO</span>':''}</td><td class="s ${Bc}" title="${esc(B+(et?' — '+et:''))}">${esc(B)}${etS}${mt}${pnI.txt?`<span class="pln${pnI.pv?' pv':''}">Planning : ${esc(pnI.txt)}</span>`:''}${bofH}</td>${moH}<td class="k ${Cc}${C.length>6?' sm':''}">${esc(C)}</td>`;
         if(r.first){
           h+=r.names.length?`<td class="n" rowspan="${r.span}" data-go="1" title="Modifier dans l’affectation">${r.names.map(x=>`<div>${esc(opName(x))}</div>`).join('')}</td>`
                            :`<td class="n empty" rowspan="${r.span}" data-go="1" title="Affecter dans l’onglet Affectation"><span class="ne">non affecté</span></td>`;
@@ -2782,6 +2910,7 @@ function render(){
   const inW=(w)=>aMon.filter(x=>x.d>=w.a&&x.d<w.b).sort((a,b)=>a.d-b.d);
   const box=(t,w,l,nw)=>{nw=nw||[];return `<div class="mbox"><div class="mh">${t}<small>${esc(w.lab)}</small></div>${nw.map(x=>`<div class="mi cur"><b>${esc(x.m)}</b><span>en cours${x.h?' depuis '+esc(x.h):''}</span></div>`).join('')}${l.map(x=>`<div class="mi"><b>${esc(x.m)}</b><span>${String(x.d.getHours()).padStart(2,'0')}h${String(x.d.getMinutes()).padStart(2,'0')}</span></div>`).join('')}${l.length||nw.length?'':'<div class="mi none">Aucun montage</div>'}</div>`;};
   const auto=`<div class="mboxes">${box('Montages du poste',W1,inW(W1),aNow)}${box('Montages du poste d’après',W2,inW(W2))}</div>`+
+    (aBof.length?`<div class="bofl"><div class="bh">Montages suivants <small>planning BOF</small></div>${aBof.sort((x,y)=>(x.b.nx.debut<y.b.nx.debut?-1:x.b.nx.debut>y.b.nx.debut?1:0)).map(x=>`<div class="bi${x.b.nx.debut===cur?' td':''}${x.b.late?' lt':''}"><b>${esc(x.m)}</b><span class="d">${esc(bofD(x.b.nx.debut))}${x.b.late?' · retard':''}</span><span class="r">→ ${esc(x.b.nx.ref)}</span>${x.b.mat?`<span class="mat">${esc(x.b.mat)}</span>`:''}</div>`).join('')}</div>`:'')+
     (aCad.length?`<div class="al"><span>Hors cadence :</span> ${esc(aCad.join(' · '))}</div>`:'')+
     (()=>{const l=eStops(cur,s);return l.length?`<div class="al"><span>Arrêts du poste :</span> ${esc(l.join(' · '))}</div>`:'';})();
   h+=`<tr class="divers"><td colspan="7"><b>DIVERS :</b>${auto}<textarea id="cDiv" placeholder="Consignes du poste…" ${readOnly?'readonly':''}>${esc(div)}</textarea><div class="pv">${esc(div)}</div></td></tr></table>`;
@@ -2794,6 +2923,7 @@ function render(){
   const miss=OSYS?list.filter(m=>!recs[m]):[];
   let inf=OSYS&&OSYS.recs&&Object.keys(OSYS.recs).length?`<span>Données OSYS : <b>${esc(OSYS.file||'')}</b> · heure <b>${esc(OSYS.ref||'?')}</b> · ${Object.keys(recs).length} machines</span>`:`<span class="warn">Aucun export OSYS chargé : importer le PDF « Productions En Cours ».</span>`;
   if(miss.length)inf+=`<span class="warn">Absentes du PDF : ${esc(miss.join(', '))}</span>`;
+  inf+=BOF&&BOF.mach?`<span>Planning BOF : <b>${esc(BOF.file||'')}</b> · ${Object.keys(BOF.mach).length} presses · importé le ${esc(new Date(BOF.at).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}))}</span>`:`<span class="warn">Planning BOF non chargé (montages suivants)</span>`;
   const free=planned(cur,s).filter(o=>!SLOTS.some(sl=>obj[K.o(sl.id,s)]===o.id));
   inf+=`<span>Affectation ${SHN[s].toLowerCase()} : <b>${nNames.size}</b> nom${nNames.size>1?'s':''} sur les machines${free.length?` · <span class="warn">${free.length} présent${free.length>1?'s':''} Kelio non affecté${free.length>1?'s':''}</span>`:''}</span>`;
   $('cInfo').innerHTML=inf;
@@ -2807,7 +2937,20 @@ async function loadPdfLib(){
   if(!window.pdfjsLib)await add('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js');
   if(!window.pdfjsWorker)await add('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js');
 }
+async function importBof(f){
+  busy(true,'Lecture du planning BOF…');
+  try{
+    await loadPdfLib();
+    const r=await parseBof(window.pdfjsLib,new Uint8Array(await f.arrayBuffer()));
+    const n=Object.keys(r).length;busy(false);
+    if(!n){toast('Aucune presse trouvée : est-ce bien le PDF FAT_BOF_PROD_Planning ?');return;}
+    const mach={};for(const k in r)mach[k]=r[k].map(x=>({...x,debut:isoD(x.debut),fin:isoD(x.fin)}));
+    BOF={mach,file:f.name,at:Date.now()};LSs('cst2_bof',BOF);shSave('bof',BOF);
+    render();if(VIEW==='sem')SEM.draw();toast('Planning BOF : '+n+' presses importées');
+  }catch(e){busy(false);console.error(e);toast(e&&e.message==='lib'?'Lecture impossible : connexion Internet nécessaire':'Erreur de lecture du PDF');}
+}
 async function importPdf(f){
+  if(/BOF|Planning_FULL/i.test(f.name))return importBof(f);
   busy(true,'Lecture du PDF OSYS…');
   try{
     await loadPdfLib();
@@ -2879,14 +3022,98 @@ $('cset').addEventListener('click',e=>{if(e.target.id==='cset')$('cset').classLi
 $('cReset').onclick=()=>{$('cCfg').value=DEF_CFG;};
 $('cSave').onclick=()=>{SET.cfg=$('cCfg').value;{const ov={};for(const k in CW)if(CAD[k]!==CW[k])ov[k]=CW[k];for(const k in CAD)if(!(k in CW))ov[k]=null;SET.cadOv=ov;}SET.trMin=parseFloat($('cTr').value)||75;SET.finH=parseFloat($('cFin').value)||3.84;SET.hpn=parseFloat($('cHpn').value)||8;{const v=parseFloat($('cArr').value);SET.arrMin=isNaN(v)?20:v;}LSs('cst2_set',SET);shSave('reglages',SET);$('cset').classList.remove('on');render();toast('Réglages enregistrés');};
 
+
+/* ===== Planning semaine (Gantt depuis le planning BOF) ===== */
+const SEM=(()=>{
+  const H=3600e3,JR=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],SHx=['Matin','Après-midi','Nuit'];
+  const PAL=['#2F5E8C','#3E7C7A','#5B5F97','#7A6A4F','#2D7FB0','#5E7F3E','#8A4F6A','#44627A','#6B5B95','#317873','#7D5A3C','#4A6FA5','#55707C','#836953'];
+  const cm={};let ci=0;const col=r=>cm[r]||(cm[r]=PAL[ci++%PAL.length]);
+  let P=Object.assign({hm:8,hs:1,rd:100},LSg('techline_sem',{}));
+  const Dd=iso=>{const [y,m,d]=String(iso).split('-').map(Number);return new Date(y,m-1,d);};
+  const isoL=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  function defMon(){const t=new Date(),d=new Date(t.getFullYear(),t.getMonth(),t.getDate()),w=d.getDay();if(w===6)d.setDate(d.getDate()+2);else if(w===0)d.setDate(d.getDate()+1);else d.setDate(d.getDate()-(w-1));return isoL(d);}
+  let WK=defMon();
+  const inP=t=>{const d=new Date(t),w=d.getDay(),h=d.getHours()+d.getMinutes()/60;return (w===6&&h>=20)||w===0||(w===1&&h<5);};
+  const pEnd=t=>{const d=new Date(t);d.setHours(5,0,0,0);while(d.getDay()!==1||+d<=t)d.setDate(d.getDate()+1);return +d;};
+  const nP=t=>{const d=new Date(t);d.setHours(20,0,0,0);while(d.getDay()!==6||+d<=t)d.setDate(d.getDate()+1);return +d;};
+  function addH(t,h){let l=h*H;for(let g=0;g<50&&l>0;g++){if(inP(t)){t=pEnd(t);continue;}const p=nP(t),gap=p-t;if(l<=gap){t+=l;l=0;}else{l-=gap;t=p;}}return t;}
+  const fmt=t=>{const d=new Date(t);return `${JR[d.getDay()]} ${String(d.getHours()).padStart(2,'0')}h${String(d.getMinutes()).padStart(2,'0')}`;};
+  const cadR=ref=>{const k=prodKey(ref);return (k&&cadGet(k))||150;};
+  function lines(){return parseCfg(SET.cfg).map(z=>{const rows=[];
+    for(const g of z.groups){const fr=g.machines.filter(m=>!isTR(m)),tr=g.machines.filter(isTR);
+      if(!fr.length){const last=rows[rows.length-1];if(last&&tr.length)last.trs=(last.trs?last.trs+' · ':'')+tr.join(' · ');continue;}
+      fr.forEach((m,i)=>rows.push({m,trs:i===0?tr.join(' · '):''}));}
+    return {z:z.name,rows};}).filter(z=>z.rows.length);}
+  function build(){
+    const W0=+Dd(WK)+5*H,W1=W0+112*H,SP=W1-W0,pct=t=>((Math.max(W0,Math.min(W1,t))-W0)/SP*100),rd=(P.rd||100)/100;
+    const wd=new Date(W0),we=new Date(W1-1);
+    const sub=`Du ${JR[wd.getDay()].toLowerCase()} ${wd.getDate()}/${wd.getMonth()+1} 05h au ${JR[we.getDay()].toLowerCase()} ${we.getDate()}/${we.getMonth()+1} 21h · Matin, Après-midi, Nuit`;
+    const mach=BOF&&BOF.mach||{};
+    let dh='',sh='',gl='';
+    for(let i=0;i<14;i++){const a=W0+i*8*H,l=i/14*100,w=100/14,d=new Date(a),si=i%3;
+      sh+=`<div class="sc${si===2?' n':''}" style="left:${l}%;width:${w}%">${SHx[si]}<span style="opacity:.6;margin-left:4px">${String(d.getHours()).padStart(2,'0')}h</span></div>`;
+      if(si===0)dh+=`<div class="dc" style="left:${l}%;width:${(i===12?2:3)*w}%">${JR[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}</div>`;
+      gl+=`<div class="gl${si===0?' d':''}" style="left:${l}%"></div>`+(si===2?`<div class="nb" style="left:${l}%;width:${w}%"></div>`:'');}
+    let h=`<div class="lab" style="border-bottom:1px solid #D9DEE7"><span>Machine</span></div><div style="border-bottom:1px solid #D9DEE7"><div class="days">${dh}</div><div class="shifts">${sh}</div></div>`;
+    const MP=[...Array(14)].map(()=>[]),now=Date.now(),old=[];
+    for(const z of lines()){h+=`<div class="zone">${esc(z.z||'')}</div>`;
+      for(const {m,trs} of z.rows){
+        const L=mach[m];let bars='';
+        if(!L||!L.length)bars=`<div class="none">absente du planning BOF</div>`;
+        else{
+          const q=L.filter((r,i)=>!(r.rest!=null&&r.rest>=0&&i<L.length-1));
+          let t=W0;if(q[0]&&+Dd(q[0].debut)+5*H>W0)t=+Dd(q[0].debut)+5*H;
+          if(q[0]&&q[0].debut&&+Dd(q[0].debut)<W0-14*24*H)old.push(`${m} (${q[0].ref} du ${Dd(q[0].debut).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})})`);
+          let prev=null;
+          for(const r of q){if(t>=W1)break;
+            if(prev){const same=prev.ref===r.ref,g=same?P.hs:P.hm,t2=addH(t,g);
+              if(g>0){const si=Math.floor((t-W0)/(8*H));if(si>=0&&si<14)MP[si].push({m,t,ref:r.ref,from:prev.ref,same});
+                bars+=`<div class="bar ${same?'si':'mo'}" style="left:${pct(t)}%;width:${pct(t2)-pct(t)}%" title="${esc(m)} — ${same?'Similaire (même réf.)':'Montage'} ${esc(prev.ref)} → ${esc(r.ref)}\n${fmt(t)} → ${fmt(t2)} (${g} h)">${same?'≈':'Montage'}</div>`;}
+              t=t2;}
+            if(t>=W1)break;
+            const rem=r.rest==null?null:Math.max(0,-r.rest);
+            if(rem==null){bars+=`<div class="bar unk cut" style="left:${pct(t)}%;width:${100-pct(t)}%" title="${esc(m)} — ${esc(r.ref)} : quantité inconnue au planning BOF">${esc(r.ref)}<small>qté inconnue</small></div>`;break;}
+            const c=cadR(r.ref),dur=rem*1000/(c*rd)/60,t2=addH(t,dur),cut=t2>W1;
+            bars+=`<div class="bar${cut?' cut':''}" style="left:${pct(t)}%;width:${pct(t2)-pct(t)}%;background:${col(r.ref)}" title="${esc(m)} — OF ${esc(String(r.of).replace(/^10*/,''))} · ${esc(r.ref)}\n${esc(r.matiere||'')}\n${Math.round(rem*1000).toLocaleString('fr-FR')} pièces à ${c}/min → ${dur.toFixed(1)} h\n${fmt(t)} → ${cut?'au-delà de la semaine ('+fmt(t2)+')':fmt(t2)}">${esc(r.ref)}<small>${dur.toFixed(0)} h</small></div>`;
+            t=t2;prev=r;}
+          if(!bars){const nx=L.find(r=>r.rest==null||r.rest<0)||L[L.length-1];const d=Dd(nx.debut);bars=`<div class="none">prochain OF : ${esc(nx.ref)} le ${d.getDate()}/${d.getMonth()+1}</div>`;}
+        }
+        h+=`<div class="lab"><b>${esc(m)}</b><span>${esc(trs)||'&nbsp;'}</span></div><div class="lane">${gl}${now>W0&&now<W1?`<div class="now" style="left:${pct(now)}%"></div>`:''}${bars}</div>`;
+      }}
+    let t2=`<tr><th>Poste</th><th>Nb</th><th>Montages (heure de début · réf. sortante → réf. entrante)</th></tr>`;
+    MP.forEach((l,i)=>{const a=new Date(W0+i*8*H);l.sort((x,y)=>x.t-y.t);const n=l.filter(x=>!x.same).length;
+      t2+=`<tr><td class="p">${JR[a.getDay()]} ${a.getDate()}/${a.getMonth()+1} · ${SHx[i%3]}</td><td class="c">${n||'–'}</td><td>${l.map(x=>`<span class="m${x.same?' s':''}"><b>${esc(x.m)}</b> ${fmt(x.t).slice(4)} · ${esc(x.from)} → ${esc(x.ref)}${x.same?' (similaire)':''}</span>`).join('')||'<span style="color:#9AA5B8">aucun</span>'}</td></tr>`;});
+    const leg=`<div class="sleg"><span><i style="background:#2F5E8C"></i>Production (une couleur par réf.)</span><span><i style="background:repeating-linear-gradient(135deg,#E8A900 0 5px,#F3C64A 5px 10px)"></i>Montage ${P.hm} h</span><span><i style="background:#9AA5B8"></i>Similaire ${P.hs} h</span><span><i style="background:repeating-linear-gradient(135deg,#C9D1DD 0 4px,#DCE2EA 4px 8px)"></i>Quantité inconnue</span><span><i style="background:#C8102E;width:3px"></i>Maintenant</span></div>`;
+    return {sub,old,html:`<div class="sg-card"><div class="sg">${h}</div></div>${leg}<h3 class="smp-t">Montages par poste</h3><table class="smp">${t2}</table>`};
+  }
+  function draw(){if(VIEW!=='sem')return;
+    $('sWk').value=WK;$('sHm').value=P.hm;$('sHs').value=P.hs;$('sRd').value=P.rd;
+    if(!BOF||!BOF.mach){$('sSub').textContent='';$('sInf').innerHTML='<span class="w">Aucun planning BOF chargé : importer le PDF FAT_BOF_PROD_Planning.</span>';$('sBody').innerHTML='';return;}
+    const b=build();$('sSub').textContent=b.sub;
+    $('sInf').innerHTML=`Source : <b>${esc(BOF.file||'')}</b> (importé le ${esc(new Date(BOF.at).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}))}) · durée = quantité restante ÷ cadence théorique × ${P.rd} % · arrêt du samedi 20h au lundi 5h`+(b.old.length?` · <span class="w">OF en cours anciens à vérifier : ${esc(b.old.join(', '))}</span>`:'');
+    $('sBody').innerHTML=b.html;}
+  function save(){LSs('techline_sem',P);}
+  $('sWk').addEventListener('input',e=>{if(e.target.value){WK=e.target.value;draw();}});
+  [['sHm','hm'],['sHs','hs'],['sRd','rd']].forEach(([id,k])=>$(id).addEventListener('input',e=>{const v=parseFloat(e.target.value);if(!isNaN(v)&&v>=0){P[k]=k==='rd'?Math.max(10,v):v;save();draw();}}));
+  $('sImp').onclick=()=>$('cBofF').click();
+  $('sPrint').onclick=()=>{if(!BOF||!BOF.mach){toast('Importer d’abord le planning BOF');return;}
+    const b=build();const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n').split('\n').filter(l=>/\.sg|\.sleg|smp/.test(l)).join('\n');
+    const w=window.open('','_blank');if(!w){toast('Fenêtre bloquée : autoriser les fenêtres pour imprimer');return;}
+    w.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Planning semaine TechLine</title><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"><style>@page{size:A3 landscape;margin:8mm}body{font-family:Barlow,Arial,sans-serif;color:#1C2B4A;margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}h1{font-size:22px;color:#003B6F;margin:0 0 2px}.hd{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}.lg{font-weight:700;letter-spacing:.18em;color:#003B6F}.sb{color:#5B6780;font-size:13px}.ft{font-size:11px;color:#5B6780;margin-top:8px}.smp-t{break-before:page}${css}</style></head><body><div class="hd"><span class="lg">BÖLLHOFF</span><h1>Planning semaine TechLine</h1><span class="sb">${esc(b.sub)} · montage ${P.hm} h · similaire ${P.hs} h · rendement ${P.rd} %</span></div>${b.html}<div class="ft">Böllhoff Otalu — UAP Forg'Tech · source ${esc(BOF.file||'')} · édité le ${new Date().toLocaleDateString('fr-FR')} · Olivier Macian, Superviseur Production</div></body></html>`);
+    w.document.close();setTimeout(()=>{try{w.focus();w.print();}catch(e){}},700);};
+  return {draw};
+})();
+
 /* --- interactions --- */
-function setView(v){VIEW=v;document.body.dataset.view=v;setTimeout(()=>{if(typeof PN!=='undefined'){PN.draw();AN.draw();}},30);document.querySelector('.app').classList.toggle('vcons',v!=='aff');$('cview').hidden=v!=='cons';$('eview').hidden=v!=='etat';$('nview').hidden=v!=='news';$('pview').hidden=v!=='plan';if(v==='plan'&&typeof PLAN!=='undefined')PLAN.draw();if(v==='news'&&typeof NEWS!=='undefined')NEWS.open();
+function setView(v){VIEW=v;document.body.dataset.view=v;setTimeout(()=>{if(typeof PN!=='undefined'){PN.draw();AN.draw();}},30);document.querySelector('.app').classList.toggle('vcons',v!=='aff');$('cview').hidden=v!=='cons';$('eview').hidden=v!=='etat';$('nview').hidden=v!=='news';$('sview').hidden=v!=='sem';if(v==='sem')SEM.draw();$('pview').hidden=v!=='plan';if(v==='plan'&&typeof PLAN!=='undefined')PLAN.draw();if(v==='news'&&typeof NEWS!=='undefined')NEWS.open();
   document.querySelectorAll('.vsw button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   try{sessionStorage.setItem('techline_view',v);}catch(e){}
   if(v==='cons'){render();if(typeof PN!=='undefined')requestAnimationFrame(PN.draw);}else if(v==='etat')eRender();else window.scrollTo(0,0);}
 document.querySelectorAll('.vsw button').forEach(b=>b.onclick=()=>setView(b.dataset.v));
 $('cShift').addEventListener('click',e=>{const b=e.target.closest('button[data-s]');if(!b)return;shift=+b.dataset.s;render();});
 $('cImp').onclick=()=>$('cFile').click();
+$('cBof').onclick=()=>$('cBofF').click();
+$('cBofF').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)importBof(f);});
 $('cFile').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)importPdf(f);});
 $('cPdf').onclick=pdf;$('cPrint').onclick=print;
 const dl2=$('cDropL');
@@ -3384,6 +3611,8 @@ function embUrl(k){k=EMB[k]?k:'aide';if(!EMB_URL[k]){const bin=atob(EMB[k]),u=ne
 function aideUrl(){return embUrl('aide');}
 const NEWS=(()=>{
   const BUILTIN=[
+    {id:'b-v38',at:'2026-11-23T08:45',ver:'v38',t:'Nouvel onglet « Planning semaine »',x:'Planning visuel de la semaine (lundi 5h → vendredi 21h, Matin / Après-midi / Nuit) pour toutes les machines TechLine, calculé depuis le planning BOF : quantité restante ÷ cadence théorique. Montage de 8 h entre deux réf., 1 h quand la réf. est identique (similaire) : réglable en haut, avec le rendement. Dessous, le tableau « Montages par poste ». Bouton Imprimer en A3 paysage.'},
+    {id:'b-v37',at:'2026-11-23T08:30',ver:'v37',t:'Montages suivants depuis le planning BOF',x:'Consignes : nouveau bouton « Importer planning BOF » (PDF FAT_BOF_PROD_Planning). En bas de la feuille (DIVERS), la liste « Montages suivants » : pour chaque presse, date et réf. du prochain montage, alerte rouge en cas de changement de fil (nuance ou diamètre), « retard » si la date est dépassée, montages du jour en gras. Partagé avec toute l’équipe.'},
     {id:'b-v36',at:'2026-11-20T19:10',ver:'v36',t:'Les post-it en 1 minute (film)',x:'Petit film pour tout comprendre : créer un post-it, choisir sa couleur (jaune, orange, vert, rose), l’équipe concernée, ajouter une photo, et où chaque couleur sort à l’impression.',embed:'postit',lt:'Voir le film en grand'},
     {id:'b-v32',at:'2026-11-20T18:40',ver:'v34',t:'4 types de post-it',x:'Chaque post-it a un type, en haut à gauche (cliquer pour changer) :\n🖨 JAUNE « Affectation » : imprimé dans les cases vides de la fiche d’affectation.\n📌 ORANGE « Bas affect. » : imprimé en bande en bas de la fiche d’affectation.\n📋 VERT « Consignes » : ajouté en bas de la feuille de consignes de l’équipe choisie.\n🔒 ROSE « Superviseurs » : reste entre superviseurs, jamais imprimé.\nL’étiquette de poste (Tous, Matin, Après-midi, Nuit) choisit l’équipe concernée.'},
     {id:'b-v30',at:'2026-11-20T12:10',ver:'v30',t:'Affichage téléphone',x:'Sur téléphone, l’application s’adapte : un seul poste affiché (celui de l’heure), Frappe puis Taraudage l’un sous l’autre, onglets et boutons qui défilent au doigt, discussion en plein écran. On change de poste avec Tous · Matin · Après-midi · Nuit sous la date.'},

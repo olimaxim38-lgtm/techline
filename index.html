@@ -745,6 +745,29 @@ body[data-view=sem] #anotes,body[data-view=sem] #pnotes,body[data-view=etat] #an
 .sg .bar{position:absolute;top:6px;bottom:6px;border-radius:5px;display:flex;align-items:center;padding:0 6px;font-size:12.5px;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .sg .bar{flex-wrap:nowrap;line-height:1}.sg .bar small{font-weight:500;opacity:.9;margin-left:5px;white-space:nowrap}
 .sg .bar.mo{background:repeating-linear-gradient(135deg,#E8A900 0 7px,#F3C64A 7px 14px);color:#3A2A00;top:10px;bottom:10px;justify-content:center}
+.sg .bar.mo,.sg .bar.si{cursor:grab;touch-action:none;user-select:none}.sg .bar.drag{cursor:grabbing;outline:2px solid #003B6F;z-index:6;opacity:.95}
+.sg .bar.adj{outline:2px solid #A04A00;outline-offset:-2px}
+.sg .bar .hl,.sg .bar .hr{position:absolute;top:0;bottom:0;width:9px;cursor:ew-resize;z-index:2}.sg .bar .hl{left:0}.sg .bar .hr{right:0}
+.sg .bar.mo:hover .hl,.sg .bar.mo:hover .hr,.sg .bar.si:hover .hl,.sg .bar.si:hover .hr{background:rgba(0,59,111,.35)}
+.sg .bar .bt{pointer-events:none;overflow:hidden;text-overflow:ellipsis}
+.sg .bar.stop{background:repeating-linear-gradient(45deg,#C8102E 0 8px,#D9435E 8px 16px);color:#fff;top:4px;bottom:4px;z-index:4;cursor:grab;touch-action:none;user-select:none;justify-content:center;box-shadow:0 0 0 2px #fff}
+.sg .bar.stop.ty-prev{background:#C8102E;color:#fff}
+.sg .bar.stop.ty-dev{background:repeating-linear-gradient(45deg,#6B4FA0 0 8px,#8468B8 8px 16px)}
+.sg .bar.stop.ty-autre{background:repeating-linear-gradient(45deg,#5B6780 0 8px,#727E96 8px 16px)}
+#stCtx{position:fixed;z-index:210;background:#fff;border:1px solid #C9D1DD;border-radius:8px;box-shadow:0 8px 28px rgba(10,25,50,.22);padding:5px;min-width:210px;font-family:"Barlow",Arial,sans-serif}#stCtx[hidden]{display:none}
+#stCtx .ch{font:700 12px "Barlow",Arial,sans-serif;color:#5B6780;padding:4px 8px 6px;border-bottom:1px solid #EEF1F5;margin-bottom:3px}
+#stCtx button{display:flex;align-items:center;gap:9px;width:100%;border:0;background:none;padding:7px 8px;border-radius:5px;font:600 14px "Barlow",Arial,sans-serif;color:#1C2B4A;cursor:pointer;text-align:left}
+#stCtx button:hover{background:#EEF2F7}#stCtx button i{display:inline-block;width:18px;height:11px;border-radius:3px}#stCtx button.del{color:#C8102E}#stCtx hr{border:0;border-top:1px solid #EEF1F5;margin:3px 0}
+#stDlg .sttys{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}#stDlg .sttys button{font:700 13px "Barlow",Arial,sans-serif;padding:6px 10px;border-radius:6px;border:2px solid var(--c);background:#fff;color:var(--c);cursor:pointer}
+#stDlg .sttys button.on{background:var(--c);color:#fff}
+.sg .bar.stop:hover .hl,.sg .bar.stop:hover .hr{background:rgba(255,255,255,.35)}
+table.smp .m.st{background:#FBE3E8;border-color:#E8A0AE;color:#7A0F23}
+#stDlg{position:fixed;inset:0;background:rgba(10,25,50,.35);z-index:200;display:flex;align-items:center;justify-content:center}#stDlg[hidden]{display:none}
+#stDlg .stbox{background:#fff;border-radius:10px;padding:18px 20px;width:340px;box-shadow:0 10px 40px rgba(0,0,0,.25);font-family:"Barlow",Arial,sans-serif}
+#stDlg h3{margin:0 0 12px;color:#003B6F;font-size:18px}#stDlg label{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:8px 0;font-size:14px;color:#1C2B4A;font-weight:600}
+#stDlg input,#stDlg select{font:500 14px "Barlow",Arial,sans-serif;padding:5px 7px;border:1px solid #C9D1DD;border-radius:6px;width:190px}
+#stDlg .stb{display:flex;gap:8px;margin-top:14px}
+.sg .bar.wait{background:repeating-linear-gradient(135deg,#F1F3F8 0 6px,#E2E6EE 6px 12px);color:#5B6780;top:14px;bottom:14px;font-size:11px;font-weight:600;justify-content:center}
 .sg .bar.si{background:#9AA5B8;top:12px;bottom:12px;justify-content:center;font-size:11px;padding:0 2px}
 .sg .bar.unk{background:repeating-linear-gradient(135deg,#C9D1DD 0 6px,#DCE2EA 6px 12px);color:#1C2B4A}
 .sg .bar.cut{border-top-right-radius:0;border-bottom-right-radius:0}.sg .bar.cut:after{content:'›';position:absolute;right:3px;font-size:16px}
@@ -1553,9 +1576,10 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
   <div id="sview" hidden>
     <div class="stool"><h2>Planning semaine TechLine<small id="sSub"></small></h2>
       <div class="sctl"><label>Lundi <input type="date" id="sWk"></label><label>Montage <input type="number" id="sHm" min="0" step="0.5"> h</label><label>Similaire <input type="number" id="sHs" min="0" step="0.5"> h</label><label title="Rendement appliqué à la cadence théorique (onglet Consignes › Réglages)">Rendement <input type="number" id="sRd" min="10" max="150" step="5"> %</label>
-      <button class="cb pri" id="sImp">Importer planning BOF</button><button class="cb" id="sPrint">Imprimer</button></div></div>
+      <button class="cb pri" id="sImp">Importer planning BOF</button><button class="cb pri" id="sStop" title="Ajouter une panne, un préventif ou un arrêt (ou double-clic dans la ligne de la machine)">+ Panne / préventif</button><button class="cb" id="sRaz" title="Annule tous les ajustements faits à la souris">Montages recalculés</button><button class="cb" id="sPrint">Imprimer</button></div></div>
     <p class="sinf" id="sInf"></p>
     <div id="sBody"></div>
+    <div id="stDlg" hidden></div>
   </div>
   <div id="nview" hidden>
     <div class="nwrap">
@@ -1909,8 +1933,8 @@ function bofAff(slot,iso,k){try{
   const ev=[];for(const mm of ms)for(const x of S.montIn(mm,a,b))ev.push(x);
   if(!ev.length)return null;ev.sort((p,q)=>p.t-q.t);
   const hh=t=>{const z=new Date(t);return z.getHours()+'h'+(z.getMinutes()?String(z.getMinutes()).padStart(2,'0'):'');};
-  const one=x=>x.t>=a?(x.k==='si'?`Similaire ${hh(x.t)} · ${x.ref}`:`Montage ${hh(x.t)} → ${x.ref}`):(x.k==='si'?`Similaire (suite) · ${x.ref}`:`Montage (suite) → ${x.ref}`);
-  return {txt:ev.map(one).join(' · '),tip:'Planning BOF : '+ev.map(x=>`${x.from} → ${x.ref}${x.mat?' ('+x.mat+')':''}`).join(' · ')};
+  const one=x=>x.k==='stop'?(x.t>=a?`${x.l} ${hh(x.t)} (${Math.round(x.g)} h)`:`${x.l} (suite)`):x.t>=a?(x.k==='si'?`Similaire ${hh(x.t)} · ${x.ref}`:`Montage ${hh(x.t)} → ${x.ref}`):(x.k==='si'?`Similaire (suite) · ${x.ref}`:`Montage (suite) → ${x.ref}`);
+  return {txt:ev.map(one).join(' · '),tip:'Planning semaine : '+ev.map(x=>x.k==='stop'?x.l:`${x.from} → ${x.ref}${x.mat?' ('+x.mat+')':''}`).join(' · ')};
 }catch(e){return null;}}
 function mval(obj,id,k,iso){const v=obj[K.m(id,k)];if(v)return v;const a=bofAff(id,iso,k);return a?a.txt:'';}
 const PHONE=matchMedia('(max-width: 760px)');
@@ -2710,6 +2734,8 @@ let BOF=LSg('cst2_bof',null);
 function shSave(k,v){if(!db||readOnly)return;db.doc('config/'+k).set({json:JSON.stringify(v),at:new Date().toISOString()}).catch(e=>toast('Partage impossible ('+(e&&e.code||'erreur')+')'));}
 function attach(){if(!db)return;
   db.doc('config/osys').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(OSYS)){OSYS=v;LSs('cst2_osys',OSYS);render();}}catch(e){}},()=>{});
+  db.doc('config/semstop').onSnapshot(sn=>{if(!sn.exists){if(typeof SEM!=='undefined')SEM.pushST();return;}if(sn.metadata&&sn.metadata.hasPendingWrites)return;try{const v=JSON.parse(sn.data().json);if(typeof SEM!=='undefined')SEM.setST(v);}catch(e){}},()=>{});
+  db.doc('config/semov').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(typeof SEM!=='undefined')SEM.setOV(v);}catch(e){}},()=>{});
   db.doc('config/bof').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(BOF)){BOF=v;LSs('cst2_bof',BOF);render();if(VIEW==='sem')SEM.draw();try{window.render();}catch(e){}}}catch(e){}},()=>{});
   db.doc('config/reglages').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(SET)){SET=Object.assign(SET,v);LSs('cst2_set',SET);render();}}catch(e){}},()=>{});}
 const hh=new Date().getHours();
@@ -3046,6 +3072,9 @@ const SEM=(()=>{
   const PAL=['#2F5E8C','#3E7C7A','#5B5F97','#7A6A4F','#2D7FB0','#5E7F3E','#8A4F6A','#44627A','#6B5B95','#317873','#7D5A3C','#4A6FA5','#55707C','#836953'];
   const cm={};let ci=0;const col=r=>cm[r]||(cm[r]=PAL[ci++%PAL.length]);
   let P=Object.assign({hm:8,hs:1,rd:100},LSg('techline_sem',{}));
+  let ST=LSg('techline_semstop',null);
+  if(!Array.isArray(ST))ST=[{id:'s'+Date.now().toString(36),m:'PF23',t:+new Date(2026,10,24,5,0),h:72,ty:'prev',l:'Préventif'}];
+  let OV=LSg('techline_semov',{}); /* ajustements manuels des montages : clé machine|OF entrant -> {g:durée h, d:décalage h} */
   const Dd=iso=>{const [y,m,d]=String(iso).split('-').map(Number);return new Date(y,m-1,d);};
   const isoL=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   function defMon(){const t=new Date(),d=new Date(t.getFullYear(),t.getMonth(),t.getDate()),w=d.getDay();if(w===6)d.setDate(d.getDate()+2);else if(w===0)d.setDate(d.getDate()+1);else d.setDate(d.getDate()-(w-1));return isoL(d);}
@@ -3053,7 +3082,8 @@ const SEM=(()=>{
   const inP=t=>{const d=new Date(t),w=d.getDay(),h=d.getHours()+d.getMinutes()/60;return (w===6&&h>=20)||w===0||(w===1&&h<5);};
   const pEnd=t=>{const d=new Date(t);d.setHours(5,0,0,0);while(d.getDay()!==1||+d<=t)d.setDate(d.getDate()+1);return +d;};
   const nP=t=>{const d=new Date(t);d.setHours(20,0,0,0);while(d.getDay()!==6||+d<=t)d.setDate(d.getDate()+1);return +d;};
-  function addH(t,h){let l=h*H;for(let g=0;g<50&&l>0;g++){if(inP(t)){t=pEnd(t);continue;}const p=nP(t),gap=p-t;if(l<=gap){t+=l;l=0;}else{l-=gap;t=p;}}return t;}
+  function addH(t,h,st){let l=h*H;st=st||[];for(let g=0;g<200&&l>0;g++){if(inP(t)){t=pEnd(t);continue;}const ins=st.find(x=>t>=x.a&&t<x.b);if(ins){t=ins.b;continue;}
+    let p=nP(t);for(const x of st)if(x.a>t&&x.a<p)p=x.a;const gap=p-t;if(l<=gap){t+=l;l=0;}else{l-=gap;t=p;}}return t;}
   const fmt=t=>{const d=new Date(t);return `${JR[d.getDay()]} ${String(d.getHours()).padStart(2,'0')}h${String(d.getMinutes()).padStart(2,'0')}`;};
   const cadR=ref=>{const k=prodKey(ref);return (k&&cadGet(k))||150;};
   function lines(){return parseCfg(SET.cfg).map(z=>{const rows=[];
@@ -3065,25 +3095,94 @@ const SEM=(()=>{
   let CK='',CS=null;
   function startOf(){const a=new Date(BOF&&BOF.at||Date.now());const d=new Date(a.getFullYear(),a.getMonth(),a.getDate()),w=d.getDay();if(w===6)d.setDate(d.getDate()+2);else if(w===0)d.setDate(d.getDate()+1);else d.setDate(d.getDate()-(w-1));return +d+5*H;}
   function compute(){
-    const key=(BOF&&BOF.at)+'|'+P.hm+'|'+P.hs+'|'+P.rd+'|'+JSON.stringify(SET.cadOv||{});
+    const key=(BOF&&BOF.at)+'|'+P.hm+'|'+P.hs+'|'+P.rd+'|'+JSON.stringify(SET.cadOv||{})+'|'+JSON.stringify(OV)+'|'+JSON.stringify(ST);
     if(key===CK&&CS)return CS;
     const S=startOf(),END=S+28*24*H,rd=(P.rd||100)/100,mach=BOF&&BOF.mach||{},res={S,seg:{},old:[]};
-    for(const m in mach){const L=mach[m];if(!L||!L.length)continue;const seg=[];
+    for(const m in mach){const L=mach[m];if(!L||!L.length)continue;const seg=[];const stp=ST.filter(x=>x.m===m).map(x=>({a:x.t,b:x.t+x.h*H})).sort((x,y)=>x.a-y.a);
       const q=L.filter((r,i)=>!(r.rest!=null&&r.rest>=0&&i<L.length-1));
       let t=S;if(q[0]&&+Dd(q[0].debut)+5*H>S)t=+Dd(q[0].debut)+5*H;
       if(q[0]&&q[0].debut&&+Dd(q[0].debut)<S-14*24*H)res.old.push(`${m} (${q[0].ref} du ${Dd(q[0].debut).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})})`);
       let prev=null;
       for(const r of q){if(t>=END)break;
-        if(prev){const same=prev.ref===r.ref,g=same?P.hs:P.hm,t2=addH(t,g);
-          if(g>0)seg.push({k:same?'si':'mo',t,t2,ref:r.ref,from:prev.ref,g,mat:prev.codeMat&&r.codeMat&&prev.codeMat!==r.codeMat?`fil ${matS(prev.matiere)} → ${matS(r.matiere)}`:''});t=t2;}
+        if(prev){const same=prev.ref===r.ref,o=OV[m+'|'+r.of]||{},g=o.g!=null?o.g:(same?P.hs:P.hm),dd=o.d||0;
+          let ts=t;const lp=seg[seg.length-1];
+          if(dd>0){ts=addH(t,dd,stp);seg.push({k:'wait',t,t2:ts});}
+          else if(dd<0){ts=Math.max(lp&&lp.k==='p'?lp.t:t-24*H,t+dd*H);if(lp&&lp.k==='p'){lp.t2=ts;lp.trunc=true;}}
+          const t2=addH(ts,g,stp);
+          if(g>0||o.g!=null)seg.push({k:same?'si':'mo',t:ts,t2,ref:r.ref,from:prev.ref,g,of:r.of,m,adj:o.g!=null||!!o.d,dd,mat:prev.codeMat&&r.codeMat&&prev.codeMat!==r.codeMat?`fil ${matS(prev.matiere)} → ${matS(r.matiere)}`:''});t=t2;}
         const rem=r.rest==null?null:Math.max(0,-r.rest);
         if(rem==null){seg.push({k:'unk',t,t2:END,ref:r.ref,r});break;}
-        const c=cadR(r.ref),dur=rem*1000/(c*rd)/60,t2=addH(t,dur);
+        const c=cadR(r.ref),dur=rem*1000/(c*rd)/60,t2=addH(t,dur,stp);
         seg.push({k:'p',t,t2,ref:r.ref,r,c,dur,rem});t=t2;prev=r;}
       res.seg[m]=seg;}
     CK=key;CS=res;return res;}
+  const hTxt=g=>{const h=Math.floor(g+1e-9),mn=Math.round((g-h)*60);return mn?`${h} h ${String(mn).padStart(2,'0')}`:`${h} h`;};
+  const STY={panne:['Panne','#C8102E'],prev:['Préventif','#C8102E'],dev:['Essais / dév.','#6B4FA0'],autre:['Arrêt','#5B6780']};
+  const tyOf=x=>x.ty||(/panne/i.test(x.l||'')?'panne':/pr[ée]ventif/i.test(x.l||'')?'prev':/essai|d[ée]v/i.test(x.l||'')?'dev':'autre');
+  function saveST(){LSs('techline_semstop',ST);CK='';shSave('semstop',ST);draw();try{window.render();}catch(e){}}
+  function setST(v){if(!Array.isArray(v)||JSON.stringify(v)===JSON.stringify(ST))return;ST=v;LSs('techline_semstop',ST);CK='';draw();try{window.render();}catch(e){}}
+  function stDlg(x,pre){const nw=!x;x=x||Object.assign({id:'s'+Date.now().toString(36),m:'',t:+Dd(WK)+5*H,h:8,ty:'panne',l:'Panne'},pre||{});const ty0=tyOf(x);
+    const ms=lines().flatMap(z=>z.rows.map(r=>r.m));const d=new Date(x.t);const loc=`${isoL(d)}T${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const el=$('stDlg');el.innerHTML=`<div class="stbox"><h3>${nw?'Ajouter un événement':'Modifier l’événement'}</h3>
+      <div class="sttys">${Object.entries(STY).map(([k,v])=>`<button type="button" data-ty="${k}" class="${k===ty0?'on':''}" style="--c:${v[1]}">${v[0]}</button>`).join('')}</div>
+      <label>Machine<select id="stM">${ms.map(m=>`<option${m===x.m?' selected':''}>${esc(m)}</option>`).join('')}</select></label>
+      <label>Libellé<input id="stL" value="${esc(x.l||STY[ty0][0])}" placeholder="ex. : casse poinçon, préventif annuel…"></label>
+      <label>Début<input id="stT" type="datetime-local" value="${loc}"></label>
+      <label>Durée (h)<input id="stH" type="number" min="0.25" step="0.25" value="${x.h}"></label>
+      <div class="stb">${nw?'':'<button class="cb" id="stDel">Supprimer</button>'}<span style="flex:1"></span><button class="cb" id="stNo">Annuler</button><button class="cb pri" id="stOk">Enregistrer</button></div></div>`;
+    el.hidden=false;const close=()=>{el.hidden=true;el.innerHTML='';};
+    let ty=ty0;el.querySelectorAll('.sttys button').forEach(b=>b.onclick=()=>{const old=STY[ty][0];ty=b.dataset.ty;el.querySelectorAll('.sttys button').forEach(z=>z.classList.toggle('on',z===b));const L=$('stL');if(!L.value.trim()||Object.values(STY).some(v=>v[0]===L.value.trim())||L.value.trim()===old)L.value=STY[ty][0];});
+    $('stNo').onclick=close;el.onclick=e=>{if(e.target===el)close();};
+    if(!nw)$('stDel').onclick=()=>{ST=ST.filter(y=>y.id!==x.id);saveST();close();toast(x.m+' : arrêt supprimé');};
+    $('stOk').onclick=()=>{const v=$('stT').value,h=parseFloat($('stH').value);if(!v||!(h>0)){toast('Début et durée obligatoires');return;}
+      const [dp,tp]=v.split('T'),[yy,mm,dd]=dp.split('-').map(Number),[hh,mi]=tp.split(':').map(Number);
+      const y={...x,ty,m:$('stM').value,l:$('stL').value.trim()||STY[ty][0],t:+new Date(yy,mm-1,dd,hh,mi),h};
+      ST=nw?ST.concat([y]):ST.map(z=>z.id===x.id?y:z);saveST();close();toast(`${y.m} : ${y.l} ${fmt(y.t)} → ${fmt(y.t+h*H)}`);};}
+  function saveOV(){LSs('techline_semov',OV);CK='';shSave('semov',OV);draw();try{window.render();}catch(e){}}
+  function setOV(v){if(JSON.stringify(v)===JSON.stringify(OV))return;OV=v||{};LSs('techline_semov',OV);CK='';draw();try{window.render();}catch(e){}}
+  /* glisser-déposer des montages : corps = déplacer, bords = durée */
+  let DG=null;
+  $('sBody').addEventListener('pointerdown',e=>{const b=e.target.closest('.sg .bar.mo,.sg .bar.si,.sg .bar.stop');if(!b||e.button!==0)return;
+    if(readOnly){toast('Lecture seule');return;}
+    const lane=b.closest('.lane');const pxH=lane.getBoundingClientRect().width/112;
+    const mode=e.target.classList.contains('hl')?'l':e.target.classList.contains('hr')?'r':'mv';
+    const sx=b.dataset.id?ST.find(x=>x.id===b.dataset.id):null;
+    DG={b,mode,x0:e.clientX,pxH,sx,g:sx?sx.h:+b.dataset.g,d:sx?0:+b.dataset.d,L:parseFloat(b.style.left),W:parseFloat(b.style.width),m:b.dataset.m,of:b.dataset.of,moved:false};
+    b.setPointerCapture(e.pointerId);b.classList.add('drag');e.preventDefault();});
+  $('sBody').addEventListener('pointermove',e=>{if(!DG)return;const q=.25;let dh=Math.round((e.clientX-DG.x0)/DG.pxH/q)*q;if(dh)DG.moved=true;
+    const pc=dh/112*100;let L=DG.L,W=DG.W,g=DG.g,d=DG.d;
+    if(DG.mode==='mv'){d=DG.d+dh;L=DG.L+pc;}
+    else if(DG.mode==='r'){g=Math.max(.25,DG.g+dh);W=g/112*100;}
+    else{const dd=Math.min(dh,DG.g-.25);d=DG.d+dd;g=DG.g-dd;L=DG.L+dd/112*100;W=g/112*100;}
+    DG.ng=g;DG.nd=d;DG.b.style.left=L+'%';DG.b.style.width=W+'%';
+    const t=DG.b.querySelector('.bt');if(DG.sx){if(t)t.textContent=`${DG.sx.l||'Arrêt'} ${fmt(DG.sx.t+d*H)} · ${hTxt(g)}`;return;}if(t)t.textContent=(DG.b.classList.contains('si')?'≈ ':'Montage ')+hTxt(g)+(d?` (${d>0?'+':'−'}${hTxt(Math.abs(d))})`:'');});
+  const endDG=()=>{if(!DG)return;const x=DG;DG=null;x.b.classList.remove('drag');
+    if(!x.moved){return;}
+    if(x.sx){const nt=x.sx.t+(x.nd||0)*H,nh=x.ng!=null?x.ng:x.sx.h;ST=ST.map(y=>y.id===x.sx.id?{...y,t:nt,h:nh}:y);saveST();toast(`${x.sx.m} : ${x.sx.l||'arrêt'} ${fmt(nt)} → ${fmt(nt+nh*H)}`);return;}
+    const k=x.m+'|'+x.of,o=Object.assign({},OV[k]||{});
+    if(x.mode!=='mv')o.g=x.ng;if(x.nd!=null)o.d=x.nd;if(!o.d)delete o.d;
+    OV={...OV,[k]:o};saveOV();toast(`${x.m} : montage ${hTxt(x.ng)}${o.d?` · décalé de ${o.d>0?'+':'−'}${hTxt(Math.abs(o.d))}`:''}`);};
+  $('sBody').addEventListener('pointerup',endDG);$('sBody').addEventListener('pointercancel',endDG);
+  /* clic droit sur la ligne d'une machine : ajouter panne / préventif à cet endroit */
+  const ctx=document.createElement('div');ctx.id='stCtx';ctx.hidden=true;document.body.appendChild(ctx);
+  const ctxClose=()=>{ctx.hidden=true;};document.addEventListener('pointerdown',e=>{if(!ctx.hidden&&!ctx.contains(e.target))ctxClose();});document.addEventListener('keydown',e=>{if(e.key==='Escape')ctxClose();});
+  $('sBody').addEventListener('contextmenu',e=>{const ln=e.target.closest('.sg .lane');if(!ln)return;e.preventDefault();
+    if(readOnly){toast('Lecture seule');return;}
+    const r=ln.getBoundingClientRect(),hh=Math.max(0,Math.min(111,(e.clientX-r.left)/r.width*112));const t=+Dd(WK)+5*H+Math.floor(hh)*H;
+    const m=(ln.previousElementSibling&&ln.previousElementSibling.querySelector('b')||{}).textContent||'';
+    const sb=e.target.closest('.sg .bar.stop');
+    ctx.innerHTML=`<div class="ch">${esc(m)} · ${fmt(t)}</div><button data-a="panne"><i style="background:repeating-linear-gradient(45deg,#C8102E 0 4px,#E8607A 4px 8px)"></i>Ajouter une panne</button><button data-a="prev"><i style="background:#C8102E"></i>Ajouter un préventif</button><button data-a="dev"><i style="background:#6B4FA0"></i>Essais / dév.</button><button data-a="autre"><i style="background:#5B6780"></i>Autre arrêt</button>${sb?'<hr><button data-a="edit">Modifier cet événement</button><button data-a="del" class="del">Supprimer cet événement</button>':''}`;
+    ctx.hidden=false;const w=ctx.offsetWidth,h2=ctx.offsetHeight;ctx.style.left=Math.min(e.clientX,innerWidth-w-8)+'px';ctx.style.top=Math.min(e.clientY,innerHeight-h2-8)+'px';
+    ctx.onclick=ev=>{const b=ev.target.closest('button[data-a]');if(!b)return;ctxClose();const a=b.dataset.a;
+      if(a==='edit'){stDlg(ST.find(x=>x.id===sb.dataset.id));return;}
+      if(a==='del'){const x=ST.find(y=>y.id===sb.dataset.id);ST=ST.filter(y=>y.id!==sb.dataset.id);saveST();toast(x.m+' : '+(x.l||'événement')+' supprimé');return;}
+      stDlg(null,{m,t,ty:a,l:STY[a][0],h:a==='prev'?24:a==='panne'?4:8});};});
+  $('sBody').addEventListener('dblclick',e=>{const sb=e.target.closest('.sg .bar.stop');if(sb){if(!readOnly)stDlg(ST.find(x=>x.id===sb.dataset.id));return;}
+    const ln=e.target.closest('.sg .lane');if(ln&&!e.target.closest('.sg .bar.mo,.sg .bar.si')){if(readOnly){toast('Lecture seule');return;}
+      const r=ln.getBoundingClientRect(),hh=Math.max(0,Math.min(112,(e.clientX-r.left)/r.width*112));const t=+Dd(WK)+5*H+Math.floor(hh)*H;
+      const m=(ln.previousElementSibling&&ln.previousElementSibling.querySelector('b')||{}).textContent||'';stDlg(null,{m,t});return;}const b=e.target.closest('.sg .bar.mo,.sg .bar.si');if(!b||readOnly)return;const k=b.dataset.m+'|'+b.dataset.of;if(!OV[k])return;const o={...OV};delete o[k];OV=o;saveOV();toast(b.dataset.m+' : montage recalculé');});
   /* montages (début ou suite) d'une machine dans une fenêtre [a,b) */
-  function montIn(m,a,b){const C=compute();return (C.seg[m]||[]).filter(x=>(x.k==='mo'||x.k==='si')&&x.t<b&&x.t2>a);}
+  function montIn(m,a,b){const C=compute();return (C.seg[m]||[]).filter(x=>(x.k==='mo'||x.k==='si')&&x.t<b&&x.t2>a).concat(ST.filter(x=>x.m===m&&x.t<b&&x.t+x.h*H>a).map(x=>({k:'stop',t:x.t,t2:x.t+x.h*H,l:x.l||'Arrêt',g:x.h})));}
   function build(){
     const W0=+Dd(WK)+5*H,W1=W0+112*H,SP=W1-W0,pct=t=>((Math.max(W0,Math.min(W1,t))-W0)/SP*100);
     const wd=new Date(W0),we=new Date(W1-1);
@@ -3103,17 +3202,24 @@ const SEM=(()=>{
         else{
           for(const x of (C.seg[m]||[])){if(x.t2<=W0||x.t>=W1)continue;
             if(x.k==='mo'||x.k==='si'){const same=x.k==='si';const si=Math.floor((x.t-W0)/(8*H));if(x.t>=W0&&si<14)MP[si].push({m,t:x.t,ref:x.ref,from:x.from,same,mat:x.mat});
-              bars+=`<div class="bar ${x.k}" style="left:${pct(x.t)}%;width:${pct(x.t2)-pct(x.t)}%" title="${esc(m)} — ${same?'Similaire (même réf.)':'Montage'} ${esc(x.from)} → ${esc(x.ref)}${x.mat?'\n'+esc(x.mat):''}\n${fmt(x.t)} → ${fmt(x.t2)} (${x.g} h)">${same?'≈':'Montage'}</div>`;}
+              bars+=`<div class="bar ${x.k}${x.adj?' adj':''}" data-m="${esc(m)}" data-of="${esc(x.of)}" data-g="${x.g}" data-d="${x.dd}" style="left:${pct(x.t)}%;width:${pct(x.t2)-pct(x.t)}%" title="${esc(m)} — ${same?'Similaire (même réf.)':'Montage'} ${esc(x.from)} → ${esc(x.ref)}${x.mat?'\n'+esc(x.mat):''}\n${fmt(x.t)} → ${fmt(x.t2)} (${hTxt(x.g)})${x.adj?'\nAjusté à la main · double-clic pour revenir au calcul':'\nGlisser pour déplacer · bords pour raccourcir ou allonger'}"><i class="hl"></i><span class="bt">${same?'≈':'Montage '+hTxt(x.g)}</span><i class="hr"></i></div>`;}
+            else if(x.k==='wait')bars+=`<div class="bar wait" style="left:${pct(x.t)}%;width:${pct(x.t2)-pct(x.t)}%" title="${esc(m)} — attente avant montage\n${fmt(x.t)} → ${fmt(x.t2)}">attente</div>`;
             else if(x.k==='unk')bars+=`<div class="bar unk cut" style="left:${pct(x.t)}%;width:${100-pct(x.t)}%" title="${esc(m)} — ${esc(x.ref)} : quantité inconnue au planning BOF">${esc(x.ref)}<small>qté inconnue</small></div>`;
-            else{const cut=x.t2>W1;bars+=`<div class="bar${cut?' cut':''}" style="left:${pct(x.t)}%;width:${pct(x.t2)-pct(x.t)}%;background:${col(x.ref)}" title="${esc(m)} — OF ${esc(String(x.r.of).replace(/^10*/,''))} · ${esc(x.ref)}\n${esc(x.r.matiere||'')}\n${Math.round(x.rem*1000).toLocaleString('fr-FR')} pièces à ${x.c}/min → ${x.dur.toFixed(1)} h\n${fmt(x.t)} → ${cut?'au-delà de la semaine ('+fmt(x.t2)+')':fmt(x.t2)}">${esc(x.ref)}<small>${x.dur.toFixed(0)} h</small></div>`;}}
+            else{const cut=x.t2>W1;const ttl=`${esc(m)} — OF ${esc(String(x.r.of).replace(/^10*/,''))} · ${esc(x.ref)}\n${esc(x.r.matiere||'')}\n${Math.round(x.rem*1000).toLocaleString('fr-FR')} pièces à ${x.c}/min → ${x.dur.toFixed(1)} h\n${fmt(x.t)} → ${cut?'au-delà de la semaine ('+fmt(x.t2)+')':fmt(x.t2)}${x.trunc?'\nOF arrêté avant la fin (montage avancé)':''}`;
+              /* découpe autour des arrêts machine */
+              let pcs=[[x.t,x.t2]];for(const st of ST.filter(y=>y.m===m)){const a=st.t,b2=st.t+st.h*H;pcs=pcs.flatMap(([u,v])=>b2<=u||a>=v?[[u,v]]:[[u,a],[b2,v]].filter(([p1,p2])=>p2>p1));}
+              pcs.forEach(([u,v],pi)=>{if(v<=W0||u>=W1)return;const ct=v>W1;bars+=`<div class="bar${ct?' cut':''}" style="left:${pct(u)}%;width:${pct(v)-pct(u)}%;background:${col(x.ref)}" title="${ttl}">${esc(x.ref)}<small>${pi?'suite':x.trunc?'écourté':x.dur.toFixed(0)+' h'}</small></div>`;});}}
           if(!bars){const nx=L.find(r=>r.rest==null||r.rest<0)||L[L.length-1];const d=Dd(nx.debut);bars=`<div class="none">prochain OF : ${esc(nx.ref)} le ${d.getDate()}/${d.getMonth()+1}</div>`;}
         }
+        for(const x of ST.filter(x=>x.m===m)){const a=x.t,b2=x.t+x.h*H;if(b2<=W0||a>=W1)continue;
+          const si=Math.floor((a-W0)/(8*H));if(a>=W0&&si<14)MP[si].push({m,t:a,stop:x});
+          bars+=`<div class="bar stop ty-${tyOf(x)}" data-id="${esc(x.id)}" style="left:${pct(a)}%;width:${pct(b2)-pct(a)}%" title="${esc(m)} — ${esc(x.l||'Arrêt')}\n${fmt(a)} → ${fmt(b2)} (${hTxt(x.h)})\nGlisser pour déplacer · bords pour la durée · double-clic pour modifier"><i class="hl"></i><span class="bt">${esc(x.l||'Arrêt')} ${hTxt(x.h)}</span><i class="hr"></i></div>`;}
         h+=`<div class="lab"><b>${esc(m)}</b><span>${esc(trs)||'&nbsp;'}</span></div><div class="lane">${gl}${now>W0&&now<W1?`<div class="now" style="left:${pct(now)}%"></div>`:''}${bars}</div>`;
       }}
     let t2=`<tr><th>Poste</th><th>Nb</th><th>Montages (heure de début · réf. sortante → réf. entrante)</th></tr>`;
-    MP.forEach((l,i)=>{const a=new Date(W0+i*8*H);l.sort((x,y)=>x.t-y.t);const n=l.filter(x=>!x.same).length;
-      t2+=`<tr><td class="p">${JR[a.getDay()]} ${a.getDate()}/${a.getMonth()+1} · ${SHx[i%3]}</td><td class="c">${n||'–'}</td><td>${l.map(x=>`<span class="m${x.same?' s':''}"><b>${esc(x.m)}</b> ${fmt(x.t).slice(4)} · ${esc(x.from)} → ${esc(x.ref)}${x.same?' (similaire)':''}</span>`).join('')||'<span style="color:#9AA5B8">aucun</span>'}</td></tr>`;});
-    const leg=`<div class="sleg"><span><i style="background:#2F5E8C"></i>Production (une couleur par réf.)</span><span><i style="background:repeating-linear-gradient(135deg,#E8A900 0 5px,#F3C64A 5px 10px)"></i>Montage ${P.hm} h</span><span><i style="background:#9AA5B8"></i>Similaire ${P.hs} h</span><span><i style="background:repeating-linear-gradient(135deg,#C9D1DD 0 4px,#DCE2EA 4px 8px)"></i>Quantité inconnue</span><span><i style="background:#C8102E;width:3px"></i>Maintenant</span></div>`;
+    MP.forEach((l,i)=>{const a=new Date(W0+i*8*H);l.sort((x,y)=>x.t-y.t);const n=l.filter(x=>!x.same&&!x.stop).length;
+      const lx=l.filter(x=>!x.stop);l=l.filter(x=>x.stop).concat(lx);t2+=`<tr><td class="p">${JR[a.getDay()]} ${a.getDate()}/${a.getMonth()+1} · ${SHx[i%3]}</td><td class="c">${n||'–'}</td><td>${l.map(x=>x.stop?`<span class="m st ${tyOf(x.stop)}"><b>${esc(x.m)}</b> ${esc(x.stop.l||'Arrêt')} ${fmt(x.t).slice(4)} · ${hTxt(x.stop.h)}</span>`:`<span class="m${x.same?' s':''}"><b>${esc(x.m)}</b> ${fmt(x.t).slice(4)} · ${esc(x.from)} → ${esc(x.ref)}${x.same?' (similaire)':''}</span>`).join('')||'<span style="color:#9AA5B8">aucun</span>'}</td></tr>`;});
+    const leg=`<div class="sleg"><span><i style="background:#2F5E8C"></i>Production (une couleur par réf.)</span><span><i style="background:repeating-linear-gradient(135deg,#E8A900 0 5px,#F3C64A 5px 10px)"></i>Montage ${P.hm} h</span><span><i style="background:#9AA5B8"></i>Similaire ${P.hs} h</span><span><i style="background:repeating-linear-gradient(45deg,#C8102E 0 4px,#E8607A 4px 8px)"></i>Panne</span><span><i style="background:#C8102E"></i>Préventif</span><span><i style="background:#6B4FA0"></i>Essais / dév.</span><span><i style="background:repeating-linear-gradient(135deg,#C9D1DD 0 4px,#DCE2EA 4px 8px)"></i>Quantité inconnue</span><span><i style="background:#C8102E;width:3px"></i>Maintenant</span></div>`;
     return {sub,old:C.old,html:`<div class="sg-card"><div class="sg">${h}</div></div>${leg}<h3 class="smp-t">Montages par poste</h3><table class="smp">${t2}</table>`};
   }
   function draw(){if(VIEW!=='sem')return;
@@ -3126,12 +3232,14 @@ const SEM=(()=>{
   $('sWk').addEventListener('input',e=>{if(e.target.value){WK=e.target.value;draw();}});
   [['sHm','hm'],['sHs','hs'],['sRd','rd']].forEach(([id,k])=>$(id).addEventListener('input',e=>{const v=parseFloat(e.target.value);if(!isNaN(v)&&v>=0){P[k]=k==='rd'?Math.max(10,v):v;save();draw();}}));
   $('sImp').onclick=()=>$('cBofF').click();
+  $('sStop').onclick=()=>{if(readOnly){toast('Lecture seule');return;}stDlg(null);};
+  $('sRaz').onclick=()=>{if(readOnly)return;if(!Object.keys(OV).length){toast('Aucun ajustement en cours');return;}OV={};saveOV();toast('Tous les montages sont recalculés');};
   $('sPrint').onclick=()=>{if(!BOF||!BOF.mach){toast('Importer d’abord le planning BOF');return;}
     const b=build();const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n').split('\n').filter(l=>/\.sg|\.sleg|smp/.test(l)).join('\n');
     const w=window.open('','_blank');if(!w){toast('Fenêtre bloquée : autoriser les fenêtres pour imprimer');return;}
     w.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Planning semaine TechLine</title><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"><style>@page{size:A3 landscape;margin:8mm}body{font-family:Barlow,Arial,sans-serif;color:#1C2B4A;margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}h1{font-size:22px;color:#003B6F;margin:0 0 2px}.hd{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}.lg{font-weight:700;letter-spacing:.18em;color:#003B6F}.sb{color:#5B6780;font-size:13px}.ft{font-size:11px;color:#5B6780;margin-top:8px}.smp-t{break-before:page}${css}</style></head><body><div class="hd"><span class="lg">BÖLLHOFF</span><h1>Planning semaine TechLine</h1><span class="sb">${esc(b.sub)} · montage ${P.hm} h · similaire ${P.hs} h · rendement ${P.rd} %</span></div>${b.html}<div class="ft">Böllhoff Otalu — UAP Forg'Tech · source ${esc(BOF.file||'')} · édité le ${new Date().toLocaleDateString('fr-FR')} · Olivier Macian, Superviseur Production</div></body></html>`);
     w.document.close();setTimeout(()=>{try{w.focus();w.print();}catch(e){}},700);};
-  return {draw,montIn,H,groups:()=>parseCfg(SET.cfg).flatMap(z=>z.groups.map(g=>g.machines))};
+  return {draw,montIn,H,setOV,setST,pushST:()=>shSave('semstop',ST),groups:()=>parseCfg(SET.cfg).flatMap(z=>z.groups.map(g=>g.machines))};
 })();
 window.SEMX=SEM;
 
@@ -3642,7 +3750,7 @@ function embUrl(k){k=EMB[k]?k:'aide';if(!EMB_URL[k]){const bin=atob(EMB[k]),u=ne
 function aideUrl(){return embUrl('aide');}
 const NEWS=(()=>{
   const BUILTIN=[
-    {id:'b-v38',at:'2026-11-23T08:45',ver:'v38',t:'Nouvel onglet « Planning semaine »',x:'Planning visuel de la semaine (lundi 5h → vendredi 21h, Matin / Après-midi / Nuit) pour toutes les machines TechLine, calculé depuis le planning BOF : quantité restante ÷ cadence théorique. Montage de 8 h entre deux réf., 1 h quand la réf. est identique (similaire) : réglable en haut, avec le rendement. Dessous, le tableau « Montages par poste ». Bouton Imprimer en A3 paysage.'},
+    {id:'b-v38',at:'2026-11-23T08:45',ver:'v38',t:'Nouvel onglet « Planning semaine »',x:'Planning visuel de la semaine (lundi 5h → vendredi 21h, Matin / Après-midi / Nuit) pour toutes les machines TechLine, calculé depuis le planning BOF : quantité restante ÷ cadence théorique. Montage de 8 h entre deux réf., 1 h quand la réf. est identique (similaire) : réglable en haut, avec le rendement. Dessous, le tableau « Montages par poste ». Bouton Imprimer en A3 paysage.\nÀ la souris : glisser un montage pour le déplacer, tirer ses bords pour le raccourcir ou l’allonger (pas de 15 min). Double-clic pour revenir au calcul. Les ajustements sont partagés et repris dans Affectation.\nPannes, préventifs, essais : clic droit (ou double-clic) dans la ligne de la machine à l’heure voulue, ou bouton « + Panne / préventif » (type, début, durée). La production de la machine est suspendue pendant l’arrêt et reprend après. Bandeau rouge à glisser ou étirer à la souris, double-clic pour modifier ou supprimer.'},
     {id:'b-v37',at:'2026-11-23T08:30',ver:'v37',t:'Montages suivants depuis le planning BOF',x:'Consignes : nouveau bouton « Importer planning BOF » (PDF FAT_BOF_PROD_Planning). En bas de la feuille (DIVERS), la liste « Montages suivants » : pour chaque presse, date et réf. du prochain montage, alerte rouge en cas de changement de fil (nuance ou diamètre), « retard » si la date est dépassée, montages du jour en gras. Partagé avec toute l’équipe.'},
     {id:'b-v36',at:'2026-11-20T19:10',ver:'v36',t:'Les post-it en 1 minute (film)',x:'Petit film pour tout comprendre : créer un post-it, choisir sa couleur (jaune, orange, vert, rose), l’équipe concernée, ajouter une photo, et où chaque couleur sort à l’impression.',embed:'postit',lt:'Voir le film en grand'},
     {id:'b-v32',at:'2026-11-20T18:40',ver:'v34',t:'4 types de post-it',x:'Chaque post-it a un type, en haut à gauche (cliquer pour changer) :\n🖨 JAUNE « Affectation » : imprimé dans les cases vides de la fiche d’affectation.\n📌 ORANGE « Bas affect. » : imprimé en bande en bas de la fiche d’affectation.\n📋 VERT « Consignes » : ajouté en bas de la feuille de consignes de l’équipe choisie.\n🔒 ROSE « Superviseurs » : reste entre superviseurs, jamais imprimé.\nL’étiquette de poste (Tous, Matin, Après-midi, Nuit) choisit l’équipe concernée.'},

@@ -141,6 +141,7 @@ table.g tbody tr:hover td:not(.sepc):not(.gapc){background-color:color-mix(in sr
 @keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 .mt{width:100%;border:0;border-radius:7px;background:transparent;font-size:12.5px;color:var(--ink-2);padding:4px 6px;text-align:center;transition:background-color .2s}
 .mt::placeholder{color:var(--ink-3);opacity:.55}
+.mt.auto::placeholder{color:#A04A00;opacity:1;font-weight:700}
 .mt:hover{background:var(--surface-2)}
 .mt:focus{outline:none;background:var(--accent-soft);color:var(--ink)}
 .tip{margin:12px auto 0;padding:0 28px;max-width:1800px;color:var(--ink-3);font-size:13px}
@@ -564,6 +565,7 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 [data-theme="classeur"] .op.over{background:#FCE4E4}
 [data-theme="classeur"] .mt{border-radius:0;font:italic 700 12px/1.1 Arial,sans-serif;color:#FF0000}
 [data-theme="classeur"] .mt::placeholder{color:#6B82AE;font-style:normal;font-weight:400;opacity:.7}
+[data-theme="classeur"] .mt.auto::placeholder{color:#A04A00;font-weight:700;opacity:1}
 [data-theme="classeur"] .panel{border-radius:0;box-shadow:none;border:1px solid #6B82AE}
 [data-theme="classeur"] .panel h2,[data-theme="classeur"] .pick header h2,[data-theme="classeur"] .exp h2{font:700 20px/1.1 Arial,sans-serif;color:#2C3E5C;letter-spacing:0}
 [data-theme="classeur"] .shift h3{border-radius:0;background:#7C93C8!important;color:#fff!important;font:700 13px/1 Arial,sans-serif}
@@ -1891,11 +1893,26 @@ function sideTD(sl,obj,iso,pl){
     const sk=sl.sup?'':mstOf(obj,sl.id,k);
     h+=`<td class="${(sl.sup?'sup':'')+(sk?' mstc':'')}"><div class="cell">${sk?`<span class="cst st-${sk}">${MST[sk][0]}</span>`:''}<button class="${cls}" data-slot="${sl.id}" data-s="${k}" aria-label="${esc(LABEL[sl.id])} ${SHIFTS[k]}${o?' : '+esc(o.f+' '+o.l):' : libre'}">`+
       (o?`<span class="fi">${esc(o.f)}${!o.tl&&!o.sp&&!o.ex&&o.svc?` · ${esc(svcShort(o.svc))}`:''}</span><span class="la">${esc(o.l)}</span>${cls.includes(' out')?'<span class="hp">hors planning Kelio</span>':''}`:`<span class="ph">+ Affecter</span>`)+`</button>`+
-      (sl.sup?'':`<input class="mt" data-mt="${sl.id}" data-s="${k}" value="${esc(obj[K.m(sl.id,k)]||'')}" placeholder="Montage" ${readOnly?'readonly':''} aria-label="Montage ${esc(LABEL[sl.id])} ${SHIFTS[k]}">`)+
+      (sl.sup?'':(()=>{const am=bofAff(sl.id,iso,k);return `<input class="mt${am?' auto':''}" data-mt="${sl.id}" data-s="${k}" value="${esc(obj[K.m(sl.id,k)]||'')}" placeholder="${esc(am?am.txt:'Montage')}"${am?` title="${esc(am.tip)}"`:''} ${readOnly?'readonly':''} aria-label="Montage ${esc(LABEL[sl.id])} ${SHIFTS[k]}">`;})())+
       `</div></td>`;
   }
   return h;
 }
+
+/* montage prévu (planning BOF, onglet Planning semaine) pour un poste d'affectation */
+function bofAff(slot,iso,k){try{
+  const S=window.SEMX;if(!S||!iso)return null;const H=S.H;
+  const [y,m,d]=iso.split('-').map(Number);const a=+new Date(y,m-1,d,5)+k*8*H,b=a+8*H;
+  let ms=[];{let pre='';for(const p of slot.split('_')){const q=p.match(/^([A-Z]+)(\d+)$/);if(q){pre=q[1];ms.push(p);}else if(/^\d+$/.test(p)&&pre)ms.push(pre+p);}}
+  if(ms.every(x=>/^(TR|TT|TS)/.test(x))){const g=S.groups().find(g=>g.some(x=>ms.includes(x)));const f=g&&g.find(x=>!/^(TR|TT|TS)/.test(x));ms=f?[f]:[];}
+  else ms=ms.filter(x=>!/^(TR|TT|TS)/.test(x));
+  const ev=[];for(const mm of ms)for(const x of S.montIn(mm,a,b))ev.push(x);
+  if(!ev.length)return null;ev.sort((p,q)=>p.t-q.t);
+  const hh=t=>{const z=new Date(t);return z.getHours()+'h'+(z.getMinutes()?String(z.getMinutes()).padStart(2,'0'):'');};
+  const one=x=>x.t>=a?(x.k==='si'?`Similaire ${hh(x.t)} · ${x.ref}`:`Montage ${hh(x.t)} → ${x.ref}`):(x.k==='si'?`Similaire (suite) · ${x.ref}`:`Montage (suite) → ${x.ref}`);
+  return {txt:ev.map(one).join(' · '),tip:'Planning BOF : '+ev.map(x=>`${x.from} → ${x.ref}${x.mat?' ('+x.mat+')':''}`).join(' · ')};
+}catch(e){return null;}}
+function mval(obj,id,k,iso){const v=obj[K.m(id,k)];if(v)return v;const a=bofAff(id,iso,k);return a?a.txt:'';}
 const PHONE=matchMedia('(max-width: 760px)');
 let PRINT_PN=false;try{PRINT_PN=localStorage.getItem('techline_print_pn')==='1';}catch(e){}
 function renderPNP(){const b=$('bpnp');if(!b)return;b.setAttribute('aria-pressed',PRINT_PN);b.classList.toggle('on',PRINT_PN);b.textContent='Post-it à l’impression : '+(PRINT_PN?'oui':'non');}
@@ -2038,7 +2055,7 @@ function sheetHTML(iso,th){
   const L=LEFT.filter(x=>!x.zone),R=RIGHT.filter(x=>!x.zone);
   const monH=4;
   // lignes montage seulement là où il y a un texte ; le reste de la page va aux noms
-  const monRows=L.reduce((n,a,i)=>{const b=R[i];if(a.sup&&b.sup)return n;const any=[a,b].some(sl=>sl&&!sl.sup&&!sl.gap&&KS().some(k=>obj[K.m(sl.id,k)]));return n+(any?1:0);},0);
+  const monRows=L.reduce((n,a,i)=>{const b=R[i];if(a.sup&&b.sup)return n;const any=[a,b].some(sl=>sl&&!sl.sup&&!sl.gap&&KS().some(k=>mval(obj,sl.id,k,iso)));return n+(any?1:0);},0);
   const nameH=Math.min(14,Math.max(7.4,(171-monRows*monH-noteH-(noteH?2:0))/L.length));
   const sideCells=(sl,kind)=>{
     if(!sl||sl.gap){ if(kind==='name')return `<td class="pm gp" style="background:#fff"${TH?' rowspan="2"':''}></td><td class="mc gp" style="background:#fff"${TH?' rowspan="2"':''}></td>${'<td class="gp"></td>'.repeat(NK)}`; return `${TH?'':'<td class="gp" style="border:0"></td><td class="gp" style="border:0"></td>'}${'<td class="mo gp"></td>'.repeat(NK)}`;}
@@ -2050,12 +2067,12 @@ function sheetHTML(iso,th){
     }
     if(sl.sup)return null;
     let h=TH?'':`<td class="pm"></td>`;
-    for(const k of KS())h+=`<td class="mo">${esc(obj[K.m(sl.id,k)]||'')}</td>`;
+    for(const k of KS())h+=`<td class="mo">${esc(mval(obj,sl.id,k,iso)||'')}</td>`;
     return h;
   };
   for(let i=0;i<L.length;i++){
     const a=L[i],b=R[i];
-    const hasMon=!(a.sup&&b.sup)&&[a,b].some(sl=>sl&&!sl.sup&&!sl.gap&&KS().some(k=>obj[K.m(sl.id,k)]));
+    const hasMon=!(a.sup&&b.sup)&&[a,b].some(sl=>sl&&!sl.sup&&!sl.gap&&KS().some(k=>mval(obj,sl.id,k,iso)));
     let nr=`<tr class="nr c${i%6}${a.sup?' sp':''}${hasMon?'':' nomon'}" style="height:${nameH}mm">${sideCells(a,'name')}<td class="gap"></td>${sideCells(b,'name').replace('class="mc','class="mc tar')}</tr>`;
     if(!hasMon)nr=nr.replace(/ rowspan="2"/g,'');
     rows.push(nr);
@@ -2693,7 +2710,7 @@ let BOF=LSg('cst2_bof',null);
 function shSave(k,v){if(!db||readOnly)return;db.doc('config/'+k).set({json:JSON.stringify(v),at:new Date().toISOString()}).catch(e=>toast('Partage impossible ('+(e&&e.code||'erreur')+')'));}
 function attach(){if(!db)return;
   db.doc('config/osys').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(OSYS)){OSYS=v;LSs('cst2_osys',OSYS);render();}}catch(e){}},()=>{});
-  db.doc('config/bof').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(BOF)){BOF=v;LSs('cst2_bof',BOF);render();if(VIEW==='sem')SEM.draw();}}catch(e){}},()=>{});
+  db.doc('config/bof').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(BOF)){BOF=v;LSs('cst2_bof',BOF);render();if(VIEW==='sem')SEM.draw();try{window.render();}catch(e){}}}catch(e){}},()=>{});
   db.doc('config/reglages').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;try{const v=JSON.parse(sn.data().json);if(v&&JSON.stringify(v)!==JSON.stringify(SET)){SET=Object.assign(SET,v);LSs('cst2_set',SET);render();}}catch(e){}},()=>{});}
 const hh=new Date().getHours();
 let shift=hh>=5&&hh<13?0:hh>=13&&hh<21?1:2;
@@ -2946,7 +2963,7 @@ async function importBof(f){
     if(!n){toast('Aucune presse trouvée : est-ce bien le PDF FAT_BOF_PROD_Planning ?');return;}
     const mach={};for(const k in r)mach[k]=r[k].map(x=>({...x,debut:isoD(x.debut),fin:isoD(x.fin)}));
     BOF={mach,file:f.name,at:Date.now()};LSs('cst2_bof',BOF);shSave('bof',BOF);
-    render();if(VIEW==='sem')SEM.draw();toast('Planning BOF : '+n+' presses importées');
+    render();if(VIEW==='sem')SEM.draw();try{window.render();}catch(e){}toast('Planning BOF : '+n+' presses importées');
   }catch(e){busy(false);console.error(e);toast(e&&e.message==='lib'?'Lecture impossible : connexion Internet nécessaire':'Erreur de lecture du PDF');}
 }
 async function importPdf(f){
@@ -3044,38 +3061,51 @@ const SEM=(()=>{
       if(!fr.length){const last=rows[rows.length-1];if(last&&tr.length)last.trs=(last.trs?last.trs+' · ':'')+tr.join(' · ');continue;}
       fr.forEach((m,i)=>rows.push({m,trs:i===0?tr.join(' · '):''}));}
     return {z:z.name,rows};}).filter(z=>z.rows.length);}
+  /* calcul unique : chaînage des OF depuis le lundi 5h de la semaine d'import du planning BOF */
+  let CK='',CS=null;
+  function startOf(){const a=new Date(BOF&&BOF.at||Date.now());const d=new Date(a.getFullYear(),a.getMonth(),a.getDate()),w=d.getDay();if(w===6)d.setDate(d.getDate()+2);else if(w===0)d.setDate(d.getDate()+1);else d.setDate(d.getDate()-(w-1));return +d+5*H;}
+  function compute(){
+    const key=(BOF&&BOF.at)+'|'+P.hm+'|'+P.hs+'|'+P.rd+'|'+JSON.stringify(SET.cadOv||{});
+    if(key===CK&&CS)return CS;
+    const S=startOf(),END=S+28*24*H,rd=(P.rd||100)/100,mach=BOF&&BOF.mach||{},res={S,seg:{},old:[]};
+    for(const m in mach){const L=mach[m];if(!L||!L.length)continue;const seg=[];
+      const q=L.filter((r,i)=>!(r.rest!=null&&r.rest>=0&&i<L.length-1));
+      let t=S;if(q[0]&&+Dd(q[0].debut)+5*H>S)t=+Dd(q[0].debut)+5*H;
+      if(q[0]&&q[0].debut&&+Dd(q[0].debut)<S-14*24*H)res.old.push(`${m} (${q[0].ref} du ${Dd(q[0].debut).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})})`);
+      let prev=null;
+      for(const r of q){if(t>=END)break;
+        if(prev){const same=prev.ref===r.ref,g=same?P.hs:P.hm,t2=addH(t,g);
+          if(g>0)seg.push({k:same?'si':'mo',t,t2,ref:r.ref,from:prev.ref,g,mat:prev.codeMat&&r.codeMat&&prev.codeMat!==r.codeMat?`fil ${matS(prev.matiere)} → ${matS(r.matiere)}`:''});t=t2;}
+        const rem=r.rest==null?null:Math.max(0,-r.rest);
+        if(rem==null){seg.push({k:'unk',t,t2:END,ref:r.ref,r});break;}
+        const c=cadR(r.ref),dur=rem*1000/(c*rd)/60,t2=addH(t,dur);
+        seg.push({k:'p',t,t2,ref:r.ref,r,c,dur,rem});t=t2;prev=r;}
+      res.seg[m]=seg;}
+    CK=key;CS=res;return res;}
+  /* montages (début ou suite) d'une machine dans une fenêtre [a,b) */
+  function montIn(m,a,b){const C=compute();return (C.seg[m]||[]).filter(x=>(x.k==='mo'||x.k==='si')&&x.t<b&&x.t2>a);}
   function build(){
-    const W0=+Dd(WK)+5*H,W1=W0+112*H,SP=W1-W0,pct=t=>((Math.max(W0,Math.min(W1,t))-W0)/SP*100),rd=(P.rd||100)/100;
+    const W0=+Dd(WK)+5*H,W1=W0+112*H,SP=W1-W0,pct=t=>((Math.max(W0,Math.min(W1,t))-W0)/SP*100);
     const wd=new Date(W0),we=new Date(W1-1);
     const sub=`Du ${JR[wd.getDay()].toLowerCase()} ${wd.getDate()}/${wd.getMonth()+1} 05h au ${JR[we.getDay()].toLowerCase()} ${we.getDate()}/${we.getMonth()+1} 21h · Matin, Après-midi, Nuit`;
-    const mach=BOF&&BOF.mach||{};
+    const C=compute(),mach=BOF&&BOF.mach||{};
     let dh='',sh='',gl='';
     for(let i=0;i<14;i++){const a=W0+i*8*H,l=i/14*100,w=100/14,d=new Date(a),si=i%3;
       sh+=`<div class="sc${si===2?' n':''}" style="left:${l}%;width:${w}%">${SHx[si]}<span style="opacity:.6;margin-left:4px">${String(d.getHours()).padStart(2,'0')}h</span></div>`;
       if(si===0)dh+=`<div class="dc" style="left:${l}%;width:${(i===12?2:3)*w}%">${JR[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}</div>`;
       gl+=`<div class="gl${si===0?' d':''}" style="left:${l}%"></div>`+(si===2?`<div class="nb" style="left:${l}%;width:${w}%"></div>`:'');}
     let h=`<div class="lab" style="border-bottom:1px solid #D9DEE7"><span>Machine</span></div><div style="border-bottom:1px solid #D9DEE7"><div class="days">${dh}</div><div class="shifts">${sh}</div></div>`;
-    const MP=[...Array(14)].map(()=>[]),now=Date.now(),old=[];
+    const MP=[...Array(14)].map(()=>[]),now=Date.now();
     for(const z of lines()){h+=`<div class="zone">${esc(z.z||'')}</div>`;
       for(const {m,trs} of z.rows){
         const L=mach[m];let bars='';
         if(!L||!L.length)bars=`<div class="none">absente du planning BOF</div>`;
         else{
-          const q=L.filter((r,i)=>!(r.rest!=null&&r.rest>=0&&i<L.length-1));
-          let t=W0;if(q[0]&&+Dd(q[0].debut)+5*H>W0)t=+Dd(q[0].debut)+5*H;
-          if(q[0]&&q[0].debut&&+Dd(q[0].debut)<W0-14*24*H)old.push(`${m} (${q[0].ref} du ${Dd(q[0].debut).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})})`);
-          let prev=null;
-          for(const r of q){if(t>=W1)break;
-            if(prev){const same=prev.ref===r.ref,g=same?P.hs:P.hm,t2=addH(t,g);
-              if(g>0){const si=Math.floor((t-W0)/(8*H));if(si>=0&&si<14)MP[si].push({m,t,ref:r.ref,from:prev.ref,same});
-                bars+=`<div class="bar ${same?'si':'mo'}" style="left:${pct(t)}%;width:${pct(t2)-pct(t)}%" title="${esc(m)} — ${same?'Similaire (même réf.)':'Montage'} ${esc(prev.ref)} → ${esc(r.ref)}\n${fmt(t)} → ${fmt(t2)} (${g} h)">${same?'≈':'Montage'}</div>`;}
-              t=t2;}
-            if(t>=W1)break;
-            const rem=r.rest==null?null:Math.max(0,-r.rest);
-            if(rem==null){bars+=`<div class="bar unk cut" style="left:${pct(t)}%;width:${100-pct(t)}%" title="${esc(m)} — ${esc(r.ref)} : quantité inconnue au planning BOF">${esc(r.ref)}<small>qté inconnue</small></div>`;break;}
-            const c=cadR(r.ref),dur=rem*1000/(c*rd)/60,t2=addH(t,dur),cut=t2>W1;
-            bars+=`<div class="bar${cut?' cut':''}" style="left:${pct(t)}%;width:${pct(t2)-pct(t)}%;background:${col(r.ref)}" title="${esc(m)} — OF ${esc(String(r.of).replace(/^10*/,''))} · ${esc(r.ref)}\n${esc(r.matiere||'')}\n${Math.round(rem*1000).toLocaleString('fr-FR')} pièces à ${c}/min → ${dur.toFixed(1)} h\n${fmt(t)} → ${cut?'au-delà de la semaine ('+fmt(t2)+')':fmt(t2)}">${esc(r.ref)}<small>${dur.toFixed(0)} h</small></div>`;
-            t=t2;prev=r;}
+          for(const x of (C.seg[m]||[])){if(x.t2<=W0||x.t>=W1)continue;
+            if(x.k==='mo'||x.k==='si'){const same=x.k==='si';const si=Math.floor((x.t-W0)/(8*H));if(x.t>=W0&&si<14)MP[si].push({m,t:x.t,ref:x.ref,from:x.from,same,mat:x.mat});
+              bars+=`<div class="bar ${x.k}" style="left:${pct(x.t)}%;width:${pct(x.t2)-pct(x.t)}%" title="${esc(m)} — ${same?'Similaire (même réf.)':'Montage'} ${esc(x.from)} → ${esc(x.ref)}${x.mat?'\n'+esc(x.mat):''}\n${fmt(x.t)} → ${fmt(x.t2)} (${x.g} h)">${same?'≈':'Montage'}</div>`;}
+            else if(x.k==='unk')bars+=`<div class="bar unk cut" style="left:${pct(x.t)}%;width:${100-pct(x.t)}%" title="${esc(m)} — ${esc(x.ref)} : quantité inconnue au planning BOF">${esc(x.ref)}<small>qté inconnue</small></div>`;
+            else{const cut=x.t2>W1;bars+=`<div class="bar${cut?' cut':''}" style="left:${pct(x.t)}%;width:${pct(x.t2)-pct(x.t)}%;background:${col(x.ref)}" title="${esc(m)} — OF ${esc(String(x.r.of).replace(/^10*/,''))} · ${esc(x.ref)}\n${esc(x.r.matiere||'')}\n${Math.round(x.rem*1000).toLocaleString('fr-FR')} pièces à ${x.c}/min → ${x.dur.toFixed(1)} h\n${fmt(x.t)} → ${cut?'au-delà de la semaine ('+fmt(x.t2)+')':fmt(x.t2)}">${esc(x.ref)}<small>${x.dur.toFixed(0)} h</small></div>`;}}
           if(!bars){const nx=L.find(r=>r.rest==null||r.rest<0)||L[L.length-1];const d=Dd(nx.debut);bars=`<div class="none">prochain OF : ${esc(nx.ref)} le ${d.getDate()}/${d.getMonth()+1}</div>`;}
         }
         h+=`<div class="lab"><b>${esc(m)}</b><span>${esc(trs)||'&nbsp;'}</span></div><div class="lane">${gl}${now>W0&&now<W1?`<div class="now" style="left:${pct(now)}%"></div>`:''}${bars}</div>`;
@@ -3084,7 +3114,7 @@ const SEM=(()=>{
     MP.forEach((l,i)=>{const a=new Date(W0+i*8*H);l.sort((x,y)=>x.t-y.t);const n=l.filter(x=>!x.same).length;
       t2+=`<tr><td class="p">${JR[a.getDay()]} ${a.getDate()}/${a.getMonth()+1} · ${SHx[i%3]}</td><td class="c">${n||'–'}</td><td>${l.map(x=>`<span class="m${x.same?' s':''}"><b>${esc(x.m)}</b> ${fmt(x.t).slice(4)} · ${esc(x.from)} → ${esc(x.ref)}${x.same?' (similaire)':''}</span>`).join('')||'<span style="color:#9AA5B8">aucun</span>'}</td></tr>`;});
     const leg=`<div class="sleg"><span><i style="background:#2F5E8C"></i>Production (une couleur par réf.)</span><span><i style="background:repeating-linear-gradient(135deg,#E8A900 0 5px,#F3C64A 5px 10px)"></i>Montage ${P.hm} h</span><span><i style="background:#9AA5B8"></i>Similaire ${P.hs} h</span><span><i style="background:repeating-linear-gradient(135deg,#C9D1DD 0 4px,#DCE2EA 4px 8px)"></i>Quantité inconnue</span><span><i style="background:#C8102E;width:3px"></i>Maintenant</span></div>`;
-    return {sub,old,html:`<div class="sg-card"><div class="sg">${h}</div></div>${leg}<h3 class="smp-t">Montages par poste</h3><table class="smp">${t2}</table>`};
+    return {sub,old:C.old,html:`<div class="sg-card"><div class="sg">${h}</div></div>${leg}<h3 class="smp-t">Montages par poste</h3><table class="smp">${t2}</table>`};
   }
   function draw(){if(VIEW!=='sem')return;
     $('sWk').value=WK;$('sHm').value=P.hm;$('sHs').value=P.hs;$('sRd').value=P.rd;
@@ -3092,7 +3122,7 @@ const SEM=(()=>{
     const b=build();$('sSub').textContent=b.sub;
     $('sInf').innerHTML=`Source : <b>${esc(BOF.file||'')}</b> (importé le ${esc(new Date(BOF.at).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}))}) · durée = quantité restante ÷ cadence théorique × ${P.rd} % · arrêt du samedi 20h au lundi 5h`+(b.old.length?` · <span class="w">OF en cours anciens à vérifier : ${esc(b.old.join(', '))}</span>`:'');
     $('sBody').innerHTML=b.html;}
-  function save(){LSs('techline_sem',P);}
+  function save(){LSs('techline_sem',P);try{window.render();}catch(e){}}
   $('sWk').addEventListener('input',e=>{if(e.target.value){WK=e.target.value;draw();}});
   [['sHm','hm'],['sHs','hs'],['sRd','rd']].forEach(([id,k])=>$(id).addEventListener('input',e=>{const v=parseFloat(e.target.value);if(!isNaN(v)&&v>=0){P[k]=k==='rd'?Math.max(10,v):v;save();draw();}}));
   $('sImp').onclick=()=>$('cBofF').click();
@@ -3101,8 +3131,9 @@ const SEM=(()=>{
     const w=window.open('','_blank');if(!w){toast('Fenêtre bloquée : autoriser les fenêtres pour imprimer');return;}
     w.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Planning semaine TechLine</title><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"><style>@page{size:A3 landscape;margin:8mm}body{font-family:Barlow,Arial,sans-serif;color:#1C2B4A;margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}h1{font-size:22px;color:#003B6F;margin:0 0 2px}.hd{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}.lg{font-weight:700;letter-spacing:.18em;color:#003B6F}.sb{color:#5B6780;font-size:13px}.ft{font-size:11px;color:#5B6780;margin-top:8px}.smp-t{break-before:page}${css}</style></head><body><div class="hd"><span class="lg">BÖLLHOFF</span><h1>Planning semaine TechLine</h1><span class="sb">${esc(b.sub)} · montage ${P.hm} h · similaire ${P.hs} h · rendement ${P.rd} %</span></div>${b.html}<div class="ft">Böllhoff Otalu — UAP Forg'Tech · source ${esc(BOF.file||'')} · édité le ${new Date().toLocaleDateString('fr-FR')} · Olivier Macian, Superviseur Production</div></body></html>`);
     w.document.close();setTimeout(()=>{try{w.focus();w.print();}catch(e){}},700);};
-  return {draw};
+  return {draw,montIn,H,groups:()=>parseCfg(SET.cfg).flatMap(z=>z.groups.map(g=>g.machines))};
 })();
+window.SEMX=SEM;
 
 /* --- interactions --- */
 function setView(v){VIEW=v;document.body.dataset.view=v;setTimeout(()=>{if(typeof PN!=='undefined'){PN.draw();AN.draw();}},30);document.querySelector('.app').classList.toggle('vcons',v!=='aff');$('cview').hidden=v!=='cons';$('eview').hidden=v!=='etat';$('nview').hidden=v!=='news';$('sview').hidden=v!=='sem';if(v==='sem')SEM.draw();$('pview').hidden=v!=='plan';if(v==='plan'&&typeof PLAN!=='undefined')PLAN.draw();if(v==='news'&&typeof NEWS!=='undefined')NEWS.open();

@@ -228,6 +228,24 @@ textarea:focus{outline:none;background:var(--surface);box-shadow:0 0 0 3px var(-
 .kp ul{margin:4px 0 0;padding-left:18px}
 .kp .warn{color:var(--warn);font-weight:600}
 .kp .err{color:var(--bad);font-weight:600}
+.kn{margin-top:12px;border:1px solid var(--line);border-radius:var(--r-md);padding:8px 12px;font-size:14px}
+.kn summary{cursor:pointer;font-weight:600;padding:4px 0}
+.kn p{margin:6px 0;color:var(--ink-2);font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0;max-height:220px;overflow:auto}
+.chip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:999px;padding:3px 4px 3px 10px;font-size:13px;background:var(--surface-2)}
+.chip button{border:0;background:transparent;cursor:pointer;font-size:15px;line-height:1;padding:0 6px;color:var(--ink-2);border-radius:999px}
+.chip button:hover{background:var(--bad-bg);color:var(--bad)}
+.chip.add{background:transparent;border-style:dashed}
+.chip.add button:hover{background:var(--ok-bg);color:var(--ok)}
+.chip small{color:var(--ink-2)}
+.kchk{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px 10px}.kchk>summary{cursor:pointer;font-weight:700;padding:4px 0}
+.kchkt{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.kchkt input{flex:1;min-width:150px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;font:inherit}
+.kchkt button{padding:5px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);cursor:pointer;font:inherit;font-size:13px}
+.kgrp{margin:6px 0 10px}.kgh{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding:3px 0;margin-bottom:4px}.kgh small{color:var(--ink-2)}
+.kgl{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2px 12px;max-height:none}
+.kpi{display:flex;align-items:center;gap:6px;font-size:13.5px;padding:2px 0;cursor:pointer}.kpi[hidden],.kgrp[hidden]{display:none}
+.knew{display:flex;gap:6px;margin-top:6px}.knew input{flex:1;min-width:0;padding:6px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:var(--surface)}
+.knew button{padding:6px 12px;border-radius:8px;border:1px solid var(--line);cursor:pointer;background:var(--surface-2);font:inherit}
 .kp.err{color:var(--bad);font-weight:600}
 .busy{position:fixed;inset:0;z-index:300;background:var(--bg);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;font:600 22px/1.2 var(--disp);letter-spacing:-.02em}
 .busy.on{display:flex}
@@ -1687,6 +1705,7 @@ table.pt td.mo{text-align:center;font:italic 600 2.9mm/1 "Barlow",Arial,sans-ser
     <div class="kp" id="pretBox"><h4>Prêt TECHKNOW</h4><div style="font-size:13px;color:var(--ink-2);margin-bottom:6px">Un nom par ligne : NOM Prénom. Liste commune à l'équipe, proposée en fin de liste dans chaque poste.</div>
       <textarea id="pretTa" spellcheck="false" style="min-height:110px"></textarea>
       <div style="text-align:right;margin-top:8px"><button type="button" id="pretSave" style="height:34px;border:0;border-radius:8px;padding:0 14px;background:#003B6F;color:#fff;font-weight:600;cursor:pointer">Enregistrer la liste</button></div></div>
+    <details class="kn" id="kn"><summary id="knsum">Personnes retenues à l'import</summary><p>Seules ces personnes sont gardées quand tu importes un export Kelio complet. Clique sur × pour retirer un nom.</p><div class="chips" id="knlist"></div><div class="knew"><input id="knin" placeholder="NOM Prénom (comme dans Kelio)" autocomplete="off"><button id="knadd" type="button">Ajouter</button></div></details>
     <div class="exf"><button id="kclose">Fermer</button><button id="kok" class="primary" hidden>Importer ce planning</button></div>
   </div>
 </div>
@@ -2322,7 +2341,7 @@ function splitName(raw){
   return {id:(l+' '+f).trim(),l,f};
 }
 function parsePlanning(wb){
-  const per={}; let rs=null,re=null,exp='';
+  const per={},svc={}; let rs=null,re=null,exp='';
   const put=(name,iso,code)=>{if(!iso)return;const n=splitName(name);(per[n.id]||(per[n.id]={n,c:{}})).c[iso]=String(code??'').trim();};
   for(const sn of wb.SheetNames){
     const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:'',raw:true});
@@ -2333,7 +2352,7 @@ function parsePlanning(wb){
       if(tm){rs=isoOf(+tm[3],+tm[2],+tm[1]);re=isoOf(+tm[6],+tm[5],+tm[4]);}
       if(/^date d.?[ée]mission/i.test(a))exp=String(row[1]).trim().split(' ')[0];
       if(b==='Matricule'&&a){name=a;dayCols=null;continue;}
-      if(name&&/^service/i.test(a)&&b){const n=splitName(name);(per[n.id]||(per[n.id]={n,c:{}})).svc=b;continue;}
+      if(name&&/^service/i.test(a)&&b){const n=splitName(name);(per[n.id]||(per[n.id]={n,c:{}})).svc=b;svc[n.id]=b.replace(/^UAP FORG'TECH-/i,'');continue;}
       if(name&&!a&&(b==='1'||row[1]===1)){dayCols={};row.forEach((v,c)=>{const d=parseInt(v,10);if(c>0&&d>=1&&d<=31)dayCols[c]=d;});continue;}
       const mm=name&&a.match(MOISRX);
       if(mm){const mo=MOISN[mm[1].toLowerCase()],y=+mm[2];
@@ -2363,7 +2382,7 @@ function parsePlanning(wb){
   const n=dayDiff(start,end)+1, codes={};
   for(const id of ids){const arr=[];for(let i=0;i<n;i++)arr.push(per[id].c[addDays(start,i)]||'');codes[id]=arr.join('|');}
   const ops=ids.map(id=>({id,f:per[id].n.f,l:per[id].n.l,k:true,svc:per[id].svc||''}));
-  return {export:exp,start,n,ops,codes};
+  return {export:exp,start,n,ops,codes,svc};
 }
 function mergeRaw(old,nw){
   const oEnd=addDays(old.start,old.n-1),nEnd=addDays(nw.start,nw.n-1);
@@ -2388,9 +2407,88 @@ function mergeRaw(old,nw){
   return {export:nw.export||old.export,source:nw.source,start,n,ops,codes,importedAt:new Date().toISOString()};
 }
 const fmtD=iso=>iso.split('-').reverse().join('/');
+/* ---------- personnes retenues à l'import ---------- */
+const NOMS_DEF=["ABABSA Mohamed", "ALTAY Atif", "BOSCARATO Ludovic", "DUMONT Patrick", "EL OUARITI Zakaria", "LOPEZ Xavier", "LUTRIN Grégory", "MALLET Cedric", "YILDIZ Hakan", "ABGUILLERM Frederic", "BEFFY Jean-Philippe", "BUSTI Sebastien", "CHOULET Florent", "DA COSTA CASTANHEIRA Christophe", "GREBEAUVAL Christophe", "GUILLAUME Christophe", "LOK Eric", "MACHADO Denis", "MADELON Yannick", "MAHIOUS Mohamed", "WERY Jimmy", "CHAUMARAT Laurent", "DA SILVA FERREIRA Ewerton Bruno", "DONETTI Vincent", "FARIAS Gilbert", "GAILLARD Tatiana", "GONTHIER Alexandre", "HOUINOU Hendrik", "JACQUEMART Julien", "LEMAITRE Jean-Francois", "LORENZO Xavier", "MARCHOUD Marc", "WEBER Vincent", "BARCELO Marc", "BARGS Chafia", "BOUCHEX-BELLAMIE Cedric", "BOUHDID Akim", "CUCINOTTA Stephane", "GALERNE Thomas", "PORTIER Sébastien", "BELLIR Mohamed", "CHALVIN Fabrice", "FRANCONY Christophe", "LEROUX Florian", "GRAMMATICO Isabelle", "PAUL Lionel"];
+const nk=x=>String(x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim().toUpperCase();
+let NOMS=NOMS_DEF.slice();
+try{const l=JSON.parse(localStorage.getItem('techline_noms')||'null');if(Array.isArray(l)&&l.length)NOMS=l;}catch(e){}
+let fileRaw=null,fileName='';
+function nomsSet(){return new Set(NOMS.map(nk));}
+async function saveNoms(){
+  NOMS=[...new Map(NOMS.map(n=>[nk(n),n])).values()].sort((a,b)=>a.localeCompare(b,'fr'));
+  try{localStorage.setItem('techline_noms',JSON.stringify(NOMS));}catch(e){}
+  if(db&&!readOnly){try{await db.doc('config/noms').set({list:NOMS,at:new Date().toISOString()});}catch(e){}}
+  renderNoms();if(fileRaw)buildPreview();
+}
+function watchNoms(){
+  if(!db)return;
+  db.doc('config/noms').onSnapshot(snap=>{
+    if(!snap.exists||(snap.metadata&&snap.metadata.hasPendingWrites))return;
+    const d=snap.data();if(d&&Array.isArray(d.list)&&d.list.length&&JSON.stringify(d.list)!==JSON.stringify(NOMS)){NOMS=d.list;try{localStorage.setItem('techline_noms',JSON.stringify(NOMS));}catch(e){}renderNoms();if(fileRaw)buildPreview();}
+  },()=>{});
+}
+function renderNoms(){
+  $('knsum').textContent=`Personnes retenues à l'import (${NOMS.length})`;
+  $('knlist').innerHTML=NOMS.map((n,i)=>`<span class="chip">${esc(n)}${readOnly?'':`<button type="button" data-rm="${i}" title="Retirer" aria-label="Retirer ${esc(n)}">×</button>`}</span>`).join('');
+}
+$('knlist').addEventListener('click',e=>{const b=e.target.closest('[data-rm]');if(!b||readOnly)return;NOMS.splice(+b.dataset.rm,1);saveNoms();});
+function addNom(v){v=String(v||'').replace(/\s+/g,' ').trim();if(!v||readOnly)return;if(nomsSet().has(nk(v))){toast('Déjà dans la liste');return;}NOMS.push(v);saveNoms();toast(v+' ajouté');}
+$('knadd').onclick=()=>{addNom($('knin').value);$('knin').value='';};
+$('knin').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('knadd').click();}});
+function filterRaw(nw){
+  const set=nomsSet(),ops=nw.ops.filter(o=>set.has(nk(o.id))),codes={};
+  ops.forEach(o=>{if(nw.codes[o.id]!=null)codes[o.id]=nw.codes[o.id];});
+  const out=nw.ops.filter(o=>!set.has(nk(o.id)));
+  const inFile=new Set(nw.ops.map(o=>nk(o.id)));
+  const absent=NOMS.filter(n=>!inFile.has(nk(n)));
+  return {raw:{...nw,ops,codes},out,absent};
+}
+function buildPreview(){
+  const {raw:nw,out,absent}=filterRaw(fileRaw); nw.source=fileName; delete nw.svc;
+  const svc=fileRaw.svc||{};
+  if(!nw.ops.length){pendingRaw=null;$('kok').hidden=true;
+    $('kprev').innerHTML=`<div class="kp err">Aucune des ${NOMS.length} personnes retenues n'est dans ce fichier.</div>`;return;}
+  const merged=mergeRaw(RAW,nw);
+  const before=new Set(RAW.ops.filter(o=>o.k).map(o=>o.id));
+  const ids=nw.ops.map(o=>o.id);
+  const added=ids.filter(id=>!before.has(id)), missing=[...before].filter(id=>!ids.includes(id));
+  const nb=nw.ops.length, nShift=Object.values(nw.codes).join('|').split('|').filter(c=>c in CODE2S).length;
+  const nEnd=addDays(nw.start,nw.n-1);
+  pendingRaw=merged;
+  $('kprev').innerHTML=`<div class="kp"><h4>${esc(fileName)}</h4>
+    <b>${nb}</b> personnes retenues sur ${fileRaw.ops.length} dans le fichier · du ${fmtD(nw.start)} au ${fmtD(nEnd)}${nw.export?' · émis le '+esc(nw.export):''} · ${nShift} postes planifiés.
+    <details class="kchk" id="kchk" ${KCHK_OPEN?'open':''}><summary>Choisir les personnes à importer : ${nb} / ${fileRaw.ops.length} cochées</summary>
+      <div class="kchkt"><input id="kchkq" placeholder="Rechercher un nom…" autocomplete="off" value="${esc(KCHK_Q)}"><button type="button" data-all="1">Tout cocher</button><button type="button" data-all="0">Tout décocher</button><button type="button" data-all="def">Liste de base</button></div>
+      ${(()=>{const set=nomsSet(),g={};fileRaw.ops.forEach(o=>{const k=svc[o.id]||'Sans service';(g[k]=g[k]||[]).push(o);});
+        return Object.keys(g).sort((a,b)=>a.localeCompare(b,'fr')).map(k=>{const L=g[k].sort((a,b)=>a.id.localeCompare(b.id,'fr'));const c=L.filter(o=>set.has(nk(o.id))).length;
+          return `<div class="kgrp" data-g="${esc(k)}"><div class="kgh"><label><input type="checkbox" data-grp="${esc(k)}" ${c===L.length?'checked':''} ${c&&c<L.length?'data-mix="1"':''} ${readOnly?'disabled':''}> <b>${esc(k)}</b></label> <small>${c} / ${L.length}</small></div>
+            <div class="kgl">${L.map(o=>`<label class="kpi" data-n="${esc(nk(o.id))}"><input type="checkbox" data-p="${esc(o.id)}" ${set.has(nk(o.id))?'checked':''} ${readOnly?'disabled':''}> ${esc(o.id)}</label>`).join('')}</div></div>`;}).join('');})()}
+    </details>
+    ${absent.length?`<div class="warn" style="margin-top:6px">${absent.length} nom${absent.length>1?'s':''} de ta liste absent${absent.length>1?'s':''} du fichier :</div><ul>${absent.map(n=>'<li>'+esc(n)+'</li>').join('')}</ul>`:''}
+    ${added.length?`<div class="warn" style="margin-top:6px">Nouveaux dans l'app :</div><ul>${added.map(id=>'<li>'+esc(id)+'</li>').join('')}</ul>`:''}
+    ${missing.length?`<div style="margin-top:6px;color:var(--ink-2)">${missing.length} opérateur${missing.length>1?'s':''} déjà connu${missing.length>1?'s':''} hors de ce fichier : gardé${missing.length>1?'s':''} en remplacement.</div>`:''}
+
+    <div style="margin-top:8px;color:var(--ink-2)">Le planning du ${fmtD(nw.start)} au ${fmtD(nEnd)} sera remplacé par celui du fichier. Les affectations déjà saisies sont conservées.</div></div>`;
+  $('kok').hidden=readOnly;
+  document.querySelectorAll('#kchk [data-mix]').forEach(x=>x.indeterminate=true);kchkFilter();
+  const qi=$('kchkq');if(qi&&KCHK_Q&&document.activeElement===document.body){}
+}
+let KCHK_OPEN=true,KCHK_Q='';
+function kchkFilter(){const q=nk(KCHK_Q);document.querySelectorAll('#kchk .kpi').forEach(l=>{l.hidden=!!q&&!l.dataset.n.includes(q);});document.querySelectorAll('#kchk .kgrp').forEach(g=>{g.hidden=![...g.querySelectorAll('.kpi')].some(l=>!l.hidden);});}
+function setNomsFromFile(ids,on){const set=nomsSet();const byK=new Map(NOMS.map(n=>[nk(n),n]));
+  for(const id of ids){const k=nk(id);if(on&&!set.has(k))byK.set(k,id);if(!on)byK.delete(k);}
+  NOMS=[...byK.values()];saveNoms();}
+$('kprev').addEventListener('click',e=>{const b=e.target.closest('[data-add]');if(b){addNom(b.dataset.add);return;}
+  const a=e.target.closest('[data-all]');if(a&&!readOnly&&fileRaw){const ids=[...document.querySelectorAll('#kchk .kpi:not([hidden]) input')].map(x=>x.dataset.p);
+    if(a.dataset.all==='def'){NOMS=NOMS_DEF.slice();saveNoms();return;}setNomsFromFile(ids,a.dataset.all==='1');}});
+$('kprev').addEventListener('change',e=>{const t=e.target;if(readOnly)return;
+  if(t.dataset.p){setNomsFromFile([t.dataset.p],t.checked);return;}
+  if(t.dataset.grp!=null){const g=t.closest('.kgrp');setNomsFromFile([...g.querySelectorAll('.kpi:not([hidden]) input')].map(x=>x.dataset.p),t.checked);}});
+$('kprev').addEventListener('toggle',e=>{if(e.target.id==='kchk')KCHK_OPEN=e.target.open;},true);
+$('kprev').addEventListener('input',e=>{if(e.target.id==='kchkq'){KCHK_Q=e.target.value;kchkFilter();}});
 let pendingRaw=null;
 function openPlan(){
-  pendingRaw=null;$('kprev').innerHTML='';$('kok').hidden=true;$('kfile').value='';
+  pendingRaw=null;fileRaw=null;$('kprev').innerHTML='';$('kok').hidden=true;$('kfile').value='';renderNoms();
   const kc=DATA.ops.filter(o=>o.k).length;
   $('kinfo').innerHTML=`Planning en place : <b>${esc(DATA.source||'export Kelio')}</b>${DATA.export?' (émis le '+esc(DATA.export)+')':''}, ${kc} opérateurs, du ${fmtD(DATA.dates[0])} au ${fmtD(DATA.dates[DATA.dates.length-1])}.`+
     (readOnly?'<br><span class="warn">Lecture seule : import impossible.</span>':'');
@@ -2408,29 +2506,17 @@ $('pretSave').onclick=async()=>{
 };
 function watchPret(){if(!db)return;db.doc('config/pret').onSnapshot(sn=>{if(!sn.exists||(sn.metadata&&sn.metadata.hasPendingWrites))return;
   try{const l=JSON.parse(sn.data().json);if(JSON.stringify(l)!==JSON.stringify(TECHKNOW)){setPret(l);try{localStorage.setItem('techline_pret',JSON.stringify(l));}catch(e){}applyRaw(RAW,true);fillPret();}}catch(e){}},()=>{});}
-function closePlan(){$('kov').classList.remove('on');pendingRaw=null;$('bplan').focus();}
+function closePlan(){$('kov').classList.remove('on');pendingRaw=null;fileRaw=null;$('bplan').focus();}
 $('kfile').addEventListener('change',async()=>{
   const f=$('kfile').files[0];if(!f)return;
   $('kprev').innerHTML='<div class="kp">Lecture du fichier…</div>';$('kok').hidden=true;
   try{
     await lib('xlsx');
     const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});
-    const nw=parsePlanning(wb); nw.source=f.name;
-    const merged=mergeRaw(RAW,nw);
-    const before=new Set(RAW.ops.filter(o=>o.k).map(o=>o.id));
-    const ids=nw.ops.map(o=>o.id);
-    const added=ids.filter(id=>!before.has(id)), missing=[...before].filter(id=>!ids.includes(id));
-    const nb=nw.ops.length, nShift=Object.values(nw.codes).join('|').split('|').filter(c=>c in CODE2S).length;
-    const nEnd=addDays(nw.start,nw.n-1);
-    pendingRaw=merged;
-    $('kprev').innerHTML=`<div class="kp"><h4>${esc(f.name)}</h4>
-      ${nb} opérateurs · du ${fmtD(nw.start)} au ${fmtD(nEnd)}${nw.export?' · émis le '+esc(nw.export):''} · ${nShift} postes planifiés.
-      ${added.length?`<div class="warn" style="margin-top:6px">Nouveaux opérateurs :</div><ul>${added.map(id=>'<li>'+esc(id)+'</li>').join('')}</ul>`:''}
-      ${missing.length?`<div class="warn" style="margin-top:6px">${missing.length} opérateur${missing.length>1?'s':''} absent${missing.length>1?'s':''} de ce fichier : plus planifié${missing.length>1?'s':''} sur sa période, toujours disponible${missing.length>1?'s':''} en remplacement.</div><div style="font-size:13px;color:var(--ink-2)">${missing.map(esc).join(', ')}</div>`:''}
-      <div style="margin-top:8px;color:var(--ink-2)">Le planning du ${fmtD(nw.start)} au ${fmtD(nEnd)} sera remplacé par celui du fichier. Les affectations déjà saisies sont conservées.</div></div>`;
-    $('kok').hidden=readOnly;
+    fileRaw=parsePlanning(wb); fileName=f.name;
+    buildPreview();
   }catch(e){
-    pendingRaw=null;
+    pendingRaw=null;fileRaw=null;
     $('kprev').innerHTML=`<div class="kp err">${e&&e.message==='lib'?'Lecture impossible : connexion Internet nécessaire pour ouvrir un fichier Excel.':'Format non reconnu. Utilisez l\'export Kelio « Planning individuel mensuel », ou un tableau avec les noms en ligne et les dates en en-tête de colonnes.'}</div>`;
   }
 });
@@ -3806,7 +3892,7 @@ function embUrl(k){k=EMB[k]?k:'aide';if(!EMB_URL[k]){const bin=atob(EMB[k]),u=ne
 function aideUrl(){return embUrl('aide');}
 const NEWS=(()=>{
   const BUILTIN=[
-    {id:'b-v38',at:'2026-11-23T08:45',ver:'v38',t:'Nouvel onglet « Planning semaine »',x:'Planning visuel de la semaine (lundi 5h → vendredi 21h, Matin / Après-midi / Nuit) pour toutes les machines TechLine, calculé depuis le planning BOF : quantité restante ÷ cadence théorique. Montage de 8 h entre deux réf., 1 h quand la réf. est identique (similaire) : réglable en haut, avec le rendement. Dessous, le tableau « Montages par poste ». Bouton Imprimer en A3 paysage.\nBoutons « ⬇ PDF OSYS » (Consignes) et « ⬇ PDF BOF » (Planning semaine) : récupérer le dernier PDF importé, par toi ou par l’autre superviseur.\nÀ la souris : glisser un montage pour le déplacer, tirer ses bords pour le raccourcir ou l’allonger (pas de 15 min). Double-clic pour revenir au calcul. Les ajustements sont partagés et repris dans Affectation.\nPannes, préventifs, essais : clic droit (ou double-clic) dans la ligne de la machine à l’heure voulue, ou bouton « + Panne / préventif » (type, début, durée). La production de la machine est suspendue pendant l’arrêt et reprend après. Bandeau rouge à glisser ou étirer à la souris, double-clic pour modifier ou supprimer.'},
+    {id:'b-v38',at:'2026-11-23T08:45',ver:'v38',t:'Nouvel onglet « Planning semaine »',x:'Planning visuel de la semaine (lundi 5h → vendredi 21h, Matin / Après-midi / Nuit) pour toutes les machines TechLine, calculé depuis le planning BOF : quantité restante ÷ cadence théorique. Montage de 8 h entre deux réf., 1 h quand la réf. est identique (similaire) : réglable en haut, avec le rendement. Dessous, le tableau « Montages par poste ». Bouton Imprimer en A3 paysage.\nImport Kelio : l’export complet (édition « olivier ») peut être glissé tel quel ; une liste à cocher par service permet de choisir qui importer (46 noms de base, partagés).\nBoutons « ⬇ PDF OSYS » (Consignes) et « ⬇ PDF BOF » (Planning semaine) : récupérer le dernier PDF importé, par toi ou par l’autre superviseur.\nÀ la souris : glisser un montage pour le déplacer, tirer ses bords pour le raccourcir ou l’allonger (pas de 15 min). Double-clic pour revenir au calcul. Les ajustements sont partagés et repris dans Affectation.\nPannes, préventifs, essais : clic droit (ou double-clic) dans la ligne de la machine à l’heure voulue, ou bouton « + Panne / préventif » (type, début, durée). La production de la machine est suspendue pendant l’arrêt et reprend après. Bandeau rouge à glisser ou étirer à la souris, double-clic pour modifier ou supprimer.'},
     {id:'b-v37',at:'2026-11-23T08:30',ver:'v37',t:'Montages suivants depuis le planning BOF',x:'Consignes : nouveau bouton « Importer planning BOF » (PDF FAT_BOF_PROD_Planning). En bas de la feuille (DIVERS), la liste « Montages suivants » : pour chaque presse, date et réf. du prochain montage, alerte rouge en cas de changement de fil (nuance ou diamètre), « retard » si la date est dépassée, montages du jour en gras. Partagé avec toute l’équipe.'},
     {id:'b-v36',at:'2026-11-20T19:10',ver:'v36',t:'Les post-it en 1 minute (film)',x:'Petit film pour tout comprendre : créer un post-it, choisir sa couleur (jaune, orange, vert, rose), l’équipe concernée, ajouter une photo, et où chaque couleur sort à l’impression.',embed:'postit',lt:'Voir le film en grand'},
     {id:'b-v32',at:'2026-11-20T18:40',ver:'v34',t:'4 types de post-it',x:'Chaque post-it a un type, en haut à gauche (cliquer pour changer) :\n🖨 JAUNE « Affectation » : imprimé dans les cases vides de la fiche d’affectation.\n📌 ORANGE « Bas affect. » : imprimé en bande en bas de la fiche d’affectation.\n📋 VERT « Consignes » : ajouté en bas de la feuille de consignes de l’équipe choisie.\n🔒 ROSE « Superviseurs » : reste entre superviseurs, jamais imprimé.\nL’étiquette de poste (Tous, Matin, Après-midi, Nuit) choisit l’équipe concernée.'},
@@ -3995,7 +4081,7 @@ const FB_EMAIL="techline@equipe.app";   // compte unique de l'équipe ; le mot d
         $('login').classList.remove('on'); $('blogout').hidden=false;
         if(!db){ db=firebase.firestore(); for(const k of Object.keys(cache))delete cache[k]; for(const k of Object.keys(known))delete known[k];
           db.doc('config/planning').get().then(s=>{const r=s.exists&&unpackPl(s.data()); if(r&&r.start&&r.n&&r.ops)applyRaw(r,true); else toast('Aucun planning en base : importez le planning Kelio');}).catch(()=>{});
-          subscribe(); watchPlanning(); watchPret(); watchExtra(); CONS.attach(); PN.attach(); AN.attach(); NEWS.attach(); PLAN.attach(); CHAT.attach(); render(); }
+          subscribe(); watchPlanning(); watchPret(); watchNoms(); watchExtra(); CONS.attach(); PN.attach(); AN.attach(); NEWS.attach(); PLAN.attach(); CHAT.attach(); render(); }
       } else { $('login').classList.add('on'); $('blogout').hidden=true; setTimeout(()=>$('lgC').focus(),50); }
     });
     $('lgF').addEventListener('submit',e=>{e.preventDefault();$('lgE').textContent='';$('lgB').disabled=true;
